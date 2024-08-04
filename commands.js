@@ -3,6 +3,7 @@ import { parse as parsePath } from "path";
 
 import Ban from "./commands/ban.js";
 import Clear from "./commands/clear.js";
+import Kick from "./commands/kick.js";
 
 // TODO: Import each command
 
@@ -22,16 +23,18 @@ async function getCommandObject(commandName) {
       return Ban;
     case "clear":
       return Clear;
+    case "kick":
+      return Kick;
     case "remember-birthday":
       // TODO
       return null;
-    case "remember-birthday":
+    case "forget-birthday":
       // TODO
       return null;
-    case "remember-birthday":
+    case "birthday":
       // TODO
       return null;
-    case "remember-birthday":
+    case "logging":
       // TODO
       return null;
     default:
