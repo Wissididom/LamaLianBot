@@ -11,22 +11,26 @@ let exportObj = {
       .addIntegerOption((option) =>
         option
           .setName("amount")
-          .setDescription("Die Anzahl an Nachrichten, die gelöscht werden sollen (max. 14 Tage alt)")
+          .setDescription(
+            "Die Anzahl an Nachrichten, die gelöscht werden sollen (max. 14 Tage alt)",
+          )
           .setRequired(true),
       ),
-    runInteraction: async (interaction, db) => {
-        await interaction.deferReply({ ephemeral: true });
-        if (interaction.guild?.available && interaction.isChatInputCommand()) {
-            let amount = interaction.options.getInteger("amount");
-            try {
-                let messages = await interaction.channel.bulkDelete(amount);
-                await interaction.editReply({content: `${messages.size} Nachrichten erfolgreich gelöscht`});
-            } catch (err) {
-                console.error(err);
-                await interaction.editReply({content: err.toString()});
-            }
-        }
+  runInteraction: async (interaction, db) => {
+    await interaction.deferReply({ ephemeral: true });
+    if (interaction.guild?.available && interaction.isChatInputCommand()) {
+      let amount = interaction.options.getInteger("amount");
+      try {
+        let messages = await interaction.channel.bulkDelete(amount);
+        await interaction.editReply({
+          content: `${messages.size} Nachrichten erfolgreich gelöscht`,
+        });
+      } catch (err) {
+        console.error(err);
+        await interaction.editReply({ content: err.toString() });
+      }
     }
+  },
 };
 
 export default exportObj;
