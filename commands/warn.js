@@ -1,10 +1,10 @@
 import { PermissionsBitField, SlashCommandBuilder } from "discord.js";
-import { fetchMember } from "../utils.js";
 
 let exportObj = {
-  name: "kick",
-  description: "Kickt einen User",
-  permissions: [PermissionsBitField.Flags.KickMembers],
+  name: "warn",
+  description:
+    "Warnt einen User indem der Bot die angegebene Nachricht an den User per DM sendet",
+  permissions: [PermissionsBitField.Flags.ModerateMembers],
   registerObject: () =>
     new SlashCommandBuilder()
       .setName(exportObj.name)
@@ -12,13 +12,15 @@ let exportObj = {
       .addUserOption((option) =>
         option
           .setName("user")
-          .setDescription("Der User, der gekickt werden soll")
+          .setDescription("Der User, der gewarnt werden soll")
           .setRequired(true),
       )
       .addStringOption((option) =>
         option
           .setName("reason")
-          .setDescription("Die Begründung für den Kick")
+          .setDescription(
+            "Die Nachricht, die an den User per DM gesendet werden soll",
+          )
           .setRequired(false),
       ),
   runInteraction: async (interaction, db) => {
@@ -28,34 +30,28 @@ let exportObj = {
       let reason = interaction.options.getString("reason");
       if (interaction.user.id == user.id) {
         await interaction.editReply({
-          content: `Du kannst dich nicht selbst kicken!`,
+          content: `Du kannst dich nicht selbst warnen!`,
         });
         return;
       }
-      let member = await fetchMember(interaction.guild.members, user);
-      if (!member) {
-        await interaction.editReply({
-          content: `${member.user?.tag} ist nicht auf diesem Server!`,
-        });
-        return;
-      }
-      if (!member.kickable) {
-        await interaction.editReply({
-          content: `${member.user?.tag} kann ich nicht kicken!`,
-        });
-        return;
+      if (!reason) {
+        reason =
+          "Es wurde keine Begründung von den Mods angegeben / No reason provided by mods";
       }
       try {
-        let kickInfo = await interaction.guild.members.kick(
-          user,
-          reason
-            ? `[Ausgeführt von ${interaction.member.displayName}]: ${reason}`
-            : `[Ausgeführt von ${interaction.member.displayName}]`,
-        );
+        await user.send({
+          content: `You were warned on the server **${interaction.guild.name}** for / Du wurdest auf **${interaction.guild.name}** für folgendes gewarnt:\n\`\`\`${reason}\`\`\``,
+        });
         await interaction.editReply({
-          content: `${kickInfo.user?.tag ?? kickInfo.tag ?? kickInfo} erfolgreich gekickt`,
+          content: `DM an ${user.tag} wurde erfolgreich gesendet`,
         });
       } catch (err) {
+        if (err.name == "DiscordAPIError[50007]") {
+          await interaction.editReply({
+            content: `Ich kann an ${user?.tag} keine DMs schicken!`,
+          });
+          return;
+        }
         console.error(err);
         await interaction.editReply({ content: err.toString() });
       }

@@ -2,9 +2,9 @@ import { PermissionsBitField, SlashCommandBuilder } from "discord.js";
 import { fetchMember } from "../utils.js";
 
 let exportObj = {
-  name: "ban",
-  description: "Bannt einen User",
-  permissions: [PermissionsBitField.Flags.BanMembers],
+  name: "mute",
+  description: "Gibt einem User einen Timeout",
+  permissions: [PermissionsBitField.Flags.ModerateMembers],
   registerObject: () =>
     new SlashCommandBuilder()
       .setName(exportObj.name)
@@ -12,56 +12,57 @@ let exportObj = {
       .addUserOption((option) =>
         option
           .setName("user")
-          .setDescription("Der User, der gebannt werden soll")
+          .setDescription("Der User, der einen Timeout bekommen soll")
           .setRequired(true),
       )
       .addIntegerOption((option) =>
         option
-          .setName("delete")
+          .setName("duration")
           .setDescription(
-            "Die Zeit in welcher die Nachrichten des Users gelöscht werden sollen",
+            "Die Zeit, die der User in Timeout versetzt werden soll",
           )
-          .setRequired(false),
+          .setRequired(true),
       )
       .addStringOption((option) =>
         option
           .setName("reason")
-          .setDescription("Die Begründung für den Bann")
+          .setDescription("Die Begründung für den Timeout")
           .setRequired(false),
       ),
   runInteraction: async (interaction, db) => {
     await interaction.deferReply({ ephemeral: true });
     if (interaction.guild?.available && interaction.isChatInputCommand()) {
       let user = interaction.options.getUser("user");
-      let deleteTime = interaction.options.getInteger("delete");
+      let duration = interaction.options.getInteger("duration");
       let reason = interaction.options.getString("reason");
       if (interaction.user.id == user.id) {
         await interaction.editReply({
-          content: `Du kannst dich nicht selbst bannen!`,
+          content: `Du kannst dich nicht selbst in Timeout versetzen!`,
         });
         return;
       }
-      let banObj = {};
-      if (deleteTime) {
-        banObj["deleteMessageSeconds"] = deleteTime;
-      }
-      if (reason) {
-        banObj["reason"] =
-          `[Ausgeführt von ${interaction.member.displayName}]: ${reason}`;
-      } else {
-        banObj["reason"] = `[Ausgeführt von ${interaction.member.displayName}]`;
-      }
       let member = await fetchMember(interaction.guild.members, user);
-      if (member && !member.bannable) {
+      if (!member) {
         await interaction.editReply({
-          content: `${member.user?.tag} kann ich nicht bannen!`,
+          content: `${user.tag} ist nicht auf diesem Server!`,
+        });
+        return;
+      }
+      if (!member.moderatable) {
+        await interaction.editReply({
+          content: `${member.user?.tag} kann ich nicht in Timeout versetzen!`,
         });
         return;
       }
       try {
-        let banInfo = await interaction.guild.members.ban(user, banObj);
+        member = await member.disableCommunicationUntil(
+          Date.now() + duration * 1000,
+          reason
+            ? `[Ausgeführt von ${interaction.member.displayName}]: ${reason}`
+            : `[Ausgeführt von ${interaction.member.displayName}]`,
+        );
         await interaction.editReply({
-          content: `${banInfo.user?.tag ?? banInfo.tag ?? banInfo} erfolgreich gebannt`,
+          content: `<@${member.id}> erfolgreich für ${duration} Sekunden in Timeout versetzt`,
         });
       } catch (err) {
         console.error(err);

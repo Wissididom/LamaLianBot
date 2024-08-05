@@ -4,8 +4,12 @@ import { parse as parsePath } from "path";
 import Ban from "./commands/ban.js";
 import Clear from "./commands/clear.js";
 import Kick from "./commands/kick.js";
-
-// TODO: Import each command
+import Mute from "./commands/mute.js";
+import Unban from "./commands/unban.js";
+import Unmute from "./commands/unmute.js";
+import Warn from "./commands/warn.js";
+import UserInfo from "./commands/userinfo.js";
+import RoleInfo from "./commands/roleinfo.js";
 
 function getAvailableDefaultCommandNames() {
   let commands = [];
@@ -25,6 +29,18 @@ async function getCommandObject(commandName) {
       return Clear;
     case "kick":
       return Kick;
+    case "mute":
+      return Mute;
+    case "unban":
+      return Unban;
+    case "unmute":
+      return Unmute;
+    case "warn":
+      return Warn;
+    case "userinfo":
+      return UserInfo;
+    case "roleinfo":
+      return RoleInfo;
     case "remember-birthday":
       // TODO
       return null;
@@ -41,28 +57,6 @@ async function getCommandObject(commandName) {
       // TODO
       return null;
   }
-}
-
-async function handleCommands(
-  interaction,
-  name,
-  permissions,
-  functionToRun,
-  db,
-) {
-  if (permissions.length < 1) {
-    return await functionToRun(interaction, db);
-  }
-  for (let permission of permissions) {
-    if (
-      interaction.channel?.permissionsFor(interaction.member).has(permission)
-    ) {
-      return await functionToRun(interaction, db);
-    }
-  }
-  return await interaction.reply({
-    content: `You don't have permission for the command ${name} in this channel or server-wide!`,
-  });
 }
 
 export async function handleApplicationCommands(interaction, db) {

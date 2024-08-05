@@ -2,9 +2,9 @@ import { PermissionsBitField, SlashCommandBuilder } from "discord.js";
 import { fetchMember } from "../utils.js";
 
 let exportObj = {
-  name: "kick",
-  description: "Kickt einen User",
-  permissions: [PermissionsBitField.Flags.KickMembers],
+  name: "unmute",
+  description: "Hebt den Timeout eines User auf",
+  permissions: [PermissionsBitField.Flags.ModerateMembers],
   registerObject: () =>
     new SlashCommandBuilder()
       .setName(exportObj.name)
@@ -12,13 +12,13 @@ let exportObj = {
       .addUserOption((option) =>
         option
           .setName("user")
-          .setDescription("Der User, der gekickt werden soll")
+          .setDescription("Der User, dessen Timeout entfernt werden soll")
           .setRequired(true),
       )
       .addStringOption((option) =>
         option
           .setName("reason")
-          .setDescription("Die Begründung für den Kick")
+          .setDescription("Die Begründung für das Aufheben des Timeouts")
           .setRequired(false),
       ),
   runInteraction: async (interaction, db) => {
@@ -28,32 +28,26 @@ let exportObj = {
       let reason = interaction.options.getString("reason");
       if (interaction.user.id == user.id) {
         await interaction.editReply({
-          content: `Du kannst dich nicht selbst kicken!`,
-        });
-        return;
-      }
-      let member = await fetchMember(interaction.guild.members, user);
-      if (!member) {
-        await interaction.editReply({
-          content: `${member.user?.tag} ist nicht auf diesem Server!`,
-        });
-        return;
-      }
-      if (!member.kickable) {
-        await interaction.editReply({
-          content: `${member.user?.tag} kann ich nicht kicken!`,
+          content: `Du kannst dein eigenes Timeout nicht selbst aufheben!`,
         });
         return;
       }
       try {
-        let kickInfo = await interaction.guild.members.kick(
-          user,
+        let member = await fetchMember(interaction.guild.members, user);
+        if (!member) {
+          await interaction.editReply({
+            content: `${user.tag} ist nicht auf diesem Server!`,
+          });
+          return;
+        }
+        member = await member.disableCommunicationUntil(
+          null,
           reason
             ? `[Ausgeführt von ${interaction.member.displayName}]: ${reason}`
             : `[Ausgeführt von ${interaction.member.displayName}]`,
         );
         await interaction.editReply({
-          content: `${kickInfo.user?.tag ?? kickInfo.tag ?? kickInfo} erfolgreich gekickt`,
+          content: `Das Timeout von ${member.user?.tag} wurde erfolgreich aufgehoben`,
         });
       } catch (err) {
         console.error(err);
