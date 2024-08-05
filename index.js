@@ -1,5 +1,11 @@
 import "dotenv/config";
-import { Client, Events, GatewayIntentBits, Partials } from "discord.js";
+import {
+  ActivityType,
+  Client,
+  Events,
+  GatewayIntentBits,
+  Partials,
+} from "discord.js";
 
 import { handleApplicationCommands } from "./commands.js";
 
@@ -34,6 +40,10 @@ const client = new Client({
 
 client.on(Events.ClientReady, () => {
   console.log(`Logged in as ${client.user?.tag}`);
+  client.user?.setActivity({
+    name: "twitch.tv/lamalian",
+    type: ActivityType.Watching,
+  });
   //let db = getDatabase();
   //db.initDb();
   //runWorkers(client, db);
