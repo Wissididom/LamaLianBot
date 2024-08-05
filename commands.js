@@ -10,6 +10,9 @@ import Unmute from "./commands/unmute.js";
 import Warn from "./commands/warn.js";
 import UserInfo from "./commands/userinfo.js";
 import RoleInfo from "./commands/roleinfo.js";
+import SetAvatar from "./commands/set-avatar.js";
+import SetBanner from "./commands/set-banner.js";
+import SetUsername from "./commands/set-username.js";
 
 function getAvailableDefaultCommandNames() {
   let commands = [];
@@ -41,6 +44,12 @@ async function getCommandObject(commandName) {
       return UserInfo;
     case "roleinfo":
       return RoleInfo;
+    case "set-avatar":
+      return SetAvatar;
+    case "set-banner":
+      return SetBanner;
+    case "set-username":
+      return SetUsername;
     case "remember-birthday":
       // TODO
       return null;
