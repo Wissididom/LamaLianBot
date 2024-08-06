@@ -4,7 +4,7 @@ export default new (class Database {
   #db;
 
   constructor() {
-    this.connect(":memory:")
+    this.connect("./database/sqlite.db")
       .then(async () => {
         console.log("Connected to the sqlite3 database.");
         this.initDb();
