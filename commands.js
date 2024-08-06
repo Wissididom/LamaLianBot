@@ -1,5 +1,6 @@
 import { readdirSync } from "fs";
 import { parse as parsePath } from "path";
+import Database from "./database/sqlite.js";
 
 import Ban from "./commands/ban.js";
 import Clear from "./commands/clear.js";
@@ -13,6 +14,16 @@ import RoleInfo from "./commands/roleinfo.js";
 import SetAvatar from "./commands/set-avatar.js";
 import SetBanner from "./commands/set-banner.js";
 import SetUsername from "./commands/set-username.js";
+import RememberBirthday from "./commands/remember-birthday.js";
+import ForgetBirthday from "./commands/forget-birthday.js";
+import Birthday from "./commands/birthday.js";
+import NextBirthdays from "./commands/next-birthdays.js";
+import SetUserBirthday from "./commands/set-user-birthday.js";
+import UnsetUserBirthday from "./commands/unset-user-birthday.js";
+
+export function getDatabase() {
+  return Database;
+}
 
 function getAvailableDefaultCommandNames() {
   let commands = [];
@@ -51,14 +62,17 @@ async function getCommandObject(commandName) {
     case "set-username":
       return SetUsername;
     case "remember-birthday":
-      // TODO
-      return null;
+      return RememberBirthday;
     case "forget-birthday":
-      // TODO
-      return null;
+      return ForgetBirthday;
     case "birthday":
-      // TODO
-      return null;
+      return Birthday;
+    case "next-birthdays":
+      return NextBirthdays;
+    case "set-user-birthday":
+      return SetUserBirthday;
+    case "unset-user-birthday":
+      return UnsetUserBirthday;
     case "logging":
       // TODO
       return null;
@@ -68,19 +82,19 @@ async function getCommandObject(commandName) {
   }
 }
 
-export async function handleApplicationCommands(interaction, db) {
+export async function handleApplicationCommands(interaction) {
   if (interaction.isCommand()) {
     const { name, permissions, runInteraction } = await getCommandObject(
       interaction.commandName,
     );
     if (permissions.length < 1) {
-      return await runInteraction(interaction, db);
+      return await runInteraction(interaction, Database);
     }
     for (let permission of permissions) {
       if (
         interaction.channel?.permissionsFor(interaction.member).has(permission)
       ) {
-        return await runInteraction(interaction, db);
+        return await runInteraction(interaction, Database);
       }
     }
     return await interaction.reply({
@@ -89,7 +103,7 @@ export async function handleApplicationCommands(interaction, db) {
   }
   if (interaction.isAutocomplete()) {
     const { runAutocomplete } = await getCommandObject(interaction.commandName);
-    return runAutocomplete(interaction, db);
+    return runAutocomplete(interaction, Database);
   }
 }
 
