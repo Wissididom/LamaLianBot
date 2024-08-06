@@ -28,6 +28,16 @@ export default new (class Database {
           }
         },
       );
+      this.#db.run(
+        "CREATE TABLE IF NOT EXISTS roles (id INTEGER PRIMARY KEY AUTOINCREMENT, userId TEXT, roleId TEXT, year INT, month INT, day INT);",
+        (err) => {
+          if (err) {
+            console.log(`Could not make sure the roles table exists: ${err}`);
+          } else {
+            console.log("Successfully made sure the roles table exists");
+          }
+        },
+      );
     }
   }
 
@@ -101,6 +111,50 @@ export default new (class Database {
           }
         },
       );
+    });
+  }
+
+  async addRole(userId, roleId, year, month, day) {
+    return new Promise((resolve, reject) => {
+      this.#db.run(
+        "INSERT INTO roles (userId, roleId, year, month, day) VALUES (?, ?, ?, ?, ?)",
+        [userId, roleId, year, month, day],
+        (err) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve();
+          }
+        },
+      );
+    });
+  }
+
+  async getRoles(year, month, day) {
+    return new Promise((resolve, reject) => {
+      this.#db.all(
+        "SELECT * FROM roles WHERE year = ? AND month = ? AND day = ?",
+        [year, month, day],
+        (err, rows) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(rows);
+          }
+        },
+      );
+    });
+  }
+
+  async deleteRole(id) {
+    return new Promise((resolve, reject) => {
+      this.#db.run("DELETE FROM roles WHERE id = ?", [id], (err) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
     });
   }
 
