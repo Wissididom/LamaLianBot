@@ -8,6 +8,7 @@ import {
 } from "discord.js";
 
 import { handleApplicationCommands } from "./commands.js";
+import { moderate } from "./moderation.js";
 
 const client = new Client({
   intents: [
@@ -50,10 +51,12 @@ client.on(Events.ClientReady, () => {
 });
 
 client.on(Events.MessageCreate, async (msg) => {
-  if (msg.author.bot) {
-    //await moderateBot(msg);
+  if (msg.author.system) {
+    return; // Ignore system messages
+  } else if (msg.author.bot) {
+    return; // Ignore bot messages
   } else {
-    //await moderateUser(msg);
+    await moderate(msg);
   }
 });
 
