@@ -38,6 +38,16 @@ export default new (class Database {
           }
         },
       );
+      this.#db.run(
+        "CREATE TABLE IF NOT EXISTS levelling (id INTEGER PRIMARY KEY AUTOINCREMENT, userId TEXT UNIQUE, xp BIGINT, lvl BIGINT, nextLvlXp BIGINT);",
+        (err) => {
+          if (err) {
+            console.log(`Could not make sure the roles table exists: ${err}`);
+          } else {
+            console.log("Successfully made sure the roles table exists");
+          }
+        },
+      );
     }
   }
 
@@ -155,6 +165,48 @@ export default new (class Database {
           resolve();
         }
       });
+    });
+  }
+
+  async getLevelling(userId) {
+    return new Promise((resolve, reject) => {
+      if (userId) {
+        this.#db.all(
+          "SELECT * FROM levelling WHERE userId = ?",
+          [userId],
+          (err) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve();
+            }
+          },
+        );
+      } else {
+        this.#db.all("SELECT * FROM levelling", [], (err) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve();
+          }
+        });
+      }
+    });
+  }
+
+  async updateLevelling(userId, lastMessageTimestamp, xp, lvl, nextLvlXp) {
+    return new Promise((resolve, reject) => {
+      this.#db.run(
+        "INSERT INTO levelling (userId, lastMessageTimestamp, xp, lvl, nextLvlXp) VALUES (?, ?, ?, ?, ?) ON CONFLICT(userId) DO UPDATE SET lastMessageTimestamp = excluded.lastMessageTimestamp, xp = excluded.xp, lvl = excluded.lvl, nextLvlXp = excluded.nextLvlXp",
+        [userId, lastMessageTimestamp, xp, lvl, nextLvlXp],
+        (err) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve();
+          }
+        },
+      );
     });
   }
 
