@@ -1,3 +1,3 @@
-export default async function handleGuildStickerDelete(logChannel, sticker) {
+export default async function handleGuildStickerDelete(sticker) {
   // TODO
 }

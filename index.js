@@ -54,8 +54,6 @@ const exitHandler = async (signal) => {
   process.exit(0);
 };
 
-let LOGGING_CHANNEL = null;
-
 process.on("SIGINT", exitHandler);
 process.on("SIGTERM", exitHandler);
 process.on("uncaughtException", async (err) => {
@@ -105,7 +103,6 @@ client.on(Events.ClientReady, async () => {
   });
   let db = getDatabase();
   await runWorkers(client, db);
-  LOGGING_CHANNEL = await client.channels.fetch(process.env.LOGGING_CHANNEL);
 });
 
 client.on(Events.MessageCreate, async (msg) => {
@@ -122,163 +119,84 @@ client.on(Events.InteractionCreate, async (interaction) => {
   await handleApplicationCommands(interaction);
 });
 
-client.on(Events.ApplicationCommandPermissionsUpdate, async (data) =>
-  handleApplicationCommandPermissionsUpdate(LOGGING_CHANNEL, data),
+client.on(
+  Events.ApplicationCommandPermissionsUpdate,
+  handleApplicationCommandPermissionsUpdate,
 );
 
 client.on(
   Events.AutoModerationActionExecution,
-  async (autoModerationActionExecution) =>
-    handleAutoModerationActionExecution(
-      LOGGING_CHANNEL,
-      autoModerationActionExecution,
-    ),
+  handleAutoModerationActionExecution,
 );
 
-client.on(Events.AutoModerationRuleCreate, async (autoModerationRule) =>
-  handleAutoModerationRuleCreate(LOGGING_CHANNEL, autoModerationRule),
-);
+client.on(Events.AutoModerationRuleCreate, handleAutoModerationRuleCreate);
 
-client.on(Events.AutoModerationRuleDelete, async (autoModerationRule) =>
-  handleAutoModerationRuleDelete(LOGGING_CHANNEL, autoModerationRule),
-);
+client.on(Events.AutoModerationRuleDelete, handleAutoModerationRuleDelete);
 
-client.on(
-  Events.AutoModerationRuleUpdate,
-  async (oldAutoModerationRule, newAutoModerationRule) =>
-    handleAutoModerationRuleUpdate(
-      LOGGING_CHANNEL,
-      oldAutoModerationRule,
-      newAutoModerationRule,
-    ),
-);
+client.on(Events.AutoModerationRuleUpdate, handleAutoModerationRuleUpdate);
 
-client.on(Events.ChannelCreate, async (channel) =>
-  handleChannelCreate(LOGGING_CHANNEL, channel),
-);
+client.on(Events.ChannelCreate, handleChannelCreate);
 
-client.on(Events.ChannelDelete, async (channel) =>
-  handleChannelDelete(LOGGING_CHANNEL, channel),
-);
+client.on(Events.ChannelDelete, handleChannelDelete);
 
-client.on(Events.ChannelPinsUpdate, async (channel, time) =>
-  handleChannelPinsUpdate(LOGGING_CHANNEL, channel, time),
-);
+client.on(Events.ChannelPinsUpdate, handleChannelPinsUpdate);
 
-client.on(Events.ChannelUpdate, async (oldChannel, newChannel) =>
-  handleChannelUpdate(LOGGING_CHANNEL, oldChannel, newChannel),
-);
+client.on(Events.ChannelUpdate, handleChannelUpdate);
 
-client.on(Events.GuildEmojiCreate, async (emoji) =>
-  handleGuildEmojiCreate(LOGGING_CHANNEL, emoji),
-);
+client.on(Events.GuildEmojiCreate, handleGuildEmojiCreate);
 
-client.on(Events.GuildEmojiDelete, async (emoji) =>
-  handleGuildEmojiDelete(LOGGING_CHANNEL, emoji),
-);
+client.on(Events.GuildEmojiDelete, handleGuildEmojiDelete);
 
-client.on(Events.GuildEmojiUpdate, async (oldEmoji, newEmoji) =>
-  handleGuildEmojiUpdate(LOGGING_CHANNEL, oldEmoji, newEmoji),
-);
+client.on(Events.GuildEmojiUpdate, handleGuildEmojiUpdate);
 
-client.on(Events.GuildBanAdd, async (ban) =>
-  handleGuildBanAdd(LOGGING_CHANNEL, ban),
-);
+client.on(Events.GuildBanAdd, handleGuildBanAdd);
 
-client.on(Events.GuildBanRemove, async (ban) =>
-  handleGuildBanRemove(LOGGING_CHANNEL, ban),
-);
+client.on(Events.GuildBanRemove, handleGuildBanRemove);
 
 client.on(Events.GuildMemberAdd, async (member) => {
   // TODO: Maybe Welcome messages
-  return await handleGuildMemberAdd(LOGGING_CHANNEL, member);
+  return await handleGuildMemberAdd(member);
 });
 
-client.on(Events.GuildMemberRemove, async (member) =>
-  handleGuildMemberRemove(LOGGING_CHANNEL, member),
-);
+client.on(Events.GuildMemberRemove, handleGuildMemberRemove);
 
-client.on(Events.GuildMemberUpdate, async (oldMember, newMember) =>
-  handleGuildMemberUpdate(LOGGING_CHANNEL, oldMember, newMember),
-);
+client.on(Events.GuildMemberUpdate, handleGuildMemberUpdate);
 
-client.on(Events.GuildUpdate, async (oldGuild, newGuild) =>
-  handleGuildUpdate(LOGGING_CHANNEL, oldGuild, newGuild),
-);
+client.on(Events.GuildUpdate, handleGuildUpdate);
 
-client.on(Events.InviteCreate, async (invite) =>
-  handleInviteCreate(LOGGING_CHANNEL, invite),
-);
+client.on(Events.InviteCreate, handleInviteCreate);
 
-client.on(Events.InviteDelete, async (invite) =>
-  handleInviteDelete(LOGGING_CHANNEL, invite),
-);
+client.on(Events.InviteDelete, handleInviteDelete);
 
-client.on(Events.MessageDelete, async (message) =>
-  handleMessageDelete(LOGGING_CHANNEL, message),
-);
+client.on(Events.MessageDelete, handleMessageDelete);
 
-client.on(Events.MessageBulkDelete, async (messages, channel) =>
-  handleMessageBulkDelete(LOGGING_CHANNEL, messages, channel),
-);
+client.on(Events.MessageBulkDelete, handleMessageBulkDelete);
 
-client.on(Events.MessageUpdate, async (oldMessage, newMessage) =>
-  handleMessageUpdate(LOGGING_CHANNEL, oldMessage, newMessage),
-);
+client.on(Events.MessageUpdate, handleMessageUpdate);
 
-client.on(Events.GuildRoleCreate, async (role) =>
-  handleGuildRoleCreate(LOGGING_CHANNEL, role),
-);
+client.on(Events.GuildRoleCreate, handleGuildRoleCreate);
 
-client.on(Events.GuildRoleDelete, async (role) =>
-  handleGuildRoleDelete(LOGGING_CHANNEL, role),
-);
+client.on(Events.GuildRoleDelete, handleGuildRoleDelete);
 
-client.on(Events.GuildRoleUpdate, async (oldRole, newRole) =>
-  handleGuildRoleUpdate(LOGGING_CHANNEL, oldRole, newRole),
-);
+client.on(Events.GuildRoleUpdate, handleGuildRoleUpdate);
 
-client.on(Events.StageInstanceCreate, async (stageInstance) =>
-  handleStageInstanceCreate(LOGGING_CHANNEL, stageInstance),
-);
+client.on(Events.StageInstanceCreate, handleStageInstanceCreate);
 
-client.on(Events.StageInstanceDelete, async (stageInstance) =>
-  handleStageInstanceDelete(LOGGING_CHANNEL, stageInstance),
-);
+client.on(Events.StageInstanceDelete, handleStageInstanceDelete);
 
-client.on(
-  Events.StageInstanceUpdate,
-  async (oldStageInstance, newStageInstance) =>
-    handleStageInstanceUpdate(
-      LOGGING_CHANNEL,
-      oldStageInstance,
-      newStageInstance,
-    ),
-);
+client.on(Events.StageInstanceUpdate, handleStageInstanceUpdate);
 
-client.on(Events.GuildStickerCreate, async (sticker) =>
-  handleGuildStickerCreate(LOGGING_CHANNEL, sticker),
-);
+client.on(Events.GuildStickerCreate, handleGuildStickerCreate);
 
-client.on(Events.GuildStickerDelete, async (sticker) =>
-  handleGuildStickerDelete(LOGGING_CHANNEL, sticker),
-);
+client.on(Events.GuildStickerDelete, handleGuildStickerDelete);
 
-client.on(Events.GuildStickerUpdate, async (oldSticker, newSticker) =>
-  handleGuildStickerUpdate(LOGGING_CHANNEL, oldSticker, newSticker),
-);
+client.on(Events.GuildStickerUpdate, handleGuildStickerUpdate);
 
-client.on(Events.UserUpdate, async (oldUser, newUser) =>
-  handleUserUpdate(LOGGING_CHANNEL, oldUser, newUser),
-);
+client.on(Events.UserUpdate, handleUserUpdate);
 
-client.on(Events.VoiceStateUpdate, async (oldState, newState) =>
-  handleVoiceStateUpdate(LOGGING_CHANNEL, oldState, newState),
-);
+client.on(Events.VoiceStateUpdate, handleVoiceStateUpdate);
 
-client.on(Events.WebhooksUpdate, async (channel) =>
-  handleWebhooksUpdate(LOGGING_CHANNEL, channel),
-);
+client.on(Events.WebhooksUpdate, handleWebhooksUpdate);
 
 if (!process.env.DISCORD_TOKEN) {
   console.log(

@@ -1,3 +1,3 @@
-export default async function handleUserUpdate(logChannel, oldUser, newUser) {
+export default async function handleUserUpdate(oldUser, newUser) {
   // TODO
 }

@@ -1,7 +1,3 @@
-export default async function handleGuildUpdate(
-  logChannel,
-  oldGuild,
-  newGuild,
-) {
+export default async function handleGuildUpdate(oldGuild, newGuild) {
   // TODO
 }

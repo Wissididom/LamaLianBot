@@ -1,7 +1,3 @@
-export default async function handleChannelUpdate(
-  logChannel,
-  oldChannel,
-  newChannel,
-) {
+export default async function handleChannelUpdate(oldChannel, newChannel) {
   // TODO
 }

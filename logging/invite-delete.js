@@ -1,3 +1,3 @@
-export default async function handleInviteDelete(logChannel, invite) {
+export default async function handleInviteDelete(invite) {
   // TODO
 }

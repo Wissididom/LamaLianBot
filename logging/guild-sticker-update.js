@@ -1,7 +1,3 @@
-export default async function handleGuildStickerUpdate(
-  logChannel,
-  oldSticker,
-  newSticker,
-) {
+export default async function handleGuildStickerUpdate(oldSticker, newSticker) {
   // TODO
 }

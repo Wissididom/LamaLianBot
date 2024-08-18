@@ -1,3 +1,3 @@
-export default async function handleGuildStickerCreate(logChannel, sticker) {
+export default async function handleGuildStickerCreate(sticker) {
   // TODO
 }

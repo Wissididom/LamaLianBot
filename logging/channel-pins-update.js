@@ -1,7 +1,3 @@
-export default async function handleChannelPinsUpdate(
-  logChannel,
-  channel,
-  time,
-) {
+export default async function handleChannelPinsUpdate(channel, time) {
   // TODO
 }

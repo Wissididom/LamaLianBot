@@ -1,6 +1,3 @@
-export default async function handleApplicationCommandPermissionsUpdate(
-  logChannel,
-  data,
-) {
+export default async function handleApplicationCommandPermissionsUpdate(data) {
   // TODO
 }

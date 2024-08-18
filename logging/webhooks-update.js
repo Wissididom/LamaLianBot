@@ -1,3 +1,3 @@
-export default async function handleWebhooksUpdate(logChannel, channel) {
+export default async function handleWebhooksUpdate(channel) {
   // TODO
 }

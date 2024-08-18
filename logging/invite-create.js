@@ -1,3 +1,3 @@
-export default async function handleInviteCreate(logChannel, invite) {
+export default async function handleInviteCreate(invite) {
   // TODO
 }

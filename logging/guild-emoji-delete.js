@@ -1,3 +1,3 @@
-export default async function handleGuildEmojiDelete(logChannel, emoji) {
+export default async function handleGuildEmojiDelete(emoji) {
   // TODO
 }

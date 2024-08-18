@@ -1,3 +1,5 @@
+import logConfig from "./log-config.js";
+
 export { default as handleApplicationCommandPermissionsUpdate } from "./logging/application-command-permissions-update.js";
 export { default as handleAutoModerationActionExecution } from "./logging/auto-moderation-action-execution.js";
 export { default as handleAutoModerationRuleCreate } from "./logging/auto-moderation-rule-create.js";
@@ -33,3 +35,33 @@ export { default as handleGuildStickerUpdate } from "./logging/guild-sticker-upd
 export { default as handleUserUpdate } from "./logging/user-update.js";
 export { default as handleVoiceStateUpdate } from "./logging/voice-state-update.js";
 export { default as handleWebhooksUpdate } from "./logging/webhooks-update.js";
+
+var logChannels = [];
+
+export async function getChannelByEventName(client, eventName) {
+  for (let event of logConfig.events) {
+    if (event.name == eventName) {
+      if (event.channel) {
+        if (!(event.channel in logChannels)) {
+          logChannels[event.channel] = await client.channels.fetch(
+            event.channel,
+          );
+        }
+        return logChannels[event.channel];
+      } else {
+        if (!(logConfig.loggingChannel in logChannels)) {
+          logChannels[logConfig.loggingChannel] = await client.channels.fetch(
+            logConfig.loggingChannel,
+          );
+        }
+        return logChannels[logConfig.loggingChannel];
+      }
+    }
+  }
+  if (!(logConfig.loggingChannel in logChannels)) {
+    logChannels[logConfig.loggingChannel] = await client.channels.fetch(
+      logConfig.loggingChannel,
+    );
+  }
+  return logChannels[logConfig.loggingChannel];
+}

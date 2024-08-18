@@ -1,3 +1,3 @@
-export default async function handleChannelDelete(logChannel, channel) {
+export default async function handleChannelDelete(channel) {
   // TODO
 }

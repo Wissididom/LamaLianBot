@@ -1,6 +1,3 @@
-export default async function handleStageInstanceDelete(
-  logChannel,
-  stageInstance,
-) {
+export default async function handleStageInstanceDelete(stageInstance) {
   // TODO
 }

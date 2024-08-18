@@ -1,7 +1,3 @@
-export default async function handleVoiceStateUpdate(
-  logChannel,
-  oldState,
-  newState,
-) {
+export default async function handleVoiceStateUpdate(oldState, newState) {
   // TODO
 }

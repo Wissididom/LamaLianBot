@@ -1,7 +1,3 @@
-export default async function handleGuildEmojiUpdate(
-  logChannel,
-  oldEmoji,
-  newEmoji,
-) {
+export default async function handleGuildEmojiUpdate(oldEmoji, newEmoji) {
   // TODO
 }

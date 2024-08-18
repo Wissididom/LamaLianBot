@@ -1,7 +1,76 @@
-export default async function handleGuildRoleUpdate(
-  logChannel,
-  oldRole,
-  newRole,
-) {
-  // TODO
+import { EmbedBuilder, Events } from "discord.js";
+import { getChannelByEventName } from "../logging.js";
+
+export default async function handleGuildRoleUpdate(oldRole, newRole) {
+  let logChannel = await getChannelByEventName(
+    role.client,
+    Events.GuildRoleUpdate,
+  );
+  let embed = new EmbedBuilder()
+    .setTitle("Rolle bearbeitet")
+    .setDescription(
+      `**Rolle <@&${role.id}> (${role.name} - ${role.id}) bearbeitet**`,
+    );
+  if (oldRole.hexColor != newRole.hexColor) {
+    embed.addFields({
+      name: "Farbe",
+      value: `${oldRole.hexColor} -> ${newRole.hexColor}`,
+      inline: true,
+    });
+  }
+  if (oldRole.hoist != newRole.hoist) {
+    embed.addFields({
+      name: "Separat angezeigt",
+      value: `${oldRole.hoist ? "Ja" : "Nein"} -> ${newRole.hoist ? "Ja" : "Nein"}`,
+      inline: true,
+    });
+  }
+  if (oldRole.hoist != newRole.hoist) {
+    embed.addFields({
+      name: "Icon",
+      value: `[altes Icon](${oldRole.iconURL()}) -> [neues Icon](${newRole.iconURL()})`,
+      inline: true,
+    });
+  }
+  if (oldRole.managed != newRole.managed) {
+    embed.addFields({
+      name: "Von einer Anwendung verwaltet",
+      value: `${oldRole.managed ? "Ja" : "Nein"} -> ${newRole.managed ? "Ja" : "Nein"}`,
+      inline: true,
+    });
+  }
+  if (oldRole.mentionable != newRole.mentionable) {
+    embed.addFields({
+      name: "Von jedem erwähnbar",
+      value: `${oldRole.mentionable ? "Ja" : "Nein"} -> ${newRole.mentionable ? "Ja" : "Nein"}`,
+      inline: true,
+    });
+  }
+  if (oldRole.name != newRole.name) {
+    embed.addFields({
+      name: "Name",
+      value: `\`${oldRole.name}\` -> \`${newRole.name}\``,
+      inline: true,
+    });
+  }
+  if (oldRole.permissions != newRole.permissions) {
+    let oldArray = oldRole.permissions.toArray();
+    let newArray = newRole.permissions.toArray();
+    embed.addFields({
+      name: "Rechte",
+      value: `${oldArray && oldArray.length > 0 ? oldArray.join(", ") : "Keine Rechte"} -> ${newArray && newArray.length > 0 ? newArray.join(", ") : "Keine Rechte"}`,
+      inline: true,
+    });
+  }
+  if (oldRole.position != newRole.position) {
+    embed.addFields({
+      name: "Position",
+      value: `#${oldRole.position} -> #${newRole.position}`,
+      inline: true,
+    });
+  }
+  embed.setTimestamp();
+  await logChannel.send({
+    embeds: [embed],
+  });
 }

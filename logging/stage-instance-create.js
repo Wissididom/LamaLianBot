@@ -1,6 +1,3 @@
-export default async function handleStageInstanceCreate(
-  logChannel,
-  stageInstance,
-) {
+export default async function handleStageInstanceCreate(stageInstance) {
   // TODO
 }
