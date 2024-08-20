@@ -1,3 +1,4 @@
+import { ChannelType } from "discord.js";
 import logConfig from "./log-config.js";
 
 export { default as handleApplicationCommandPermissionsUpdate } from "./logging/application-command-permissions-update.js";
@@ -64,4 +65,37 @@ export async function getChannelByEventName(client, eventName) {
     );
   }
   return logChannels[logConfig.loggingChannel];
+}
+
+export function getChannelTypeAsString(type) {
+  switch (type) {
+    case ChannelType.AnnouncementThread:
+      return "Anknündigungsthread";
+    case ChannelType.DM:
+      return "DM";
+    case ChannelType.GroupDM:
+      return "Gruppen-DM";
+    case ChannelType.GuildAnnouncement:
+      return "Ankündigungskanal";
+    case ChannelType.GuildCategory:
+      return "Kategorie";
+    case ChannelType.GuildDirectory:
+      return "Kanal im Student Hub";
+    case ChannelType.GuildForum:
+      return "Forum";
+    case ChannelType.GuildMedia:
+      return "Medienkanal";
+    case ChannelType.GuildStageVoice:
+      return "Stage-Kanal";
+    case ChannelType.GuildText:
+      return "Textkanal";
+    case ChannelType.GuildVoice:
+      return "Sprachkanal";
+    case ChannelType.PrivateThread:
+      return "privater Thread";
+    case ChannelType.PublicThread:
+      return "öffentlicher Thread";
+    default:
+      return "N/A";
+  }
 }

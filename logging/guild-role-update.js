@@ -3,13 +3,13 @@ import { getChannelByEventName } from "../logging.js";
 
 export default async function handleGuildRoleUpdate(oldRole, newRole) {
   let logChannel = await getChannelByEventName(
-    role.client,
+    newRole.client,
     Events.GuildRoleUpdate,
   );
   let embed = new EmbedBuilder()
     .setTitle("Rolle bearbeitet")
     .setDescription(
-      `**Rolle <@&${role.id}> (${role.name} - ${role.id}) bearbeitet**`,
+      `**Rolle <@&${newRole.id}> (${newRole.name} - ${newRole.id}) bearbeitet**`,
     );
   if (oldRole.hexColor != newRole.hexColor) {
     embed.addFields({
@@ -56,11 +56,15 @@ export default async function handleGuildRoleUpdate(oldRole, newRole) {
   if (oldRole.permissions != newRole.permissions) {
     let oldArray = oldRole.permissions.toArray();
     let newArray = newRole.permissions.toArray();
-    embed.addFields({
-      name: "Rechte",
-      value: `${oldArray && oldArray.length > 0 ? oldArray.join(", ") : "Keine Rechte"} -> ${newArray && newArray.length > 0 ? newArray.join(", ") : "Keine Rechte"}`,
-      inline: true,
-    });
+    let oldJoined = oldArray.join(", ");
+    let newJoined = newArray.join(", ");
+    if (oldJoined != newJoined) {
+      embed.addFields({
+        name: "Rechte",
+        value: `${oldArray && oldArray.length > 0 ? oldJoined : "Keine Rechte"} -> ${newArray && newArray.length > 0 ? newJoined : "Keine Rechte"}`,
+        inline: true,
+      });
+    }
   }
   if (oldRole.position != newRole.position) {
     embed.addFields({
