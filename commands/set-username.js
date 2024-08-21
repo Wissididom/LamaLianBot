@@ -3,7 +3,7 @@ import { SlashCommandBuilder } from "discord.js";
 let exportObj = {
   name: "set-username",
   description:
-    "Setzt den Banner des Bots. Kann nur vom Bot-Owner ausgeführt werden",
+    "Setzt den Nutzernamen des Bots. Kann nur vom Bot-Owner ausgeführt werden",
   permissions: [],
   registerObject: () =>
     new SlashCommandBuilder()
