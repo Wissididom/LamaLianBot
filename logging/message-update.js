@@ -15,6 +15,10 @@ export default async function handleMessageUpdate(oldMessage, newMessage) {
   if (newMessage.member || newMessage.author) {
     author += ` (<@${newMessage.member ? newMessage.member.id : newMessage.author.id}> - ${newMessage.member ? newMessage.member.id : newMessage.author.id})`;
   }
+  if (oldMessage.content == newMessage.content) {
+    // Don't handle event if content is the same
+    return;
+  }
   await logChannel.send({
     embeds: [
       new EmbedBuilder()
