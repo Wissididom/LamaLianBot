@@ -73,9 +73,6 @@ async function getCommandObject(commandName) {
       return SetUserBirthday;
     case "unset-user-birthday":
       return UnsetUserBirthday;
-    case "logging":
-      // TODO
-      return null;
     default:
       // TODO
       return null;
