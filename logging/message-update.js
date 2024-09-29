@@ -2,6 +2,9 @@ import { EmbedBuilder, Events } from "discord.js";
 import { getChannelByEventName } from "../logging.js";
 
 export default async function handleMessageUpdate(oldMessage, newMessage) {
+  if (newMessage.author.id == newMessage.client.user.id) {
+    return; // Don't handle messages sent by the bot itself
+  }
   let logChannel = await getChannelByEventName(
     newMessage.client,
     Events.MessageUpdate,
