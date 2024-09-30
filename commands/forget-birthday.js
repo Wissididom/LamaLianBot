@@ -9,7 +9,7 @@ let exportObj = {
       .setName(exportObj.name)
       .setDescription(exportObj.description),
   runInteraction: async (interaction, db) => {
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ ephemeral: false });
     if (interaction.guild?.available && interaction.isChatInputCommand()) {
       try {
         await db.deleteBirthday(interaction.user.id);

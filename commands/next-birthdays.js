@@ -10,7 +10,7 @@ let exportObj = {
       .setName(exportObj.name)
       .setDescription(exportObj.description),
   runInteraction: async (interaction, db) => {
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ ephemeral: false });
     if (interaction.guild?.available && interaction.isChatInputCommand()) {
       let birthdays = await db.getBirthdays();
       if (birthdays) {
