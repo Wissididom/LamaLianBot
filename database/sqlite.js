@@ -42,9 +42,9 @@ export default new (class Database {
         "CREATE TABLE IF NOT EXISTS levelling (id INTEGER PRIMARY KEY AUTOINCREMENT, userId TEXT UNIQUE, xp BIGINT, lvl BIGINT, nextLvlXp BIGINT);",
         (err) => {
           if (err) {
-            console.log(`Could not make sure the roles table exists: ${err}`);
+            console.log(`Could not make sure the levelling table exists: ${err}`);
           } else {
-            console.log("Successfully made sure the roles table exists");
+            console.log("Successfully made sure the levelling table exists");
           }
         },
       );
