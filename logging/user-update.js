@@ -10,7 +10,7 @@ export default async function handleUserUpdate(oldUser, newUser) {
   let embed = new EmbedBuilder()
     .setTitle("Benutzerprofil aktualisiert")
     .setDescription(
-      `**<#${newUser.id}> (${newUser.name} - ${newUser.id}) hat sein/ihr Profil aktualisiert**`,
+      `**<@${newUser.id}> (${newUser.displayName} - ${newUser.id}) hat sein/ihr Profil aktualisiert**`,
     );
   if (oldUser.bot != newUser.bot) {
     embed.addFields({
