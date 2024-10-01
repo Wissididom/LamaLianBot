@@ -48,7 +48,7 @@ export default async function handleUserUpdate(oldUser, newUser) {
   if (oldUser.avatar != newUser.avatar) {
     embed.addFields({
       name: "Avatar",
-      value: `[Old](<${oldUser.avatarURL()}>) -> [New](<${newUser.avatarURL()}>)`,
+      value: `[Old](<${oldUser.displayAvatarURL({ dynamic: true })}>) -> [New](<${newUser.displayAvatarURL({ dynamic: true })}>)`,
       inline: true,
     });
     fields++;
