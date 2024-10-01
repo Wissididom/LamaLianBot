@@ -45,7 +45,14 @@ export default async function handleUserUpdate(oldUser, newUser) {
     });
     fields++;
   }
-  // Intentionally leave out avatar handling for now, because I'd first need to store each avatar in the database to know the old one
+  if (oldUser.avatar != newUser.avatar) {
+    embed.addFields({
+      name: "Avatar",
+      value: `[Old](<${oldUser.avatarURL()}>) -> [New](<${newUser.avatarURL()}>)`,
+      inline: true,
+    });
+    fields++;
+  }
   embed.setTimestamp();
   if (fields > 0) {
     await logChannel.send({
