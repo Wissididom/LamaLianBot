@@ -15,7 +15,7 @@ export default async function handleGuildMemberUpdate(oldMember, newMember) {
       .setThumbnail(newMember.displayAvatarURL({ dynamic: true }))
       .setTimestamp();
     logChannel.send({
-      embeds: [embed]
+      embeds: [embed],
     });
   }
   if (oldMember.roles.cache.size > newMember.roles.cache.size) {
