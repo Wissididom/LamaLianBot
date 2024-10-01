@@ -6,6 +6,18 @@ export default async function handleGuildMemberUpdate(oldMember, newMember) {
     newMember.client,
     Events.GuildMemberUpdate,
   );
+  if (oldUser.avatar != newUser.avatar) {
+    let embed = new EmbedBuilder()
+      .setTitle("Server-Avatar geändert")
+      .setDescription(
+        `Der Server-Avatar von <@${newMember.id}> (${newMember.displayName} - ${newMember.id}) hat sich geändert`,
+      )
+      .setThumbnail(newMember.displayAvatarURL({ dynamic: true }))
+      .setTimestamp();
+    logChannel.send({
+      embeds: [embed]
+    });
+  }
   if (oldMember.roles.cache.size > newMember.roles.cache.size) {
     let embed = new EmbedBuilder()
       .setTitle("⛔️ Rollen entfernt")
