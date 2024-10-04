@@ -14,6 +14,11 @@ export default async function handleGuildMemberUpdate(oldMember, newMember) {
       )
       .setThumbnail(newMember.displayAvatarURL({ dynamic: true }))
       .setTimestamp();
+    embed.addFields({
+      name: "Server-Avatar",
+      value: `[Old](<${oldMember.displayAvatarURL({ dynamic: true })}>) -> [New](<${newMember.displayAvatarURL({ dynamic: true })}>)`,
+      inline: true,
+    });
     logChannel.send({
       embeds: [embed],
     });
