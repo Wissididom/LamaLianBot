@@ -7,8 +7,16 @@ export default async function handleGuildEmojiUpdate(oldEmoji, newEmoji) {
     Events.GuildEmojiUpdate,
   );
   let emojiUrl = newEmoji.imageURL();
-  let oldAuthor = oldEmoji.managed ? null : oldEmoji.author ? oldEmoji.author : await oldEmoji.fetchAuthor();
-  let newAuthor = newEmoji.managed ? null : newEmoji.author ? newEmoji.author : await newEmoji.fetchAuthor();
+  let oldAuthor = oldEmoji.managed
+    ? null
+    : oldEmoji.author
+      ? oldEmoji.author
+      : await oldEmoji.fetchAuthor();
+  let newAuthor = newEmoji.managed
+    ? null
+    : newEmoji.author
+      ? newEmoji.author
+      : await newEmoji.fetchAuthor();
   let embed = new EmbedBuilder()
     .setTitle("Emoji bearbeitet")
     .setDescription(
