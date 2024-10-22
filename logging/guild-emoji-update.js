@@ -7,6 +7,8 @@ export default async function handleGuildEmojiUpdate(oldEmoji, newEmoji) {
     Events.GuildEmojiUpdate,
   );
   let emojiUrl = newEmoji.imageURL();
+  let oldAuthor = oldEmoji.managed ? null : oldEmoji.author ? oldEmoji.author : await oldEmoji.fetchAuthor();
+  let newAuthor = newEmoji.managed ? null : newEmoji.author ? newEmoji.author : await newEmoji.fetchAuthor();
   let embed = new EmbedBuilder()
     .setTitle("Emoji bearbeitet")
     .setDescription(
@@ -22,7 +24,7 @@ export default async function handleGuildEmojiUpdate(oldEmoji, newEmoji) {
   if (oldEmoji.author != newEmoji.author) {
     embed.addFields({
       name: "Author",
-      value: `<@${oldEmoji.author.id}> (${oldEmoji.author.name} - ${oldEmoji.author.id}) -> <@${newEmoji.author.id}> (${newEmoji.author.name} - ${newEmoji.author.id})`,
+      value: `<@${oldAuthor?.id ?? "N/A"}> (${oldAuthor?.name ?? "N/A"} - ${oldAuthor?.id ?? "N/A"}) -> <@${newAuthor?.id ?? "N/A"}> (${newAuthor?.name ?? "N/A"} - ${newAuthor?.id ?? "N/A"})`,
       inline: true,
     });
   }
