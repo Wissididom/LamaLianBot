@@ -7,7 +7,11 @@ export default async function handleGuildEmojiCreate(emoji) {
     Events.GuildEmojiCreate,
   );
   let createdTimestamp = Math.floor(new Date(emoji.createdTimestamp) / 1000);
-  let author = emoji.author ? emoji.author : await emoji.fetchAuthor();
+  let author = emoji.managed
+    ? null
+    : emoji.author
+      ? emoji.author
+      : await emoji.fetchAuthor();
   let emojiUrl = emoji.imageURL();
   await logChannel.send({
     embeds: [
@@ -24,7 +28,9 @@ export default async function handleGuildEmojiCreate(emoji) {
           },
           {
             name: "Autor",
-            value: `<@${author.id}> (${author.name} - ${author.id})`,
+            value: emoji.managed
+              ? "N/A"
+              : `<@${author.id}> (${author.name} - ${author.id})`,
             inline: true,
           },
           {
