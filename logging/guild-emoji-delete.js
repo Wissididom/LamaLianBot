@@ -7,7 +7,7 @@ export default async function handleGuildEmojiDelete(emoji) {
     Events.GuildEmojiDelete,
   );
   let createdTimestamp = Math.floor(new Date(emoji.createdTimestamp) / 1000);
-  let author = emoji.author ? emoji.author : null;
+  let author = emoji.managed ? null : emoji.author ? emoji.author : await emoji.fetchAuthor();
   let emojiUrl = emoji.imageURL();
   await logChannel.send({
     embeds: [
@@ -24,7 +24,7 @@ export default async function handleGuildEmojiDelete(emoji) {
           },
           {
             name: "Autor",
-            value: `<@${author?.id ? author?.id : "N/A"}> (${author?.name ? author?.name : "N/A"} - ${author?.id ? author?.id : "N/A"})`,
+            value: emoji.managed ? "N/A" : `<@${author.id}> (${author.name} - ${author.id})`,
             inline: true,
           },
           {
