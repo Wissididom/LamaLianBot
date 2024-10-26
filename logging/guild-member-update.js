@@ -16,7 +16,7 @@ export default async function handleGuildMemberUpdate(oldMember, newMember) {
       .setTimestamp();
     embed.addFields({
       name: "Server-Avatar",
-      value: `[Old](<${oldMember.displayAvatarURL({ dynamic: true })}>) -> [New](<${newMember.displayAvatarURL({ dynamic: true })}>)`,
+      value: `[vorher](<${oldMember.displayAvatarURL({ dynamic: true })}>) -> [nachher](<${newMember.displayAvatarURL({ dynamic: true })}>)`,
       inline: true,
     });
     logChannel.send({
