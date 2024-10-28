@@ -1,6 +1,4 @@
 import { DateTime, Interval } from "luxon";
-import { fetchMember } from "../utils.js";
-import { Role } from "discord.js";
 
 async function sendMessage(client, channelId, userId, message) {
   if (channelId) {
@@ -14,49 +12,14 @@ async function sendMessage(client, channelId, userId, message) {
   }
 }
 
-async function giveRole(member, role, db) {
-  if (member && role) {
-    let result = await member.roles.add(role);
-    let date = DateTime.now().setZone(process.env.BIRTHDAY_TIMEZONE); //.plus({ days: 1 });
-    if (db)
-      db.addRole(
-        member.id,
-        role instanceof Role ? role.id : role,
-        date.year,
-        date.month,
-        date.day,
-      );
-    return result;
-  } else {
-    return null;
-  }
-}
-
 let exportObj = {
-  name: "birthday",
-  description:
-    "background worker that runs every hour to send birthday wishing messages",
-  interval: 1 * 60 * 1000,
-  runInterval: async (intervalObj, client, db) => {
+  name: "birthday-message",
+  description: "background worker that sends birthday wishing messages",
+  cron: "0 0 8 * * *", // At 8am
+  run: async (client, db) => {
     const currentDate = DateTime.now().setZone(process.env.BIRTHDAY_TIMEZONE);
-    let roles = await db.getRoles(
-      currentDate.year,
-      currentDate.month,
-      currentDate.day,
-    );
-    for (let role of roles) {
-      let member = await fetchMember(
-        (await client.guilds.fetch(process.env.GUILD)).members,
-        role.userId,
-      );
-      await member.roles.remove(role.roleId);
-      await db.deleteRole(role.id);
-    }
     let birthdays = await db.getBirthdays();
     for (let birthday of birthdays) {
-      if (currentDate.hour != parseInt(process.env.BIRTHDAY_WISHING_HOUR))
-        continue;
-      test = 1;
       let birthDateTime = DateTime.fromObject(
         {
           day: birthday.day,
@@ -107,11 +70,6 @@ let exportObj = {
                 ).replace("\\n", "\n"),
               );
             }
-            let member = await fetchMember(
-              (await client.guilds.fetch(process.env.GUILD)).members,
-              birthday.userId,
-            );
-            giveRole(member, process.env.BIRTHDAY_ROLE_ID, db);
             continue; // Skip further execution
           }
         }
@@ -144,11 +102,6 @@ let exportObj = {
             ).replace("\\n", "\n"),
           );
         }
-        let member = await fetchMember(
-          (await client.guilds.fetch(process.env.GUILD)).members,
-          birthday.userId,
-        );
-        giveRole(member, process.env.BIRTHDAY_ROLE_ID, db);
       }
     }
   },

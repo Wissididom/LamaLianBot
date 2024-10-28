@@ -9,7 +9,7 @@ import {
 
 import { getDatabase, handleApplicationCommands } from "./commands.js";
 import { moderate } from "./moderation.js";
-import { runWorkers } from "./background-worker/background-worker.js";
+import { scheduleWorkers } from "./background-worker/background-worker.js";
 import {
   handleApplicationCommandPermissionsUpdate,
   handleAutoModerationActionExecution,
@@ -102,7 +102,7 @@ client.on(Events.ClientReady, async () => {
     type: ActivityType.Watching,
   });
   let db = getDatabase();
-  await runWorkers(client, db);
+  await scheduleWorkers(client, db);
 });
 
 client.on(Events.MessageCreate, async (msg) => {
