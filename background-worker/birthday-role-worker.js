@@ -17,7 +17,7 @@ function mapValuesToArray(map) {
 let exportObj = {
   name: "birthday-role",
   description: "background worker that gives and removes birthday roles",
-  cron: "0 * * * * *", // At midnight
+  cron: "0 0 0 * * *", // At midnight
   run: async (client, db) => {
     const currentDate = DateTime.now().setZone(process.env.BIRTHDAY_TIMEZONE);
     let membersWithRolesToRemove = mapValuesToArray(
