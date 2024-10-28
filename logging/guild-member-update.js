@@ -6,7 +6,7 @@ export default async function handleGuildMemberUpdate(oldMember, newMember) {
     newMember.client,
     Events.GuildMemberUpdate,
   );
-  if (oldUser.avatar != newUser.avatar) {
+  if (oldMember.avatar != newMember.avatar) {
     let embed = new EmbedBuilder()
       .setTitle("Server-Avatar geändert")
       .setDescription(
