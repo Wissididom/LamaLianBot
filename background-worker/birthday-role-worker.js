@@ -10,17 +10,23 @@ async function giveRole(member, role) {
   }
 }
 
+function mapValuesToArray(map) {
+  return [...map].map(([key, value]) => value);
+}
+
 let exportObj = {
   name: "birthday-role",
   description: "background worker that gives and removes birthday roles",
   cron: "0 * * * * *", // At midnight
   run: async (client, db) => {
     const currentDate = DateTime.now().setZone(process.env.BIRTHDAY_TIMEZONE);
-    let membersWithRolesToRemove = (
-      await (
-        await client.guilds.fetch(process.env.GUILD)
-      ).roles.fetch(process.env.BIRTHDAY_ROLE_ID)
-    ).members;
+    let membersWithRolesToRemove = mapValuesToArray(
+      (
+        await (
+          await client.guilds.fetch(process.env.GUILD)
+        ).roles.fetch(process.env.BIRTHDAY_ROLE_ID)
+      ).members,
+    );
     let birthdays = await db.getBirthdays();
     for (let birthday of birthdays) {
       if (birthday.day == 29 && birthday.month == 2) {
@@ -65,8 +71,8 @@ let exportObj = {
         }
       }
     }
-    for (let [id, member] of membersWithRolesToRemove) {
-      console.log(`Remove role from ${id} (${member.username})`);
+    for (let member of membersWithRolesToRemove) {
+      console.log(`Remove role from ${member.id} (${member.username})`);
       await member.roles.remove(process.env.BIRTHDAY_ROLE_ID);
     }
   },
