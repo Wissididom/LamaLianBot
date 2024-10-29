@@ -21,7 +21,7 @@ let exportObj = {
     if (interaction.guild?.available && interaction.isChatInputCommand()) {
       let amount = interaction.options.getInteger("amount");
       try {
-        let messages = await interaction.channel.bulkDelete(amount);
+        let messages = await interaction.channel.bulkDelete(amount, true);
         await interaction.editReply({
           content: `${messages.size} Nachrichten erfolgreich gelöscht`,
         });

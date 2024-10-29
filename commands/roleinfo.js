@@ -51,6 +51,7 @@ let exportObj = {
     if (interaction.guild?.available && interaction.isChatInputCommand()) {
       try {
         let role = interaction.options.getRole("role");
+        let permissionsArray = role.permissions.toArray();
         await interaction.editReply({
           embeds: [
             new EmbedBuilder()
@@ -74,7 +75,7 @@ let exportObj = {
                 { name: "Managed", value: role.managed.toString() },
                 {
                   name: "Permissions",
-                  value: role.permissions.toArray().join(", "),
+                  value: permissionsArray.length > 0 ? permissionsArray.join(", ") : "Keine Berechtigungen",
                 },
                 { name: "Position", value: `#${role.position}` },
                 {
