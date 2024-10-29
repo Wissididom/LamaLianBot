@@ -15,7 +15,7 @@ async function sendMessage(client, channelId, userId, message) {
 let exportObj = {
   name: "birthday-message",
   description: "background worker that sends birthday wishing messages",
-  cron: "0 0 8 * * *", // At 8am
+  cron: `0 0 ${process.env.BIRTHDAY_WISHING_HOUR} * * *`,
   run: async (client, db) => {
     const currentDate = DateTime.now().setZone(process.env.BIRTHDAY_TIMEZONE);
     let birthdays = await db.getBirthdays();
