@@ -1,4 +1,8 @@
-import { PermissionsBitField, SlashCommandBuilder } from "discord.js";
+import {
+  MessageFlags,
+  PermissionsBitField,
+  SlashCommandBuilder,
+} from "discord.js";
 
 let exportObj = {
   name: "clear",
@@ -17,7 +21,7 @@ let exportObj = {
           .setRequired(true),
       ),
   runInteraction: async (interaction, db) => {
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
     if (interaction.guild?.available && interaction.isChatInputCommand()) {
       let amount = interaction.options.getInteger("amount");
       try {
