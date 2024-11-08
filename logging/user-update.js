@@ -10,7 +10,7 @@ export default async function handleUserUpdate(oldUser, newUser) {
   let embed = new EmbedBuilder()
     .setTitle("Benutzerprofil aktualisiert")
     .setDescription(
-      `**<@${newUser.id}> (${newUser.displayName} - ${newUser.username} - ${newUser.id}) hat sein/ihr Profil aktualisiert**`,
+      `**<@${newUser.id}> (${newUser.displayName} - ${newUser.username}) hat sein/ihr Profil aktualisiert**`,
     );
   if (oldUser.bot != newUser.bot) {
     embed.addFields({
@@ -54,6 +54,7 @@ export default async function handleUserUpdate(oldUser, newUser) {
     fields++;
   }
   embed.setThumbnail(newUser.displayAvatarURL({ dynamic: true }));
+  embed.setFooter({ text: `Nutzer-ID: ${newUser.id}` });
   embed.setTimestamp();
   if (fields > 0) {
     await logChannel.send({
