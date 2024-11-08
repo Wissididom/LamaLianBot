@@ -75,7 +75,10 @@ let exportObj = {
                 { name: "Managed", value: role.managed.toString() },
                 {
                   name: "Permissions",
-                  value: permissionsArray.length > 0 ? permissionsArray.join(", ") : "Keine Berechtigungen",
+                  value:
+                    permissionsArray.length > 0
+                      ? permissionsArray.join(", ")
+                      : "Keine Berechtigungen",
                 },
                 { name: "Position", value: `#${role.position}` },
                 {
