@@ -51,6 +51,10 @@ export default async function handleMessageUpdate(oldMessage, newMessage) {
             inline: true,
           },
         )
+        .setThumbnail(newUser.displayAvatarURL({ dynamic: true }))
+        .setFooter({
+          text: `Nutzer-ID: ${newMessage.member ? newMessage.member.id : newMessage.author.id}`,
+        })
         .setTimestamp(),
     ],
   });

@@ -15,9 +15,7 @@ export default async function handleChannelCreate(channel) {
     embeds: [
       new EmbedBuilder()
         .setTitle("Kanal erstellt")
-        .setDescription(
-          `**Kanal <#${channel.id}> (${channel.name} - ${channel.id}) erstellt**`,
-        )
+        .setDescription(`**Kanal <#${channel.id}> (${channel.name}) erstellt**`)
         .setFields(
           {
             name: "Kategorie",
@@ -40,6 +38,7 @@ export default async function handleChannelCreate(channel) {
             inline: true,
           },
         )
+        .setFooter({ text: `Kanal-ID: ${channel.id}` })
         .setTimestamp(),
     ],
   });

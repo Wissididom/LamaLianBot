@@ -18,7 +18,7 @@ export default async function handleGuildEmojiDelete(emoji) {
       new EmbedBuilder()
         .setTitle("Emoji gelöscht")
         .setDescription(
-          `**Emoji <${emoji.animated ? "a:" : ":"}${emoji.name}:${emoji.id}> ([${emoji.name} - ${emoji.id}](${emojiUrl})) gelöscht**`,
+          `**Emoji <${emoji.animated ? "a:" : ":"}${emoji.name}:${emoji.id}> ([${emoji.name}](${emojiUrl})) gelöscht**`,
         )
         .setFields(
           {
@@ -64,6 +64,7 @@ export default async function handleGuildEmojiDelete(emoji) {
             inline: true,
           },
         )
+        .setFooter({ text: `Emoji-ID: ${emoji.id}` })
         .setTimestamp(),
     ],
   });

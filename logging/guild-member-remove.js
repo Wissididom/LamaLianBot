@@ -37,12 +37,13 @@ export default async function handleGuildMemberRemove(member) {
           },
           {
             name: "Moderator (falls Kick)",
-            value: kicker
-              ? `<@${kicker.id}> (${kicker.displayName} - ${kicker.id})`
-              : "N/A",
+            value: kicker ? `<@${kicker.id}> (${kicker.displayName})` : "N/A",
             inline: true,
           },
         )
+        .setFooter({
+          text: `Nutzer-ID: ${member.id}; Moderator-ID: ${kicker ? kicker.id : "N/A"}`,
+        })
         .setTimestamp(),
     ],
   });

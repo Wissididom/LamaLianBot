@@ -18,7 +18,7 @@ export default async function handleGuildEmojiCreate(emoji) {
       new EmbedBuilder()
         .setTitle("Emoji erstellt")
         .setDescription(
-          `**Emoji <${emoji.animated ? "a:" : ":"}${emoji.name}:${emoji.id}> ([${emoji.name} - ${emoji.id}](${emojiUrl})) erstellt**`,
+          `**Emoji <${emoji.animated ? "a:" : ":"}${emoji.name}:${emoji.id}> ([${emoji.name}](${emojiUrl})) erstellt**`,
         )
         .setFields(
           {
@@ -64,6 +64,7 @@ export default async function handleGuildEmojiCreate(emoji) {
             inline: true,
           },
         )
+        .setFooter({ text: `Emoji-ID: ${emoji.id}` })
         .setTimestamp(),
     ],
   });

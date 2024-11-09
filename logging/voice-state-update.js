@@ -12,8 +12,9 @@ export default async function handleVoiceStateUpdate(oldState, newState) {
         new EmbedBuilder()
           .setTitle("Sprachkanal beigetreten")
           .setDescription(
-            `**<@${newState.member?.id}> (\`${newState.member?.displayName}\` - ${newState.member?.id})\n<#${newState.channel.id}> (\`${newState.channel.name}\` - ${newState.channel.id}) beigetreten**`,
-          ),
+            `**<@${newState.member?.id}> (\`${newState.member?.displayName}\`)\n<#${newState.channel.id}> (\`${newState.channel.name}\` - ${newState.channel.id}) beigetreten**`,
+          )
+          .setFooter({ text: `Nutzer-ID: ${newState.member?.id}` }),
       ],
     });
   } else if (oldState.channel != null && newState.channel == null) {
@@ -22,8 +23,9 @@ export default async function handleVoiceStateUpdate(oldState, newState) {
         new EmbedBuilder()
           .setTitle("Sprachkanal verlassen")
           .setDescription(
-            `**<@${newState.member?.id}> (\`${newState.member?.displayName}\` - ${newState.member?.id})\n<#${oldState.channel.id}> (\`${oldState.channel.name}\` - ${oldState.channel.id}) verlassen**`,
-          ),
+            `**<@${newState.member?.id}> (\`${newState.member?.displayName}\`)\n<#${oldState.channel.id}> (\`${oldState.channel.name}\` - ${oldState.channel.id}) verlassen**`,
+          )
+          .setFooter({ text: `Nutzer-ID: ${newState.member.id}` }),
       ],
     });
   } else if (
@@ -36,7 +38,7 @@ export default async function handleVoiceStateUpdate(oldState, newState) {
         new EmbedBuilder()
           .setTitle("Sprachkanal gewechselt")
           .setDescription(
-            `**<@${newState.member?.id}> (\`${newState.member?.displayName}\` - ${newState.member?.id})**`,
+            `**<@${newState.member?.id}> (\`${newState.member?.displayName}\`)**`,
           )
           .setFields(
             {
@@ -49,7 +51,8 @@ export default async function handleVoiceStateUpdate(oldState, newState) {
               value: `<#${newState.channel.id}> (\`${newState.channel.name}\` - ${newState.channel.id})**`,
               inline: true,
             },
-          ),
+          )
+          .setFooter({ text: `Nutzer-ID: ${newState.member?.id}` }),
       ],
     });
   }

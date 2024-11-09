@@ -9,8 +9,10 @@ export default async function handleChannelUpdate(oldChannel, newChannel) {
   let embed = new EmbedBuilder()
     .setTitle("Kanal bearbeitet")
     .setDescription(
-      `**Kanal <#${newChannel.id}> (${newChannel.name} - ${newChannel.id}) bearbeitet**`,
-    );
+      `**Kanal <#${newChannel.id}> (${newChannel.name}) bearbeitet**`,
+    )
+    .setFooter({ text: `Kanal-ID: ${newChannel.id}` })
+    .setTimestamp();
   if (oldChannel.name != newChannel.name) {
     embed.addFields({
       name: "Name",
@@ -39,7 +41,6 @@ export default async function handleChannelUpdate(oldChannel, newChannel) {
       inline: true,
     });
   }
-  embed.setTimestamp();
   await logChannel.send({
     embeds: [embed],
   });
