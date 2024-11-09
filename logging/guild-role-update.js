@@ -8,9 +8,9 @@ export default async function handleGuildRoleUpdate(oldRole, newRole) {
   );
   let embed = new EmbedBuilder()
     .setTitle("Rolle bearbeitet")
-    .setDescription(
-      `**Rolle <@&${newRole.id}> (${newRole.name} - ${newRole.id}) bearbeitet**`,
-    );
+    .setDescription(`**Rolle <@&${newRole.id}> (${newRole.name}) bearbeitet**`)
+    .setFooter({ text: `Role-ID: ${newRole.id}` })
+    .setTimestamp();
   if (oldRole.hexColor != newRole.hexColor) {
     embed.addFields({
       name: "Farbe",
@@ -25,7 +25,7 @@ export default async function handleGuildRoleUpdate(oldRole, newRole) {
       inline: true,
     });
   }
-  if (oldRole.hoist != newRole.hoist) {
+  if (oldRole.icon != newRole.icon) {
     embed.addFields({
       name: "Icon",
       value: `[altes Icon](${oldRole.iconURL()}) -> [neues Icon](${newRole.iconURL()})`,
@@ -73,7 +73,6 @@ export default async function handleGuildRoleUpdate(oldRole, newRole) {
       inline: true,
     });
   }
-  embed.setTimestamp();
   await logChannel.send({
     embeds: [embed],
   });

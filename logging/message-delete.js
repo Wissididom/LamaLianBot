@@ -44,6 +44,14 @@ export default async function handleMessageDelete(message) {
             inline: true,
           },
         )
+        .setThumbnail(
+          message.member
+            ? message.member.displayAvatarURL({ dynamic: true })
+            : message.author.displayAvatarURL({ dynamic: true }),
+        )
+        .setFooter({
+          text: `Nutzer-ID: ${message.member ? message.member.id : message.author.id}`,
+        })
         .setTimestamp(),
     ],
   });

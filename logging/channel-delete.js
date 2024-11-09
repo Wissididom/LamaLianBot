@@ -15,9 +15,7 @@ export default async function handleChannelDelete(channel) {
     embeds: [
       new EmbedBuilder()
         .setTitle("Kanal gelöscht")
-        .setDescription(
-          `**Kanal <#${channel.id}> (${channel.name} - ${channel.id}) gelöscht**`,
-        )
+        .setDescription(`**Kanal <#${channel.id}> (${channel.name}) gelöscht**`)
         .setFields(
           {
             name: "Kategorie",
@@ -40,6 +38,7 @@ export default async function handleChannelDelete(channel) {
             inline: true,
           },
         )
+        .setFooter({ text: `Kanal-ID: ${channel.id}` })
         .setTimestamp(),
     ],
   });

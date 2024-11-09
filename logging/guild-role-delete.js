@@ -12,9 +12,7 @@ export default async function handleGuildRoleDelete(role) {
     embeds: [
       new EmbedBuilder()
         .setTitle("Rolle gelöscht")
-        .setDescription(
-          `**Rolle <@&${role.id}> (${role.name} - ${role.id}) gelöscht**`,
-        )
+        .setDescription(`**Rolle <@&${role.id}> (${role.name}) gelöscht**`)
         .setFields(
           {
             name: "Farbe",
@@ -55,6 +53,7 @@ export default async function handleGuildRoleDelete(role) {
             inline: true,
           },
         )
+        .setFooter({ text: `Role-ID: ${role.id}` })
         .setTimestamp(),
     ],
   });

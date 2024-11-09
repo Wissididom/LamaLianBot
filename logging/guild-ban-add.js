@@ -10,9 +10,7 @@ export default async function handleGuildBanAdd(ban) {
     embeds: [
       new EmbedBuilder()
         .setTitle("Mitglied gebannt")
-        .setDescription(
-          `**<@${ban.user.id}> ${ban.user.displayName} (${ban.user.id})**`,
-        )
+        .setDescription(`**<@${ban.user.id}> (${ban.user.displayName})**`)
         .setThumbnail(ban.user.displayAvatarURL({ dynamic: true }))
         .setFields(
           {
@@ -27,7 +25,7 @@ export default async function handleGuildBanAdd(ban) {
           },
           {
             name: "Moderator",
-            value: `<@${banner.id}> (${banner.displayName} - ${banner.id})`,
+            value: banner ? `<@${banner.id}> (${banner.displayName})` : "N/A",
             inline: true,
           },
           {
@@ -36,6 +34,9 @@ export default async function handleGuildBanAdd(ban) {
             inline: true,
           },
         )
+        .setFooter({
+          text: `Nutzer-ID: ${ban.user.id}; Moderator-ID: ${banner ? banner.id : "N/A"}`,
+        })
         .setTimestamp(),
     ],
   });

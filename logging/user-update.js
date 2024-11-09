@@ -11,7 +11,10 @@ export default async function handleUserUpdate(oldUser, newUser) {
     .setTitle("Benutzerprofil aktualisiert")
     .setDescription(
       `**<@${newUser.id}> (${newUser.displayName} - ${newUser.username}) hat sein/ihr Profil aktualisiert**`,
-    );
+    )
+    .setThumbnail(newUser.displayAvatarURL({ dynamic: true }))
+    .setFooter({ text: `Nutzer-ID: ${newUser.id}` })
+    .setTimestamp();
   if (oldUser.bot != newUser.bot) {
     embed.addFields({
       name: "Bot",
@@ -53,9 +56,6 @@ export default async function handleUserUpdate(oldUser, newUser) {
     });
     fields++;
   }
-  embed.setThumbnail(newUser.displayAvatarURL({ dynamic: true }));
-  embed.setFooter({ text: `Nutzer-ID: ${newUser.id}` });
-  embed.setTimestamp();
   if (fields > 0) {
     await logChannel.send({
       embeds: [embed],

@@ -20,8 +20,10 @@ export default async function handleGuildEmojiUpdate(oldEmoji, newEmoji) {
   let embed = new EmbedBuilder()
     .setTitle("Emoji bearbeitet")
     .setDescription(
-      `**Emoji <${newEmoji.animated ? "a:" : ":"}${newEmoji.name}:${newEmoji.id}> ([${newEmoji.name} - ${newEmoji.id}](${emojiUrl})) bearbeitet**`,
-    );
+      `**Emoji <${newEmoji.animated ? "a:" : ":"}${newEmoji.name}:${newEmoji.id}> ([${newEmoji.name}](${emojiUrl})) bearbeitet**`,
+    )
+    .setFooter({ text: `Emoji-ID: ${newEmoji.id}` })
+    .setTimestamp();
   if (oldEmoji.animated != newEmoji.animated) {
     embed.addFields({
       name: "Animiert",
@@ -64,7 +66,6 @@ export default async function handleGuildEmojiUpdate(oldEmoji, newEmoji) {
       inline: true,
     });
   }
-  embed.setTimestamp();
   await logChannel.send({
     embeds: [embed],
   });

@@ -12,9 +12,7 @@ export default async function handleGuildRoleCreate(role) {
     embeds: [
       new EmbedBuilder()
         .setTitle("Rolle erstellt")
-        .setDescription(
-          `**Rolle <@&${role.id}> (${role.name} - ${role.id}) erstellt**`,
-        )
+        .setDescription(`**Rolle <@&${role.id}> (${role.name}) erstellt**`)
         .setFields(
           {
             name: "Farbe",
@@ -55,6 +53,7 @@ export default async function handleGuildRoleCreate(role) {
             inline: true,
           },
         )
+        .setFooter({ text: `Role-ID: ${role.id}` })
         .setTimestamp(),
     ],
   });

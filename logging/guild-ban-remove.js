@@ -16,9 +16,7 @@ export default async function handleGuildBanRemove(ban) {
     embeds: [
       new EmbedBuilder()
         .setTitle("Mitglied entbannt")
-        .setDescription(
-          `**<@${ban.user.id}> ${ban.user.displayName} (${ban.user.id})**`,
-        )
+        .setDescription(`**<@${ban.user.id}> (${ban.user.displayName})**`)
         .setThumbnail(ban.user.displayAvatarURL({ dynamic: true }))
         .setFields(
           {
@@ -33,7 +31,9 @@ export default async function handleGuildBanRemove(ban) {
           },
           {
             name: "Moderator",
-            value: `<@${unbanner.id}> (${unbanner.displayName} - ${unbanner.id})`,
+            value: unbanner
+              ? `<@${unbanner.id}> (${unbanner.displayName})`
+              : "N/A",
             inline: true,
           },
           {
@@ -42,6 +42,9 @@ export default async function handleGuildBanRemove(ban) {
             inline: true,
           },
         )
+        .setFooter({
+          text: `Nutzer-ID: ${ban.user.id}; Moderator-ID: ${unbanner ? unbanner.id : "N/A"}`,
+        })
         .setTimestamp(),
     ],
   });

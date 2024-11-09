@@ -15,7 +15,7 @@ export default async function handleGuildMemberAdd(member) {
       new EmbedBuilder()
         .setTitle("Mitglied beigetreten")
         .setDescription(
-          `<@${member.id}> (${member.displayName} - ${member.user.username} - ${member.id})`,
+          `<@${member.id}> (${member.displayName} - ${member.user.username})`,
         )
         .setThumbnail(member.displayAvatarURL({ dynamic: true }))
         .setFields(
@@ -35,6 +35,7 @@ export default async function handleGuildMemberAdd(member) {
             inline: true,
           },
         )
+        .setFooter({ text: `Nutzer-ID: ${member.id}` })
         .setTimestamp(),
     ],
   });
