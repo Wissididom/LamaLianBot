@@ -25,7 +25,7 @@ export default async function handleVoiceStateUpdate(oldState, newState) {
           .setDescription(
             `**<@${newState.member?.id}> (\`${newState.member?.displayName}\`)\n<#${oldState.channel.id}> (\`${oldState.channel.name}\` - ${oldState.channel.id}) verlassen**`,
           )
-          .setFooter({ text: `Nutzer-ID: ${newState.member.id}` }),
+          .setFooter({ text: `Nutzer-ID: ${newState.member?.id}` }),
       ],
     });
   } else if (
