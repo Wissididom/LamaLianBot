@@ -72,7 +72,7 @@ let exportObj = {
       }
     }
     for (let member of membersWithRolesToRemove) {
-      console.log(`Remove role from ${member.id} (${member.username})`);
+      console.log(`Remove role from ${member.id} (${member.user?.username})`);
       await member.roles.remove(process.env.BIRTHDAY_ROLE_ID);
     }
   },
