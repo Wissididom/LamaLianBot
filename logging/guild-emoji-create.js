@@ -6,6 +6,7 @@ export default async function handleGuildEmojiCreate(emoji) {
     emoji.client,
     Events.GuildEmojiCreate,
   );
+  if (!logChannel) return; // Don't handle event, if logChannel is not set
   let createdTimestamp = Math.floor(new Date(emoji.createdTimestamp) / 1000);
   let author = emoji.managed
     ? null

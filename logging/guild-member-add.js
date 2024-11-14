@@ -6,6 +6,7 @@ export default async function handleGuildMemberAdd(member) {
     member.client,
     Events.GuildMemberAdd,
   );
+  if (!logChannel) return; // Don't handle event, if logChannel is not set
   let joinedTimestamp = Math.floor(new Date(member.joinedTimestamp) / 1000);
   let createdTimestamp = Math.floor(
     new Date(member.user.createdTimestamp) / 1000,

@@ -6,6 +6,7 @@ export default async function handleGuildEmojiUpdate(oldEmoji, newEmoji) {
     newEmoji.client,
     Events.GuildEmojiUpdate,
   );
+  if (!logChannel) return; // Don't handle event, if logChannel is not set
   let emojiUrl = newEmoji.imageURL();
   let oldAuthor = oldEmoji.managed
     ? null

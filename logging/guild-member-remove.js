@@ -6,6 +6,7 @@ export default async function handleGuildMemberRemove(member) {
     member.client,
     Events.GuildMemberRemove,
   );
+  if (!logChannel) return; // Don't handle event, if logChannel is not set
   let kicker = await fetchKicker(member);
   let joinedTimestamp = Math.floor(new Date(member.joinedTimestamp) / 1000);
   let createdTimestamp = Math.floor(

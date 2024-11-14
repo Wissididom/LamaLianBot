@@ -6,6 +6,7 @@ export default async function handleGuildRoleDelete(role) {
     role.client,
     Events.GuildRoleDelete,
   );
+  if (!logChannel) return; // Don't handle event, if logChannel is not set
   let createdTimestamp = Math.floor(new Date(role.createdTimestamp) / 1000);
   let permissionArray = role.permissions.toArray();
   await logChannel.send({

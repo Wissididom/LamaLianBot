@@ -6,6 +6,7 @@ export default async function handleGuildMemberUpdate(oldMember, newMember) {
     newMember.client,
     Events.GuildMemberUpdate,
   );
+  if (!logChannel) return; // Don't handle event, if logChannel is not set
   if (oldMember.avatar != newMember.avatar) {
     let embed = new EmbedBuilder()
       .setTitle("Server-Avatar geändert")

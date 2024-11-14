@@ -59,11 +59,6 @@ export async function getChannelByEventName(client, eventName) {
       }
     }
   }
-  if (!(logConfig.loggingChannel in logChannels)) {
-    logChannels[logConfig.loggingChannel] = await client.channels.fetch(
-      logConfig.loggingChannel,
-    );
-  }
   return logChannels[logConfig.loggingChannel];
 }
 

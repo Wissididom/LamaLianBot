@@ -9,6 +9,7 @@ export default async function handleMessageUpdate(oldMessage, newMessage) {
     newMessage.client,
     Events.MessageUpdate,
   );
+  if (!logChannel) return; // Don't handle event, if logChannel is not set
   let timestamp = Math.floor(new Date(newMessage.createdTimestamp) / 1000);
   let author = newMessage.member
     ? newMessage.member.displayName

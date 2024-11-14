@@ -6,6 +6,7 @@ export default async function handleChannelUpdate(oldChannel, newChannel) {
     newChannel.client,
     Events.ChannelUpdate,
   );
+  if (!logChannel) return; // Don't handle event, if logChannel is not set
   let embed = new EmbedBuilder()
     .setTitle("Kanal bearbeitet")
     .setDescription(

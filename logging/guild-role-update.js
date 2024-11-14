@@ -6,6 +6,7 @@ export default async function handleGuildRoleUpdate(oldRole, newRole) {
     newRole.client,
     Events.GuildRoleUpdate,
   );
+  if (!logChannel) return; // Don't handle event, if logChannel is not set
   let embed = new EmbedBuilder()
     .setTitle("Rolle bearbeitet")
     .setDescription(`**Rolle <@&${newRole.id}> (${newRole.name}) bearbeitet**`)

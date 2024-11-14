@@ -6,6 +6,7 @@ export default async function handleChannelCreate(channel) {
     channel.client,
     Events.ChannelCreate,
   );
+  if (!logChannel) return; // Don't handle event, if logChannel is not set
   let createdTimestamp = Math.floor(new Date(channel.createdTimestamp) / 1000);
   let parent = "Keine Kategorie";
   if (channel.parent) {

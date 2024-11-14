@@ -6,6 +6,7 @@ export default async function handleGuildEmojiDelete(emoji) {
     emoji.client,
     Events.GuildEmojiDelete,
   );
+  if (!logChannel) return; // Don't handle event, if logChannel is not set
   let createdTimestamp = Math.floor(new Date(emoji.createdTimestamp) / 1000);
   let author = emoji.managed
     ? null

@@ -6,6 +6,7 @@ export default async function handleUserUpdate(oldUser, newUser) {
     newUser.client,
     Events.UserUpdate,
   );
+  if (!logChannel) return; // Don't handle event, if logChannel is not set
   let fields = 0;
   let embed = new EmbedBuilder()
     .setTitle("Benutzerprofil aktualisiert")

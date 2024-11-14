@@ -6,6 +6,7 @@ export default async function handleVoiceStateUpdate(oldState, newState) {
     newState.client,
     Events.VoiceStateUpdate,
   );
+  if (!logChannel) return; // Don't handle event, if logChannel is not set
   if (oldState.channel == null && newState.channel != null) {
     logChannel.send({
       embeds: [

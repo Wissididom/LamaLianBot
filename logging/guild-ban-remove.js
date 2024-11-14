@@ -6,6 +6,7 @@ export default async function handleGuildBanRemove(ban) {
     ban.client,
     Events.GuildBanRemove,
   );
+  if (!logChannel) return; // Don't handle event, if logChannel is not set
   let unbanner = await fetchUnbanner(ban);
   if (!ban.reason) {
     ban.reason = unbanner.reason;

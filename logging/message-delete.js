@@ -6,6 +6,7 @@ export default async function handleMessageDelete(message) {
     message.client,
     Events.MessageDelete,
   );
+  if (!logChannel) return; // Don't handle event, if logChannel is not set
   let timestamp = Math.floor(new Date(message.createdTimestamp) / 1000);
   let author = message.member
     ? message.member.displayName
