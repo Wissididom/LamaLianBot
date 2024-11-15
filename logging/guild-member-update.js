@@ -11,7 +11,7 @@ export default async function handleGuildMemberUpdate(oldMember, newMember) {
     let embed = new EmbedBuilder()
       .setTitle("Server-Avatar geändert")
       .setDescription(
-        `Der Server-Avatar von <@${newMember.id}> (${newMember.displayName}) hat sich geändert`,
+        `Der Server-Avatar von <@${newMember.id}> (${newMember.displayName} - ${newMember.user?.username}) hat sich geändert`,
       )
       .setThumbnail(newMember.displayAvatarURL({ dynamic: true }))
       .setTimestamp()
@@ -29,7 +29,7 @@ export default async function handleGuildMemberUpdate(oldMember, newMember) {
     let embed = new EmbedBuilder()
       .setTitle("⛔️ Rollen entfernt")
       .setDescription(
-        `Die Rollen von <@${newMember.id}> (${newMember.displayName}) haben sich geändert`,
+        `Die Rollen von <@${newMember.id}> (${newMember.displayName} - ${newMember.user?.username}) haben sich geändert`,
       )
       .setThumbnail(newMember.displayAvatarURL({ dynamic: true }))
       .setTimestamp()
@@ -50,7 +50,7 @@ export default async function handleGuildMemberUpdate(oldMember, newMember) {
     let embed = new EmbedBuilder()
       .setTitle("✅ Rollen hinzugefügt")
       .setDescription(
-        `Die Rollen von <@${newMember.id}> (${newMember.displayName}) haben sich geändert`,
+        `Die Rollen von <@${newMember.id}> (${newMember.displayName} - ${newMember.user?.username}) haben sich geändert`,
       )
       .setThumbnail(newMember.displayAvatarURL({ dynamic: true }))
       .setTimestamp()
@@ -76,7 +76,7 @@ export default async function handleGuildMemberUpdate(oldMember, newMember) {
     let embed = new EmbedBuilder()
       .setTitle("Nickname geändert")
       .setDescription(
-        `Der Nickname von <@${newMember.id}> (${newMember.displayName}) hat sich geändert`,
+        `Der Nickname von <@${newMember.id}> (${newMember.displayName} - ${newMember.user?.username}) hat sich geändert`,
       )
       .setThumbnail(newMember.displayAvatarURL({ dynamic: true }))
       .setFields({
@@ -93,7 +93,7 @@ export default async function handleGuildMemberUpdate(oldMember, newMember) {
     let embed = new EmbedBuilder()
       .setTitle("Nickname entfernt")
       .setDescription(
-        `Der Nickname von <@${newMember.id}> (${newMember.displayName}) wurde entfernt`,
+        `Der Nickname von <@${newMember.id}> (${newMember.displayName} - ${newMember.user?.username}) wurde entfernt`,
       )
       .setThumbnail(newMember.displayAvatarURL({ dynamic: true }))
       .setTimestamp()
@@ -105,7 +105,7 @@ export default async function handleGuildMemberUpdate(oldMember, newMember) {
     let embed = new EmbedBuilder()
       .setTitle("Nickname hinzugefügt")
       .setDescription(
-        `Der Nickname von <@${newMember.id}> (${newMember.displayName}) wurde hinzugefügt`,
+        `Der Nickname von <@${newMember.id}> (${newMember.displayName} - ${newMember.user?.username}) wurde hinzugefügt`,
       )
       .setThumbnail(newMember.displayAvatarURL({ dynamic: true }))
       .setFields({
@@ -152,7 +152,7 @@ async function addTimeout(logChannel, member) {
   let embed = new EmbedBuilder()
     .setTitle("In Timeout versetzt")
     .setDescription(
-      `<@${member.id}> (${member.displayName}) wurde in Timeout versetzt`,
+      `<@${member.id}> (${member.displayName} - ${newMember.user?.username}) wurde in Timeout versetzt`,
     )
     .setThumbnail(member.displayAvatarURL({ dynamic: true }))
     .setFields({
@@ -171,7 +171,7 @@ async function removeTimeout(member) {
   let embed = new EmbedBuilder()
     .setTitle("Timeout aufgehoben")
     .setDescription(
-      `<@${member.id}>'s (${member.displayName}) Timeout wurde aufgehoben`,
+      `<@${member.id}>'s (${member.displayName} - ${newMember.user?.username}) Timeout wurde aufgehoben`,
     )
     .setThumbnail(member.displayAvatarURL({ dynamic: true }))
     .setTimestamp()
