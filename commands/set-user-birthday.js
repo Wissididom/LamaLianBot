@@ -51,7 +51,7 @@ let exportObj = {
               `<@${user.id}>'s Geburtstag (\`${day}.${month}.${year ? year : "????"}\`) erfolgreich gespeichert!`,
             ),
           ],
-          allowed_mentions: { parse: [] }, // Prevent pings of other people
+          allowedMentions: { parse: [] }, // Prevent pings of other people
         });
       } catch (err) {
         await interaction.editReply({
@@ -60,7 +60,7 @@ let exportObj = {
               `Konnte <@${user.id}>'s Geburtstag (\`${day}.${month}.${year ? year : "????"}\`) nicht speichern (${err.message}!`,
             ),
           ],
-          allowed_mentions: { parse: [] }, // Prevent pings of other people
+          allowedMentions: { parse: [] }, // Prevent pings of other people
         });
       }
     }

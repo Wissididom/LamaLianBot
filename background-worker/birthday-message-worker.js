@@ -3,10 +3,10 @@ import { DateTime, Interval } from "luxon";
 async function sendMessage(client, channelId, userId, message) {
   if (channelId) {
     let channel = await client.channels.fetch(channelId);
-    await channel.send({ content: message, allowed_mentions: { parse: [] } });
+    await channel.send({ content: message, allowedMentions: { parse: [] } });
   } else if (userId) {
     let user = await client.users.fetch(userId);
-    await user.send({ content: message, allowed_mentions: { parse: [] } });
+    await user.send({ content: message, allowedMentions: { parse: [] } });
   } else {
     console.log("Error: Channel and User is null or undefined!");
   }

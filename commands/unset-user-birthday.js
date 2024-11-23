@@ -23,14 +23,14 @@ let exportObj = {
     if (interaction.guild?.available && interaction.isChatInputCommand()) {
       let user = interaction.options.getUser("user");
       try {
-        await db.deleteBirthday(interaction.user.id);
+        await db.deleteBirthday(user.id);
         await interaction.editReply({
           embeds: [
             new EmbedBuilder().setDescription(
               `<@${user.id}>'s Geburtstag erfolgreich gelöscht!`,
             ),
           ],
-          allowed_mentions: { parse: [] }, // Prevent pings of other people
+          allowedMentions: { parse: [] }, // Prevent pings of other people
         });
       } catch (err) {
         await interaction.editReply({
@@ -39,7 +39,7 @@ let exportObj = {
               `Geburtstag von <@${user.id}> konnte nicht gelöscht werden!`,
             ),
           ],
-          allowed_mentions: { parse: [] }, // Prevent pings of other people
+          allowedMentions: { parse: [] }, // Prevent pings of other people
         });
       }
     }

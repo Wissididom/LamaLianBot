@@ -21,7 +21,7 @@ let exportObj = {
                 `Ich kenne **noch** keine Geburtstage! Es müssen erst welche mit /remember-birthday oder /set-user-birthday hinzugefügt werden!`,
               ),
             ],
-            allowed_mentions: { parse: [] }, // Prevent pings of other people
+            allowedMentions: { parse: [] }, // Prevent pings of other people
           });
           return;
         }
@@ -77,7 +77,7 @@ let exportObj = {
               }),
             ),
           ],
-          allowed_mentions: { parse: [] }, // Prevent pings of other people
+          allowedMentions: { parse: [] }, // Prevent pings of other people
         });
       } else {
         await interaction.editReply({
@@ -86,7 +86,7 @@ let exportObj = {
               `Ich konnte keine Geburtstage laden!`,
             ),
           ],
-          allowed_mentions: { parse: [] }, // Prevent pings of other people
+          allowedMentions: { parse: [] }, // Prevent pings of other people
         });
       }
     }

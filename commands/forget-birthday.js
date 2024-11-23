@@ -19,7 +19,7 @@ let exportObj = {
               `<@${interaction.user.id}>'s Geburtstag erfolgreich gelöscht!`,
             ),
           ],
-          allowed_mentions: { parse: [] }, // Prevent pings of other people
+          allowedMentions: { parse: [] }, // Prevent pings of other people
         });
       } catch (err) {
         await interaction.editReply({
@@ -28,7 +28,7 @@ let exportObj = {
               `Geburtstag von <@${interaction.user.id}> konnte nicht gelöscht werden!`,
             ),
           ],
-          allowed_mentions: { parse: [] }, // Prevent pings of other people
+          allowedMentions: { parse: [] }, // Prevent pings of other people
         });
       }
     }

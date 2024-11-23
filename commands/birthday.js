@@ -31,7 +31,7 @@ let exportObj = {
               `<@${user}>'s Geburtstag is am \`${birthday.day}.${birthday.month}.${birthday.year ? birthday.year : "????"}\`!`,
             ),
           ],
-          allowed_mentions: { parse: [] }, // Prevent pings of other people
+          allowedMentions: { parse: [] }, // Prevent pings of other people
         });
       } else {
         await interaction.editReply({
@@ -40,7 +40,7 @@ let exportObj = {
               `Ich kenne <@${user}>'s Geburtstag **noch** nicht!`,
             ),
           ],
-          allowed_mentions: { parse: [] }, // Prevent pings of other people
+          allowedMentions: { parse: [] }, // Prevent pings of other people
         });
       }
     }
