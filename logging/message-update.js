@@ -52,7 +52,11 @@ export default async function handleMessageUpdate(oldMessage, newMessage) {
             inline: true,
           },
         )
-        .setThumbnail(newUser.displayAvatarURL({ dynamic: true }))
+        .setThumbnail(
+          newMessage.member
+            ? newMessage.member.displayAvatarURL({ dynamic: true })
+            : newMessage.author.displayAvatarURL({ dynamic: true }),
+        )
         .setFooter({
           text: `Nutzer-ID: ${newMessage.member ? newMessage.member.id : newMessage.author.id}`,
         })
