@@ -64,7 +64,7 @@ let exportObj = {
         await interaction.editReply({
           embeds: [
             new EmbedBuilder().setTitle("Bevorstehende Geburtstage").addFields(
-              birthdayKeys.map((birthdayKey) => {
+              birthdayKeys.slice(0, 10).map((birthdayKey) => {
                 let currentDate = DateTime.now().setZone(
                   process.env.BIRTHDAY_TIMEZONE,
                 );
