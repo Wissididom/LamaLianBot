@@ -46,20 +46,26 @@ let exportObj = {
                 let overallBirthday = null;
                 for (let birthday of birthdayDates[birthdayKey]) {
                   value += `<@${birthday.userId}>`;
+                  let birthDateTime = DateTime.fromObject(
+                    {
+                      day: birthday.day,
+                      month: birthday.month,
+                      year: birthday.year ?? currentDate.year,
+                      hour: 0,
+                      minute: 0,
+                      second: 0,
+                    },
+                    {
+                      zone: process.env.BIRTHDAY_TIMEZONE,
+                    },
+                  );
+                  let birthdayThisYear = birthDateTime.set({
+                    year: currentDate.year,
+                  });
+                  if (birthdayThisYear < currentDate) {
+                    birthdayThisYear = birthdayThisYear.plus({ years: 1 });
+                  }
                   if (birthday.year) {
-                    let birthDateTime = DateTime.fromObject(
-                      {
-                        day: birthday.day,
-                        month: birthday.month,
-                        year: birthday.year ?? currentDate.year,
-                        hour: 0,
-                        minute: 0,
-                        second: 0,
-                      },
-                      {
-                        zone: process.env.BIRTHDAY_TIMEZONE,
-                      },
-                    );
                     let age = Math.floor(
                       Interval.fromDateTimes(birthDateTime, currentDate).length(
                         "years",
@@ -67,10 +73,11 @@ let exportObj = {
                     );
                     value += ` (${age})\n`;
                   }
+                  birthday.year = birthdayThisYear.year;
                   overallBirthday = birthday;
                 }
                 return {
-                  name: `${String(overallBirthday.day).padStart(2, "0")}.${String(overallBirthday.month).padStart(2, "0")}.${currentDate.year}`,
+                  name: `${String(overallBirthday.day).padStart(2, "0")}.${String(overallBirthday.month).padStart(2, "0")}.${overallBirthday.year}`,
                   value,
                   inline: false,
                 };
