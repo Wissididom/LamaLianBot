@@ -27,14 +27,40 @@ let exportObj = {
         }
         let birthdayDates = [];
         for (let birthday of birthdays) {
-          if (birthdayDates[`${birthday.month}${birthday.day}`]) {
-            birthdayDates[`${birthday.month}${birthday.day}`].push(birthday);
+          let nextYear = new Date().getFullYear();
+          let birthdayDateThisYear = new Date(
+            nextYear,
+            birthday.month - 1,
+            birthday.day,
+          );
+          if (birthdayDateThisYear < new Date()) {
+            nextYear += 1;
+          }
+          let nextBirthday = new Date(
+            nextYear,
+            birthday.month - 1,
+            birthday.day,
+          );
+          if (
+            birthdayDates[
+              `${nextBirthday.getFullYear()}-${birthday.month.toString().padStart(2, "0")}-${birthday.day.toString().padStart(2, "0")}`
+            ]
+          ) {
+            birthdayDates[
+              `${nextBirthday.getFullYear()}-${birthday.month.toString().padStart(2, "0")}-${birthday.day.toString().padStart(2, "0")}`
+            ].push(birthday);
           } else {
-            birthdayDates[`${birthday.month}${birthday.day}`] = [birthday];
+            birthdayDates[
+              `${nextBirthday.getFullYear()}-${birthday.month.toString().padStart(2, "0")}-${birthday.day.toString().padStart(2, "0")}`
+            ] = [birthday];
           }
         }
         let birthdayKeys = Object.keys(birthdayDates);
-        birthdayKeys.sort();
+        birthdayKeys.sort((a, b) => {
+          let dateA = new Date(a);
+          let dateB = new Date(b);
+          return dateA - dateB;
+        });
         await interaction.editReply({
           embeds: [
             new EmbedBuilder().setTitle("Bevorstehende Geburtstage").addFields(
