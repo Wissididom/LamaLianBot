@@ -95,7 +95,7 @@ let exportObj = {
                     let age = Math.floor(
                       Interval.fromDateTimes(birthDateTime, currentDate).length(
                         "years",
-                      ),
+                      ) + 1,
                     );
                     value += ` (${age})\n`;
                   }
