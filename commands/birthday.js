@@ -28,7 +28,7 @@ let exportObj = {
         await interaction.editReply({
           embeds: [
             new EmbedBuilder().setDescription(
-              `<@${user}>'s Geburtstag ist am \`${birthday.day}.${birthday.month}.${birthday.year ? birthday.year : "????"}\`!`,
+              `<@${user}>'s Geburtstag ist am \`${birthday.day.toString().padStart(2, "0")}.${birthday.month.toString().padStart(2, "0")}.${birthday.year ? birthday.year : "????"}\`!`,
             ),
           ],
           allowedMentions: { parse: [] }, // Prevent pings of other people
