@@ -1,4 +1,8 @@
-import { PermissionsBitField, SlashCommandBuilder } from "discord.js";
+import {
+  MessageFlags,
+  PermissionsBitField,
+  SlashCommandBuilder,
+} from "discord.js";
 
 let exportObj = {
   name: "unban",
@@ -21,7 +25,7 @@ let exportObj = {
           .setRequired(false),
       ),
   runInteraction: async (interaction, db) => {
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
     if (interaction.guild?.available && interaction.isChatInputCommand()) {
       let user = interaction.options.getUser("user");
       let reason = interaction.options.getString("reason");

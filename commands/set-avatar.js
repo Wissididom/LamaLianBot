@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { MessageFlags, SlashCommandBuilder } from "discord.js";
 
 let exportObj = {
   name: "set-avatar",
@@ -19,11 +19,11 @@ let exportObj = {
     if (interaction.user.id != process.env.BOT_OWNER_USER_ID) {
       await interaction.reply({
         content: `Nur <@${process.env.BOT_OWNER_USER_ID}> (Bot-Owner) kann diesen Befehl nutzen`,
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
       return;
     }
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
     if (interaction.guild?.available && interaction.isChatInputCommand()) {
       let avatar = interaction.options.getAttachment("avatar");
       try {

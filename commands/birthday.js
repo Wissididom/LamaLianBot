@@ -15,7 +15,7 @@ let exportObj = {
           .setRequired(false),
       ),
   runInteraction: async (interaction, db) => {
-    await interaction.deferReply({ ephemeral: false });
+    await interaction.deferReply();
     if (interaction.guild?.available && interaction.isChatInputCommand()) {
       let user = interaction.options.getUser("user")?.id;
       if (!user) {

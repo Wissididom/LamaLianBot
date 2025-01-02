@@ -1,4 +1,4 @@
-import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import { EmbedBuilder, MessageFlags, SlashCommandBuilder } from "discord.js";
 
 let listTags = (tags) => {
   let tagList = [];
@@ -47,7 +47,7 @@ let exportObj = {
           .setRequired(true),
       ),
   runInteraction: async (interaction, db) => {
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
     if (interaction.guild?.available && interaction.isChatInputCommand()) {
       try {
         let role = interaction.options.getRole("role");
