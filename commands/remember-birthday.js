@@ -27,7 +27,7 @@ let exportObj = {
           .setRequired(false),
       ),
   runInteraction: async (interaction, db) => {
-    await interaction.deferReply({ ephemeral: false });
+    await interaction.deferReply();
     if (interaction.guild?.available && interaction.isChatInputCommand()) {
       let day = interaction.options.getInteger("day");
       let month = interaction.options.getInteger("month");

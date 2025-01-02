@@ -1,4 +1,4 @@
-import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import { EmbedBuilder, MessageFlags, SlashCommandBuilder } from "discord.js";
 import { fetchMember } from "../utils.js";
 
 let listRoles = (roleManager) => {
@@ -29,7 +29,7 @@ let exportObj = {
           .setRequired(false),
       ),
   runInteraction: async (interaction, db) => {
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
     if (interaction.guild?.available && interaction.isChatInputCommand()) {
       let user = interaction.options.getUser("user") ?? interaction.user;
       user = await user.fetch(true);
