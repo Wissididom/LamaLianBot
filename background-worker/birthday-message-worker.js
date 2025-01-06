@@ -1,4 +1,5 @@
 import { DateTime, Interval } from "luxon";
+import { fetchMember } from "../utils.js";
 
 async function sendMessage(client, channelId, userId, message) {
   if (channelId) {
@@ -20,6 +21,14 @@ let exportObj = {
     const currentDate = DateTime.now().setZone(process.env.BIRTHDAY_TIMEZONE);
     let birthdays = await db.getBirthdays();
     for (let birthday of birthdays) {
+      let member = await fetchMember(
+        (await client.guilds.fetch(process.env.GUILD)).members,
+        birthday.userId,
+      );
+      if (!member) {
+        console.log(`${birthday.userId} couldn't be found on server`);
+        continue;
+      }
       let birthDateTime = DateTime.fromObject(
         {
           day: birthday.day,
