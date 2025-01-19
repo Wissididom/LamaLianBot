@@ -2,17 +2,17 @@ import { AuditLogEvent, EmbedBuilder, Events } from "discord.js";
 import { getChannelByEventName } from "../logging.js";
 
 export default async function handleGuildMemberRemove(member) {
-  let logChannel = await getChannelByEventName(
+  const logChannel = await getChannelByEventName(
     member.client,
     Events.GuildMemberRemove,
   );
   if (!logChannel) return; // Don't handle event, if logChannel is not set
-  let kicker = await fetchKicker(member);
-  let joinedTimestamp = Math.floor(new Date(member.joinedTimestamp) / 1000);
-  let createdTimestamp = Math.floor(
+  const kicker = await fetchKicker(member);
+  const joinedTimestamp = Math.floor(new Date(member.joinedTimestamp) / 1000);
+  const createdTimestamp = Math.floor(
     new Date(member.user.createdTimestamp) / 1000,
   );
-  let fields = [
+  const fields = [
     {
       name: "Server",
       value: `${member.guild.name} (${member.guild.id})`,
