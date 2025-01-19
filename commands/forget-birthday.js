@@ -1,6 +1,6 @@
 import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
 
-let exportObj = {
+const exportObj = {
   name: "forget-birthday",
   description: "Löscht deinen eigenen Geburtstag aus dem Bot",
   permissions: [],
@@ -30,6 +30,7 @@ let exportObj = {
           ],
           allowedMentions: { parse: [] }, // Prevent pings of other people
         });
+        console.log('forget-birthday', err);
       }
     }
   },

@@ -1,3 +1,3 @@
-export default async function handleGuildStickerCreate(sticker) {
+export default async function handleGuildStickerCreate(_sticker) {
   // TODO
 }

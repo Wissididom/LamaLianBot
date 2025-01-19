@@ -95,14 +95,13 @@ const client = new Client({
   ],
 });
 
-client.on(Events.ClientReady, async () => {
+client.on(Events.ClientReady, () => {
   console.log(`Logged in as ${client.user?.tag}`);
   client.user?.setActivity({
     name: "twitch.tv/lamalian",
     type: ActivityType.Watching,
   });
-  let db = getDatabase();
-  await scheduleWorkers(client, db);
+  scheduleWorkers(client, getDatabase());
 });
 
 client.on(Events.MessageCreate, async (msg) => {

@@ -1,3 +1,3 @@
-export default async function handleGuildUpdate(oldGuild, newGuild) {
+export default async function handleGuildUpdate(_oldGuild, _newGuild) {
   // TODO
 }

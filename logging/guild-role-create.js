@@ -2,13 +2,13 @@ import { EmbedBuilder, Events } from "discord.js";
 import { getChannelByEventName } from "../logging.js";
 
 export default async function handleGuildRoleCreate(role) {
-  let logChannel = await getChannelByEventName(
+  const logChannel = await getChannelByEventName(
     role.client,
     Events.GuildRoleCreate,
   );
   if (!logChannel) return; // Don't handle event, if logChannel is not set
-  let createdTimestamp = Math.floor(new Date(role.createdTimestamp) / 1000);
-  let permissionArray = role.permissions.toArray();
+  const createdTimestamp = Math.floor(new Date(role.createdTimestamp) / 1000);
+  const permissionArray = role.permissions.toArray();
   await logChannel.send({
     embeds: [
       new EmbedBuilder()

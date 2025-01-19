@@ -1,6 +1,6 @@
 import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
 
-let exportObj = {
+const exportObj = {
   name: "remember-birthday",
   description: "Speichert deinen Geburtstag im Bot",
   permissions: [],
@@ -29,9 +29,9 @@ let exportObj = {
   runInteraction: async (interaction, db) => {
     await interaction.deferReply();
     if (interaction.guild?.available && interaction.isChatInputCommand()) {
-      let day = interaction.options.getInteger("day");
-      let month = interaction.options.getInteger("month");
-      let year = interaction.options.getInteger("year");
+      const day = interaction.options.getInteger("day");
+      const month = interaction.options.getInteger("month");
+      const year = interaction.options.getInteger("year");
       try {
         await db.setBirthday(interaction.user.id, year, month, day);
         await interaction.editReply({

@@ -4,7 +4,7 @@ import {
   SlashCommandBuilder,
 } from "discord.js";
 
-let exportObj = {
+const exportObj = {
   name: "unset-user-birthday",
   description: "Löscht den Geburtstag eines Users aus dem Bot",
   permissions: [PermissionsBitField.Flags.ManageGuild],
@@ -21,7 +21,7 @@ let exportObj = {
   runInteraction: async (interaction, db) => {
     await interaction.deferReply();
     if (interaction.guild?.available && interaction.isChatInputCommand()) {
-      let user = interaction.options.getUser("user");
+      const user = interaction.options.getUser("user");
       try {
         await db.deleteBirthday(user.id);
         await interaction.editReply({
@@ -41,6 +41,7 @@ let exportObj = {
           ],
           allowedMentions: { parse: [] }, // Prevent pings of other people
         });
+        console.log('unset-user-birthday', err);
       }
     }
   },

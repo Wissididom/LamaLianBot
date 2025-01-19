@@ -2,15 +2,15 @@ import BirthdayRoleWorker from "./birthday-role-worker.js";
 import BirthdayMessageWorker from "./birthday-message-worker.js";
 import { schedule } from "node-cron";
 
-export async function scheduleWorkers(client, db) {
-  let workerNames = ["birthday-role", "birthday-message"];
-  for (let workerName of workerNames) {
-    await scheduleWorker(workerName, client, db);
+export function scheduleWorkers(client, db) {
+  const workerNames = ["birthday-role", "birthday-message"];
+  for (const workerName of workerNames) {
+    scheduleWorker(workerName, client, db);
   }
 }
 
-export async function scheduleWorker(name, client, db) {
-  let worker = getWorker(name);
+export function scheduleWorker(name, client, db) {
+  const worker = getWorker(name);
   if (worker) {
     console.log(`Schedule ${name} worker for cron "${worker.cron}"`);
     schedule(

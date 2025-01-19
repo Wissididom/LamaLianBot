@@ -26,16 +26,16 @@ export function getDatabase() {
 }
 
 function getAvailableDefaultCommandNames() {
-  let commands = [];
-  let commandFiles = readdirSync("./commands/");
-  for (let commandFile of commandFiles) {
-    let name = parsePath(commandFile).name;
+  const commands = [];
+  const commandFiles = readdirSync("./commands/");
+  for (const commandFile of commandFiles) {
+    const name = parsePath(commandFile).name;
     commands.push(name);
   }
   return commands;
 }
 
-async function getCommandObject(commandName) {
+function getCommandObject(commandName) {
   switch (commandName) {
     case "ban":
       return Ban;
@@ -81,13 +81,13 @@ async function getCommandObject(commandName) {
 
 export async function handleApplicationCommands(interaction) {
   if (interaction.isCommand()) {
-    const { name, permissions, runInteraction } = await getCommandObject(
+    const { name, permissions, runInteraction } = getCommandObject(
       interaction.commandName,
     );
     if (permissions.length < 1) {
       return await runInteraction(interaction, Database);
     }
-    for (let permission of permissions) {
+    for (const permission of permissions) {
       if (
         interaction.channel?.permissionsFor(interaction.member).has(permission)
       ) {
@@ -99,16 +99,16 @@ export async function handleApplicationCommands(interaction) {
     });
   }
   if (interaction.isAutocomplete()) {
-    const { runAutocomplete } = await getCommandObject(interaction.commandName);
+    const { runAutocomplete } = getCommandObject(interaction.commandName);
     return runAutocomplete(interaction, Database);
   }
 }
 
-export async function getRegisterArray() {
-  let defaultCommandNames = getAvailableDefaultCommandNames();
-  let registerArray = [];
+export function getRegisterArray() {
+  const defaultCommandNames = getAvailableDefaultCommandNames();
+  const registerArray = [];
   for (let i = 0; i < defaultCommandNames.length; i++) {
-    let commandObject = await getCommandObject(defaultCommandNames[i]);
+    const commandObject = getCommandObject(defaultCommandNames[i]);
     registerArray.push(commandObject.registerObject());
   }
   return registerArray;

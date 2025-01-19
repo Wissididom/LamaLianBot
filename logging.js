@@ -37,10 +37,10 @@ export { default as handleUserUpdate } from "./logging/user-update.js";
 export { default as handleVoiceStateUpdate } from "./logging/voice-state-update.js";
 export { default as handleWebhooksUpdate } from "./logging/webhooks-update.js";
 
-var logChannels = [];
+const logChannels = [];
 
 export async function getChannelByEventName(client, eventName) {
-  for (let event of logConfig.events) {
+  for (const event of logConfig.events) {
     if (event.name == eventName) {
       if (event.channel) {
         if (!(event.channel in logChannels)) {

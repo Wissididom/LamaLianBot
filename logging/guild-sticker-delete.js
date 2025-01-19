@@ -1,3 +1,3 @@
-export default async function handleGuildStickerDelete(sticker) {
+export default async function handleGuildStickerDelete(_sticker) {
   // TODO
 }

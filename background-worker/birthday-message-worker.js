@@ -3,25 +3,25 @@ import { fetchMember } from "../utils.js";
 
 async function sendMessage(client, channelId, userId, message) {
   if (channelId) {
-    let channel = await client.channels.fetch(channelId);
+    const channel = await client.channels.fetch(channelId);
     await channel.send({ content: message, allowedMentions: { parse: [] } });
   } else if (userId) {
-    let user = await client.users.fetch(userId);
+    const user = await client.users.fetch(userId);
     await user.send({ content: message, allowedMentions: { parse: [] } });
   } else {
     console.log("Error: Channel and User is null or undefined!");
   }
 }
 
-let exportObj = {
+const exportObj = {
   name: "birthday-message",
   description: "background worker that sends birthday wishing messages",
   cron: `0 0 ${process.env.BIRTHDAY_WISHING_HOUR} * * *`,
   run: async (client, db) => {
     const currentDate = DateTime.now().setZone(process.env.BIRTHDAY_TIMEZONE);
-    let birthdays = await db.getBirthdays();
-    for (let birthday of birthdays) {
-      let member = await fetchMember(
+    const birthdays = await db.getBirthdays();
+    for (const birthday of birthdays) {
+      const member = await fetchMember(
         (await client.guilds.fetch(process.env.GUILD)).members,
         birthday.userId,
       );
@@ -29,7 +29,7 @@ let exportObj = {
         console.log(`${birthday.userId} couldn't be found on server`);
         continue;
       }
-      let birthDateTime = DateTime.fromObject(
+      const birthDateTime = DateTime.fromObject(
         {
           day: birthday.day,
           month: birthday.month,
@@ -44,7 +44,7 @@ let exportObj = {
       );
       let setAge = false;
       if (birthday.year) setAge = true;
-      let age = Math.floor(
+      const age = Math.floor(
         Interval.fromDateTimes(birthDateTime, currentDate).length("years"),
       );
       if (birthday.day == 29 && birthday.month == 2) {

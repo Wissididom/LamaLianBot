@@ -2,12 +2,12 @@ import { EmbedBuilder, Events } from "discord.js";
 import { getChannelByEventName } from "../logging.js";
 
 export default async function handleMessageDelete(message) {
-  let logChannel = await getChannelByEventName(
+  const logChannel = await getChannelByEventName(
     message.client,
     Events.MessageDelete,
   );
   if (!logChannel) return; // Don't handle event, if logChannel is not set
-  let timestamp = Math.floor(new Date(message.createdTimestamp) / 1000);
+  const timestamp = Math.floor(new Date(message.createdTimestamp) / 1000);
   let author = message.member
     ? message.member.displayName
     : message.author

@@ -2,13 +2,13 @@ import { EmbedBuilder, Events } from "discord.js";
 import { getChannelByEventName } from "../logging.js";
 
 export default async function handleUserUpdate(oldUser, newUser) {
-  let logChannel = await getChannelByEventName(
+  const logChannel = await getChannelByEventName(
     newUser.client,
     Events.UserUpdate,
   );
   if (!logChannel) return; // Don't handle event, if logChannel is not set
   let fields = 0;
-  let embed = new EmbedBuilder()
+  const embed = new EmbedBuilder()
     .setTitle("Benutzerprofil aktualisiert")
     .setDescription(
       `**<@${newUser.id}> (${newUser.displayName} - ${newUser.username}) hat sein/ihr Profil aktualisiert**`,

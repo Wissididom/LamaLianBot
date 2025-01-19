@@ -1,6 +1,6 @@
 import { EmbedBuilder, SlashCommandBuilder, User } from "discord.js";
 
-let exportObj = {
+const exportObj = {
   name: "birthday",
   description: "Den Geburtstag von dir selber oder jemand anderem abrufen",
   permissions: [],
@@ -21,7 +21,7 @@ let exportObj = {
       if (!user) {
         user = interaction.user.id;
       }
-      let birthday = await db.getBirthday(
+      const birthday = await db.getBirthday(
         user instanceof User ? user.id : user,
       );
       if (birthday) {

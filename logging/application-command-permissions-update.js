@@ -1,3 +1,3 @@
-export default async function handleApplicationCommandPermissionsUpdate(data) {
+export default async function handleApplicationCommandPermissionsUpdate(_data) {
   // TODO
 }

@@ -3,32 +3,31 @@ import { fetchMember } from "../utils.js";
 
 async function giveRole(member, role) {
   if (member && role) {
-    let result = await member.roles.add(role);
-    return result;
+    return await member.roles.add(role);
   } else {
     return null;
   }
 }
 
 function mapValuesToArray(map) {
-  return [...map].map(([key, value]) => value);
+  return [...map].map(([, value]) => value);
 }
 
-let exportObj = {
+const exportObj = {
   name: "birthday-role",
   description: "background worker that gives and removes birthday roles",
   cron: "0 0 0 * * *", // At midnight
   run: async (client, db) => {
     const currentDate = DateTime.now().setZone(process.env.BIRTHDAY_TIMEZONE);
-    let membersWithRolesToRemove = mapValuesToArray(
+    const membersWithRolesToRemove = mapValuesToArray(
       (
         await (
           await client.guilds.fetch(process.env.GUILD)
         ).roles.fetch(process.env.BIRTHDAY_ROLE_ID)
       ).members,
     );
-    let birthdays = await db.getBirthdays();
-    for (let birthday of birthdays) {
+    const birthdays = await db.getBirthdays();
+    for (const birthday of birthdays) {
       if (birthday.day == 29 && birthday.month == 2) {
         // Is Leap Year?
         if (
@@ -38,12 +37,12 @@ let exportObj = {
         ) {
           if (currentDate.month == 3 && currentDate.day == 1) {
             // Post on March 1st if it is a leap year
-            let member = await fetchMember(
+            const member = await fetchMember(
               (await client.guilds.fetch(process.env.GUILD)).members,
               birthday.userId,
             );
             giveRole(member, process.env.BIRTHDAY_ROLE_ID, db);
-            let index = membersWithRolesToRemove.findIndex(
+            const index = membersWithRolesToRemove.findIndex(
               (item) => item.id == member.id,
             );
             if (index >= 0) {
@@ -58,12 +57,12 @@ let exportObj = {
         birthday.month == currentDate.month
       ) {
         // it's their birthday...
-        let member = await fetchMember(
+        const member = await fetchMember(
           (await client.guilds.fetch(process.env.GUILD)).members,
           birthday.userId,
         );
         giveRole(member, process.env.BIRTHDAY_ROLE_ID, db);
-        let index = membersWithRolesToRemove.findIndex(
+        const index = membersWithRolesToRemove.findIndex(
           (item) => item.id == member.id,
         );
         if (index >= 0) {
@@ -71,7 +70,7 @@ let exportObj = {
         }
       }
     }
-    for (let member of membersWithRolesToRemove) {
+    for (const member of membersWithRolesToRemove) {
       console.log(`Remove role from ${member.id} (${member.user?.username})`);
       await member.roles.remove(process.env.BIRTHDAY_ROLE_ID);
     }

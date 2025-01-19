@@ -1,5 +1,5 @@
 export default async function handleAutoModerationRuleCreate(
-  autoModerationRule,
+  _autoModerationRule,
 ) {
   // TODO
 }

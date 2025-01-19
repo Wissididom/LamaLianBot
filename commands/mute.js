@@ -5,7 +5,7 @@ import {
 } from "discord.js";
 import { fetchMember } from "../utils.js";
 
-let exportObj = {
+const exportObj = {
   name: "mute",
   description: "Gibt einem User einen Timeout",
   permissions: [PermissionsBitField.Flags.ModerateMembers],
@@ -33,12 +33,12 @@ let exportObj = {
           .setDescription("Die Begründung für den Timeout")
           .setRequired(false),
       ),
-  runInteraction: async (interaction, db) => {
+  runInteraction: async (interaction, _db) => {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
     if (interaction.guild?.available && interaction.isChatInputCommand()) {
-      let user = interaction.options.getUser("user");
-      let duration = interaction.options.getInteger("duration");
-      let reason = interaction.options.getString("reason");
+      const user = interaction.options.getUser("user");
+      const duration = interaction.options.getInteger("duration");
+      const reason = interaction.options.getString("reason");
       if (interaction.user.id == user.id) {
         await interaction.editReply({
           content: `Du kannst dich nicht selbst in Timeout versetzen!`,

@@ -1,6 +1,6 @@
 export default async function handleStageInstanceUpdate(
-  oldStageInstance,
-  newStageInstance,
+  _oldStageInstance,
+  _newStageInstance,
 ) {
   // TODO
 }

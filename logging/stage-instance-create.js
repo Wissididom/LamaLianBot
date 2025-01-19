@@ -1,3 +1,3 @@
-export default async function handleStageInstanceCreate(stageInstance) {
+export default async function handleStageInstanceCreate(_stageInstance) {
   // TODO
 }

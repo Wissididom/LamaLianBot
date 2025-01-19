@@ -1,6 +1,6 @@
 import { MessageFlags, SlashCommandBuilder } from "discord.js";
 
-let exportObj = {
+const exportObj = {
   name: "set-banner",
   description:
     "Setzt den Banner des Bots. Kann nur vom Bot-Owner ausgeführt werden",
@@ -15,7 +15,7 @@ let exportObj = {
           .setDescription("Der neue Banner des Bots")
           .setRequired(true),
       ),
-  runInteraction: async (interaction, db) => {
+  runInteraction: async (interaction, _db) => {
     if (interaction.user.id != process.env.BOT_OWNER_USER_ID) {
       await interaction.reply({
         content: `Nur <@${process.env.BOT_OWNER_USER_ID}> (Bot-Owner) kann diesen Befehl nutzen`,
@@ -25,9 +25,9 @@ let exportObj = {
     }
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
     if (interaction.guild?.available && interaction.isChatInputCommand()) {
-      let banner = interaction.options.getAttachment("banner");
+      const banner = interaction.options.getAttachment("banner");
       try {
-        let user = await interaction.client.user?.setBanner(banner.url);
+        const user = await interaction.client.user?.setBanner(banner.url);
         await interaction.editReply({
           content: `Banner von ${user.tag} erfolgreich geändert`,
         });

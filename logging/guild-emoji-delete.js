@@ -2,18 +2,18 @@ import { EmbedBuilder, Events } from "discord.js";
 import { getChannelByEventName } from "../logging.js";
 
 export default async function handleGuildEmojiDelete(emoji) {
-  let logChannel = await getChannelByEventName(
+  const logChannel = await getChannelByEventName(
     emoji.client,
     Events.GuildEmojiDelete,
   );
   if (!logChannel) return; // Don't handle event, if logChannel is not set
-  let createdTimestamp = Math.floor(new Date(emoji.createdTimestamp) / 1000);
-  let author = emoji.managed
+  const createdTimestamp = Math.floor(new Date(emoji.createdTimestamp) / 1000);
+  const author = emoji.managed
     ? null
     : emoji.author
       ? emoji.author
       : await emoji.fetchAuthor();
-  let emojiUrl = emoji.imageURL();
+  const emojiUrl = emoji.imageURL();
   await logChannel.send({
     embeds: [
       new EmbedBuilder()

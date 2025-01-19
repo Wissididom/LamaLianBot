@@ -1,3 +1,3 @@
-export default async function handleChannelPinsUpdate(channel, time) {
+export default async function handleChannelPinsUpdate(_channel, _time) {
   // TODO
 }

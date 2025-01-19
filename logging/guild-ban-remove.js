@@ -2,7 +2,7 @@ import { AuditLogEvent, EmbedBuilder, Events } from "discord.js";
 import { getChannelByEventName } from "../logging.js";
 
 export default async function handleGuildBanRemove(ban) {
-  let logChannel = await getChannelByEventName(
+  const logChannel = await getChannelByEventName(
     ban.client,
     Events.GuildBanRemove,
   );
@@ -12,7 +12,7 @@ export default async function handleGuildBanRemove(ban) {
     ban.reason = unbanner.reason;
   }
   unbanner = unbanner.executor;
-  let createdTimestamp = Math.floor(new Date(ban.user.createdTimestamp) / 1000);
+  const createdTimestamp = Math.floor(new Date(ban.user.createdTimestamp) / 1000);
   await logChannel.send({
     embeds: [
       new EmbedBuilder()
