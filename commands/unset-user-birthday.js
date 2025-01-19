@@ -41,7 +41,7 @@ const exportObj = {
           ],
           allowedMentions: { parse: [] }, // Prevent pings of other people
         });
-        console.log('unset-user-birthday', err);
+        console.log("unset-user-birthday", err);
       }
     }
   },

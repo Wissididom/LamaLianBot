@@ -30,7 +30,7 @@ const exportObj = {
           ],
           allowedMentions: { parse: [] }, // Prevent pings of other people
         });
-        console.log('forget-birthday', err);
+        console.log("forget-birthday", err);
       }
     }
   },

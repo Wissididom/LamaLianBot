@@ -7,7 +7,9 @@ export default async function handleChannelCreate(channel) {
     Events.ChannelCreate,
   );
   if (!logChannel) return; // Don't handle event, if logChannel is not set
-  const createdTimestamp = Math.floor(new Date(channel.createdTimestamp) / 1000);
+  const createdTimestamp = Math.floor(
+    new Date(channel.createdTimestamp) / 1000,
+  );
   let parent = "Keine Kategorie";
   if (channel.parent) {
     parent = `${channel.parent.name} (${channel.parent.id})`;

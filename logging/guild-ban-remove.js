@@ -12,7 +12,9 @@ export default async function handleGuildBanRemove(ban) {
     ban.reason = unbanner.reason;
   }
   unbanner = unbanner.executor;
-  const createdTimestamp = Math.floor(new Date(ban.user.createdTimestamp) / 1000);
+  const createdTimestamp = Math.floor(
+    new Date(ban.user.createdTimestamp) / 1000,
+  );
   await logChannel.send({
     embeds: [
       new EmbedBuilder()
