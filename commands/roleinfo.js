@@ -1,7 +1,7 @@
 import { EmbedBuilder, MessageFlags, SlashCommandBuilder } from "discord.js";
 
-let listTags = (tags) => {
-  let tagList = [];
+const listTags = (tags) => {
+  const tagList = [];
   switch (tags.availableForPurchase) {
     case true:
       tagList.push("Available for Purchase");
@@ -30,7 +30,7 @@ let listTags = (tags) => {
   return tagList.length > 0 ? tagList.join("\n") : "N/A";
 };
 
-let exportObj = {
+const exportObj = {
   name: "roleinfo",
   description: "Zeigt Informationen über eine Rolle in einem Embed an",
   permissions: [],
@@ -46,12 +46,12 @@ let exportObj = {
           )
           .setRequired(true),
       ),
-  runInteraction: async (interaction, db) => {
+  runInteraction: async (interaction, _db) => {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
     if (interaction.guild?.available && interaction.isChatInputCommand()) {
       try {
-        let role = interaction.options.getRole("role");
-        let permissionsArray = role.permissions.toArray();
+        const role = interaction.options.getRole("role");
+        const permissionsArray = role.permissions.toArray();
         await interaction.editReply({
           embeds: [
             new EmbedBuilder()

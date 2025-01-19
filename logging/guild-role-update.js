@@ -2,12 +2,12 @@ import { EmbedBuilder, Events } from "discord.js";
 import { getChannelByEventName } from "../logging.js";
 
 export default async function handleGuildRoleUpdate(oldRole, newRole) {
-  let logChannel = await getChannelByEventName(
+  const logChannel = await getChannelByEventName(
     newRole.client,
     Events.GuildRoleUpdate,
   );
   if (!logChannel) return; // Don't handle event, if logChannel is not set
-  let embed = new EmbedBuilder()
+  const embed = new EmbedBuilder()
     .setTitle("Rolle bearbeitet")
     .setDescription(`**Rolle <@&${newRole.id}> (${newRole.name}) bearbeitet**`)
     .setFooter({ text: `Role-ID: ${newRole.id}` })
@@ -55,10 +55,10 @@ export default async function handleGuildRoleUpdate(oldRole, newRole) {
     });
   }
   if (oldRole.permissions != newRole.permissions) {
-    let oldArray = oldRole.permissions.toArray();
-    let newArray = newRole.permissions.toArray();
-    let oldJoined = oldArray.join(", ");
-    let newJoined = newArray.join(", ");
+    const oldArray = oldRole.permissions.toArray();
+    const newArray = newRole.permissions.toArray();
+    const oldJoined = oldArray.join(", ");
+    const newJoined = newArray.join(", ");
     if (oldJoined != newJoined) {
       embed.addFields({
         name: "Rechte",

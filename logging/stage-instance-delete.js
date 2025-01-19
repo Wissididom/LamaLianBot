@@ -1,3 +1,3 @@
-export default async function handleStageInstanceDelete(stageInstance) {
+export default async function handleStageInstanceDelete(_stageInstance) {
   // TODO
 }

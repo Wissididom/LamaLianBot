@@ -2,11 +2,16 @@ import { AuditLogEvent, EmbedBuilder, Events } from "discord.js";
 import { getChannelByEventName } from "../logging.js";
 
 export default async function handleGuildBanAdd(ban) {
-  let logChannel = await getChannelByEventName(ban.client, Events.GuildBanAdd);
+  const logChannel = await getChannelByEventName(
+    ban.client,
+    Events.GuildBanAdd,
+  );
   if (!logChannel) return; // Don't handle event, if logChannel is not set
   ban = await ban.fetch();
-  let banner = await fetchBanner(ban);
-  let createdTimestamp = Math.floor(new Date(ban.user.createdTimestamp) / 1000);
+  const banner = await fetchBanner(ban);
+  const createdTimestamp = Math.floor(
+    new Date(ban.user.createdTimestamp) / 1000,
+  );
   await logChannel.send({
     embeds: [
       new EmbedBuilder()

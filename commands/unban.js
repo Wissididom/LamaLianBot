@@ -4,7 +4,7 @@ import {
   SlashCommandBuilder,
 } from "discord.js";
 
-let exportObj = {
+const exportObj = {
   name: "unban",
   description: "Entbannt einen User",
   permissions: [PermissionsBitField.Flags.BanMembers],
@@ -24,11 +24,11 @@ let exportObj = {
           .setDescription("Die Begründung für die Entbannung")
           .setRequired(false),
       ),
-  runInteraction: async (interaction, db) => {
+  runInteraction: async (interaction, _db) => {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
     if (interaction.guild?.available && interaction.isChatInputCommand()) {
       let user = interaction.options.getUser("user");
-      let reason = interaction.options.getString("reason");
+      const reason = interaction.options.getString("reason");
       if (interaction.user.id == user.id) {
         await interaction.editReply({
           content: `Du kannst dich nicht selbst entbannen!`,

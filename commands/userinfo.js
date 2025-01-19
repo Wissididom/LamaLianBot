@@ -1,10 +1,10 @@
 import { EmbedBuilder, MessageFlags, SlashCommandBuilder } from "discord.js";
 import { fetchMember } from "../utils.js";
 
-let listRoles = (roleManager) => {
-  let roles = roleManager.cache;
+const listRoles = (roleManager) => {
+  const roles = roleManager.cache;
   let roleList = "";
-  for (let role of [...roles.values()]) {
+  for (const role of [...roles.values()]) {
     if (role.name == "@everyone") continue;
     roleList += `<@&${role.id}> `;
   }
@@ -12,7 +12,7 @@ let listRoles = (roleManager) => {
   return roleList == "" ? "No roles" : roleList;
 };
 
-let exportObj = {
+const exportObj = {
   name: "userinfo",
   description: "Zeigt Informationen über einen User in einem Embed an",
   permissions: [],
@@ -28,12 +28,12 @@ let exportObj = {
           )
           .setRequired(false),
       ),
-  runInteraction: async (interaction, db) => {
+  runInteraction: async (interaction, _db) => {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
     if (interaction.guild?.available && interaction.isChatInputCommand()) {
       let user = interaction.options.getUser("user") ?? interaction.user;
       user = await user.fetch(true);
-      let member = await fetchMember(interaction.guild.members, user);
+      const member = await fetchMember(interaction.guild.members, user);
       try {
         await interaction.editReply({
           embeds: [

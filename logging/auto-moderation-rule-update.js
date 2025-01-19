@@ -1,6 +1,6 @@
 export default async function handleAutoModerationRuleUpdate(
-  oldAutoModerationRule,
-  newAutoModerationRule,
+  _oldAutoModerationRule,
+  _newAutoModerationRule,
 ) {
   // TODO
 }

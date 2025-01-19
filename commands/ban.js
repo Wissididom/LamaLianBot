@@ -5,7 +5,7 @@ import {
 } from "discord.js";
 import { fetchMember } from "../utils.js";
 
-let exportObj = {
+const exportObj = {
   name: "ban",
   description: "Bannt einen User",
   permissions: [PermissionsBitField.Flags.BanMembers],
@@ -33,19 +33,19 @@ let exportObj = {
           .setDescription("Die Begründung für den Bann")
           .setRequired(false),
       ),
-  runInteraction: async (interaction, db) => {
+  runInteraction: async (interaction, _db) => {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
     if (interaction.guild?.available && interaction.isChatInputCommand()) {
-      let user = interaction.options.getUser("user");
-      let deleteTime = interaction.options.getInteger("delete");
-      let reason = interaction.options.getString("reason");
+      const user = interaction.options.getUser("user");
+      const deleteTime = interaction.options.getInteger("delete");
+      const reason = interaction.options.getString("reason");
       if (interaction.user.id == user.id) {
         await interaction.editReply({
           content: `Du kannst dich nicht selbst bannen!`,
         });
         return;
       }
-      let banObj = {};
+      const banObj = {};
       if (deleteTime) {
         banObj["deleteMessageSeconds"] = deleteTime;
       }
@@ -55,7 +55,7 @@ let exportObj = {
       } else {
         banObj["reason"] = `[Ausgeführt von ${interaction.member.displayName}]`;
       }
-      let member = await fetchMember(interaction.guild.members, user);
+      const member = await fetchMember(interaction.guild.members, user);
       if (member && !member.bannable) {
         await interaction.editReply({
           content: `${member.user?.tag} kann ich nicht bannen!`,
@@ -63,7 +63,7 @@ let exportObj = {
         return;
       }
       try {
-        let banInfo = await interaction.guild.members.ban(user, banObj);
+        const banInfo = await interaction.guild.members.ban(user, banObj);
         await interaction.editReply({
           content: `${banInfo.user?.tag ?? banInfo.tag ?? banInfo} erfolgreich gebannt`,
         });

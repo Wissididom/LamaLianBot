@@ -5,7 +5,7 @@ import {
 } from "discord.js";
 import { fetchMember } from "../utils.js";
 
-let exportObj = {
+const exportObj = {
   name: "kick",
   description: "Kickt einen User",
   permissions: [PermissionsBitField.Flags.KickMembers],
@@ -25,18 +25,18 @@ let exportObj = {
           .setDescription("Die Begründung für den Kick")
           .setRequired(false),
       ),
-  runInteraction: async (interaction, db) => {
+  runInteraction: async (interaction, _db) => {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
     if (interaction.guild?.available && interaction.isChatInputCommand()) {
-      let user = interaction.options.getUser("user");
-      let reason = interaction.options.getString("reason");
+      const user = interaction.options.getUser("user");
+      const reason = interaction.options.getString("reason");
       if (interaction.user.id == user.id) {
         await interaction.editReply({
           content: `Du kannst dich nicht selbst kicken!`,
         });
         return;
       }
-      let member = await fetchMember(interaction.guild.members, user);
+      const member = await fetchMember(interaction.guild.members, user);
       if (!member) {
         await interaction.editReply({
           content: `${member.user?.tag} ist nicht auf diesem Server!`,
@@ -50,7 +50,7 @@ let exportObj = {
         return;
       }
       try {
-        let kickInfo = await interaction.guild.members.kick(
+        const kickInfo = await interaction.guild.members.kick(
           user,
           reason
             ? `[Ausgeführt von ${interaction.member.displayName}]: ${reason}`

@@ -4,7 +4,7 @@ import {
   SlashCommandBuilder,
 } from "discord.js";
 
-let exportObj = {
+const exportObj = {
   name: "clear",
   description: "Mehrere Nachrichten auf einmal löschen",
   permissions: [PermissionsBitField.Flags.ManageMessages],
@@ -20,12 +20,12 @@ let exportObj = {
           )
           .setRequired(true),
       ),
-  runInteraction: async (interaction, db) => {
+  runInteraction: async (interaction, _db) => {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
     if (interaction.guild?.available && interaction.isChatInputCommand()) {
-      let amount = interaction.options.getInteger("amount");
+      const amount = interaction.options.getInteger("amount");
       try {
-        let messages = await interaction.channel.bulkDelete(amount, true);
+        const messages = await interaction.channel.bulkDelete(amount, true);
         await interaction.editReply({
           content: `${messages.size} Nachrichten erfolgreich gelöscht`,
         });

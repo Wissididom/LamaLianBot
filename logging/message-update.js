@@ -5,12 +5,12 @@ export default async function handleMessageUpdate(oldMessage, newMessage) {
   if (newMessage.author.id == newMessage.client.user.id) {
     return; // Don't handle messages sent by the bot itself
   }
-  let logChannel = await getChannelByEventName(
+  const logChannel = await getChannelByEventName(
     newMessage.client,
     Events.MessageUpdate,
   );
   if (!logChannel) return; // Don't handle event, if logChannel is not set
-  let timestamp = Math.floor(new Date(newMessage.createdTimestamp) / 1000);
+  const timestamp = Math.floor(new Date(newMessage.createdTimestamp) / 1000);
   let author = newMessage.member
     ? newMessage.member.displayName
     : newMessage.author

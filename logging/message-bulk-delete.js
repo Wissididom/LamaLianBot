@@ -1,3 +1,3 @@
-export default async function handleMessageBulkDelete(messages, channel) {
+export default async function handleMessageBulkDelete(_messages, _channel) {
   // TODO
 }

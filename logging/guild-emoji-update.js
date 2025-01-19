@@ -2,23 +2,23 @@ import { EmbedBuilder, Events } from "discord.js";
 import { getChannelByEventName } from "../logging.js";
 
 export default async function handleGuildEmojiUpdate(oldEmoji, newEmoji) {
-  let logChannel = await getChannelByEventName(
+  const logChannel = await getChannelByEventName(
     newEmoji.client,
     Events.GuildEmojiUpdate,
   );
   if (!logChannel) return; // Don't handle event, if logChannel is not set
-  let emojiUrl = newEmoji.imageURL();
-  let oldAuthor = oldEmoji.managed
+  const emojiUrl = newEmoji.imageURL();
+  const oldAuthor = oldEmoji.managed
     ? null
     : oldEmoji.author
       ? oldEmoji.author
       : await oldEmoji.fetchAuthor();
-  let newAuthor = newEmoji.managed
+  const newAuthor = newEmoji.managed
     ? null
     : newEmoji.author
       ? newEmoji.author
       : await newEmoji.fetchAuthor();
-  let embed = new EmbedBuilder()
+  const embed = new EmbedBuilder()
     .setTitle("Emoji bearbeitet")
     .setDescription(
       `**Emoji <${newEmoji.animated ? "a:" : ":"}${newEmoji.name}:${newEmoji.id}> ([${newEmoji.name}](${emojiUrl})) bearbeitet**`,

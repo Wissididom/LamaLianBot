@@ -2,12 +2,12 @@ import { EmbedBuilder, Events } from "discord.js";
 import { getChannelByEventName, getChannelTypeAsString } from "../logging.js";
 
 export default async function handleChannelUpdate(oldChannel, newChannel) {
-  let logChannel = await getChannelByEventName(
+  const logChannel = await getChannelByEventName(
     newChannel.client,
     Events.ChannelUpdate,
   );
   if (!logChannel) return; // Don't handle event, if logChannel is not set
-  let embed = new EmbedBuilder()
+  const embed = new EmbedBuilder()
     .setTitle("Kanal bearbeitet")
     .setDescription(
       `**Kanal <#${newChannel.id}> (${newChannel.name}) bearbeitet**`,

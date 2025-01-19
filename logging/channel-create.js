@@ -2,12 +2,14 @@ import { EmbedBuilder, Events } from "discord.js";
 import { getChannelByEventName, getChannelTypeAsString } from "../logging.js";
 
 export default async function handleChannelCreate(channel) {
-  let logChannel = await getChannelByEventName(
+  const logChannel = await getChannelByEventName(
     channel.client,
     Events.ChannelCreate,
   );
   if (!logChannel) return; // Don't handle event, if logChannel is not set
-  let createdTimestamp = Math.floor(new Date(channel.createdTimestamp) / 1000);
+  const createdTimestamp = Math.floor(
+    new Date(channel.createdTimestamp) / 1000,
+  );
   let parent = "Keine Kategorie";
   if (channel.parent) {
     parent = `${channel.parent.name} (${channel.parent.id})`;

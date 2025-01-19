@@ -5,7 +5,7 @@ import {
 } from "discord.js";
 import { fetchMember } from "../utils.js";
 
-let exportObj = {
+const exportObj = {
   name: "unmute",
   description: "Hebt den Timeout eines User auf",
   permissions: [PermissionsBitField.Flags.ModerateMembers],
@@ -25,11 +25,11 @@ let exportObj = {
           .setDescription("Die Begründung für das Aufheben des Timeouts")
           .setRequired(false),
       ),
-  runInteraction: async (interaction, db) => {
+  runInteraction: async (interaction, _db) => {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
     if (interaction.guild?.available && interaction.isChatInputCommand()) {
-      let user = interaction.options.getUser("user");
-      let reason = interaction.options.getString("reason");
+      const user = interaction.options.getUser("user");
+      const reason = interaction.options.getString("reason");
       if (interaction.user.id == user.id) {
         await interaction.editReply({
           content: `Du kannst dein eigenes Timeout nicht selbst aufheben!`,

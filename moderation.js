@@ -25,12 +25,13 @@ function findLinks(text) {
   });
 }
 
+// deno-lint-ignore require-await
 export async function moderate(msg) {
   // TODO: Delete, timeout, kick, ban and log action in logging channel if enabled
   const useSafelink = false;
   if (useSafelink) {
-    let links = findLinks(msg.content);
-    let result = checkLinks(links);
+    const links = findLinks(msg.content);
+    const result = checkLinks(links);
     for (entry of result.data) {
       if (entry.flags.length > 0) {
         // TODO: Found something, need to handle moderation.

@@ -1,5 +1,5 @@
 export default async function handleAutoModerationRuleDelete(
-  autoModerationRule,
+  _autoModerationRule,
 ) {
   // TODO
 }

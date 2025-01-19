@@ -2,13 +2,13 @@ import { EmbedBuilder, Events } from "discord.js";
 import { getChannelByEventName } from "../logging.js";
 
 export default async function handleVoiceStateUpdate(oldState, newState) {
-  let logChannel = await getChannelByEventName(
+  const logChannel = await getChannelByEventName(
     newState.client,
     Events.VoiceStateUpdate,
   );
   if (!logChannel) return; // Don't handle event, if logChannel is not set
   if (oldState.channel == null && newState.channel != null) {
-    logChannel.send({
+    await logChannel.send({
       embeds: [
         new EmbedBuilder()
           .setTitle("Sprachkanal beigetreten")
@@ -19,7 +19,7 @@ export default async function handleVoiceStateUpdate(oldState, newState) {
       ],
     });
   } else if (oldState.channel != null && newState.channel == null) {
-    logChannel.send({
+    await logChannel.send({
       embeds: [
         new EmbedBuilder()
           .setTitle("Sprachkanal verlassen")
@@ -34,7 +34,7 @@ export default async function handleVoiceStateUpdate(oldState, newState) {
     newState.channel != null &&
     oldState.channel.id != newState.channel.id
   ) {
-    logChannel.send({
+    await logChannel.send({
       embeds: [
         new EmbedBuilder()
           .setTitle("Sprachkanal gewechselt")

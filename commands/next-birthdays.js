@@ -1,7 +1,7 @@
-import { EmbedBuilder, SlashCommandBuilder, User } from "discord.js";
+import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
 import { DateTime, Interval } from "luxon";
 
-let exportObj = {
+const exportObj = {
   name: "next-birthdays",
   description: "Die nächsten Geburtstage auf dem Server abrufen",
   permissions: [],
@@ -12,7 +12,7 @@ let exportObj = {
   runInteraction: async (interaction, db) => {
     await interaction.deferReply();
     if (interaction.guild?.available && interaction.isChatInputCommand()) {
-      let birthdays = await db.getBirthdays();
+      const birthdays = await db.getBirthdays();
       if (birthdays) {
         if (birthdays.length < 1) {
           await interaction.editReply({
@@ -25,10 +25,10 @@ let exportObj = {
           });
           return;
         }
-        let birthdayDates = [];
-        for (let birthday of birthdays) {
+        const birthdayDates = [];
+        for (const birthday of birthdays) {
           let nextYear = new Date().getFullYear();
-          let birthdayDateThisYear = new Date(
+          const birthdayDateThisYear = new Date(
             nextYear,
             birthday.month - 1,
             birthday.day,
@@ -36,7 +36,7 @@ let exportObj = {
           if (birthdayDateThisYear < new Date()) {
             nextYear += 1;
           }
-          let nextBirthday = new Date(
+          const nextBirthday = new Date(
             nextYear,
             birthday.month - 1,
             birthday.day,
@@ -55,24 +55,22 @@ let exportObj = {
             ] = [birthday];
           }
         }
-        let birthdayKeys = Object.keys(birthdayDates);
+        const birthdayKeys = Object.keys(birthdayDates);
         birthdayKeys.sort((a, b) => {
-          let dateA = new Date(a);
-          let dateB = new Date(b);
-          return dateA - dateB;
+          return new Date(a) - new Date(b);
         });
         await interaction.editReply({
           embeds: [
             new EmbedBuilder().setTitle("Bevorstehende Geburtstage").addFields(
               birthdayKeys.slice(0, 10).map((birthdayKey) => {
-                let currentDate = DateTime.now().setZone(
+                const currentDate = DateTime.now().setZone(
                   process.env.BIRTHDAY_TIMEZONE,
                 );
                 let value = "";
                 let overallBirthday = null;
-                for (let birthday of birthdayDates[birthdayKey]) {
+                for (const birthday of birthdayDates[birthdayKey]) {
                   value += `<@${birthday.userId}>`;
-                  let birthDateTime = DateTime.fromObject(
+                  const birthDateTime = DateTime.fromObject(
                     {
                       day: birthday.day,
                       month: birthday.month,
@@ -92,7 +90,7 @@ let exportObj = {
                     birthdayThisYear = birthdayThisYear.plus({ years: 1 });
                   }
                   if (birthday.year) {
-                    let age = Math.floor(
+                    const age = Math.floor(
                       Interval.fromDateTimes(birthDateTime, currentDate).length(
                         "years",
                       ) + 1,

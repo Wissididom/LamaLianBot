@@ -4,7 +4,7 @@ import {
   SlashCommandBuilder,
 } from "discord.js";
 
-let exportObj = {
+const exportObj = {
   name: "warn",
   description:
     "Warnt einen User indem der Bot die angegebene Nachricht an den User per DM sendet",
@@ -27,10 +27,10 @@ let exportObj = {
           )
           .setRequired(false),
       ),
-  runInteraction: async (interaction, db) => {
+  runInteraction: async (interaction, _db) => {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
     if (interaction.guild?.available && interaction.isChatInputCommand()) {
-      let user = interaction.options.getUser("user");
+      const user = interaction.options.getUser("user");
       let reason = interaction.options.getString("reason");
       if (interaction.user.id == user.id) {
         await interaction.editReply({

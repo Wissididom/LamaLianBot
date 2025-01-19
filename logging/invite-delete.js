@@ -1,3 +1,3 @@
-export default async function handleInviteDelete(invite) {
+export default async function handleInviteDelete(_invite) {
   // TODO
 }

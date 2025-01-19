@@ -1,5 +1,5 @@
 export default async function handleAutoModerationActionExecution(
-  autoModerationActionExecution,
+  _autoModerationActionExecution,
 ) {
   // TODO
 }
