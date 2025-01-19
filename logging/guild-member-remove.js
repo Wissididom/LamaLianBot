@@ -50,7 +50,7 @@ export default async function handleGuildMemberRemove(member) {
         .setThumbnail(member.displayAvatarURL({ dynamic: true }))
         .setFields(fields)
         .setFooter({
-          text: `Nutzer-ID: ${member.id}; Moderator-ID: ${kicker ? kicker.id : "N/A"}`,
+          text: footer,
         })
         .setTimestamp(),
     ],
