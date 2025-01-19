@@ -12,6 +12,34 @@ export default async function handleGuildMemberRemove(member) {
   let createdTimestamp = Math.floor(
     new Date(member.user.createdTimestamp) / 1000,
   );
+  var fields = [
+    {
+      name: "Server",
+      value: `${member.guild.name} (${member.guild.id})`,
+      inline: true,
+    },
+    {
+      name: "Server beigetreten",
+      value: `<t:${joinedTimestamp}:F> (<t:${joinedTimestamp}:R>)`,
+      inline: true,
+    },
+    {
+      name: "Account erstellt",
+      value: `<t:${createdTimestamp}:F> (<t:${createdTimestamp}:R>)`,
+      inline: true,
+    },
+  ];
+  var footer;
+  if (kicker) {
+    footer = `Nutzer-ID: ${member.id}; Moderator-ID: ${kicker ? kicker.id : "N/A"}`;
+    fields.push({
+      name: "Moderator",
+      value: `<@${kicker.id}> (${kicker.displayName})`,
+      inline: true,
+    });
+  } else {
+    footer = `Nutzer-ID: ${member.id}`;
+  }
   await logChannel.send({
     embeds: [
       new EmbedBuilder()
@@ -20,28 +48,7 @@ export default async function handleGuildMemberRemove(member) {
           `<@${member.id}> ${member.displayName} (${member.user.username})`,
         )
         .setThumbnail(member.displayAvatarURL({ dynamic: true }))
-        .setFields(
-          {
-            name: "Server",
-            value: `${member.guild.name} (${member.guild.id})`,
-            inline: true,
-          },
-          {
-            name: "Server beigetreten",
-            value: `<t:${joinedTimestamp}:F> (<t:${joinedTimestamp}:R>)`,
-            inline: true,
-          },
-          {
-            name: "Account erstellt",
-            value: `<t:${createdTimestamp}:F> (<t:${createdTimestamp}:R>)`,
-            inline: true,
-          },
-          {
-            name: "Moderator (falls Kick)",
-            value: kicker ? `<@${kicker.id}> (${kicker.displayName})` : "N/A",
-            inline: true,
-          },
-        )
+        .setFields(fields)
         .setFooter({
           text: `Nutzer-ID: ${member.id}; Moderator-ID: ${kicker ? kicker.id : "N/A"}`,
         })
