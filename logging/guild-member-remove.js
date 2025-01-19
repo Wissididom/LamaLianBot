@@ -2,48 +2,55 @@ import { AuditLogEvent, EmbedBuilder, Events } from "discord.js";
 import { getChannelByEventName } from "../logging.js";
 
 export default async function handleGuildMemberRemove(member) {
-  let logChannel = await getChannelByEventName(
+  const logChannel = await getChannelByEventName(
     member.client,
     Events.GuildMemberRemove,
   );
   if (!logChannel) return; // Don't handle event, if logChannel is not set
-  let kicker = await fetchKicker(member);
-  let joinedTimestamp = Math.floor(new Date(member.joinedTimestamp) / 1000);
-  let createdTimestamp = Math.floor(
+  const kicker = await fetchKicker(member);
+  const joinedTimestamp = Math.floor(new Date(member.joinedTimestamp) / 1000);
+  const createdTimestamp = Math.floor(
     new Date(member.user.createdTimestamp) / 1000,
   );
+  const fields = [
+    {
+      name: "Server",
+      value: `${member.guild.name} (${member.guild.id})`,
+      inline: true,
+    },
+    {
+      name: "Server beigetreten",
+      value: `<t:${joinedTimestamp}:F> (<t:${joinedTimestamp}:R>)`,
+      inline: true,
+    },
+    {
+      name: "Account erstellt",
+      value: `<t:${createdTimestamp}:F> (<t:${createdTimestamp}:R>)`,
+      inline: true,
+    },
+  ];
+  let footer;
+  if (kicker) {
+    footer = `Nutzer-ID: ${member.id}; Moderator-ID: ${kicker ? kicker.id : "N/A"}`;
+    fields.push({
+      name: "Moderator",
+      value: `<@${kicker.id}> ${kicker.displayName} (${kicker.username} - ${kicker.id})`,
+      inline: true,
+    });
+  } else {
+    footer = `Nutzer-ID: ${member.id}`;
+  }
   await logChannel.send({
     embeds: [
       new EmbedBuilder()
         .setTitle(`Mitglied ${kicker ? "gekickt" : "verlassen"}`)
         .setDescription(
-          `<@${member.id}> ${member.displayName} (${member.user.username})`,
+          `<@${member.id}> ${member.displayName} (${member.user.username} - ${member.user.id})`,
         )
         .setThumbnail(member.displayAvatarURL({ dynamic: true }))
-        .setFields(
-          {
-            name: "Server",
-            value: `${member.guild.name} (${member.guild.id})`,
-            inline: true,
-          },
-          {
-            name: "Server beigetreten",
-            value: `<t:${joinedTimestamp}:F> (<t:${joinedTimestamp}:R>)`,
-            inline: true,
-          },
-          {
-            name: "Account erstellt",
-            value: `<t:${createdTimestamp}:F> (<t:${createdTimestamp}:R>)`,
-            inline: true,
-          },
-          {
-            name: "Moderator (falls Kick)",
-            value: kicker ? `<@${kicker.id}> (${kicker.displayName})` : "N/A",
-            inline: true,
-          },
-        )
+        .setFields(fields)
         .setFooter({
-          text: `Nutzer-ID: ${member.id}; Moderator-ID: ${kicker ? kicker.id : "N/A"}`,
+          text: footer,
         })
         .setTimestamp(),
     ],
