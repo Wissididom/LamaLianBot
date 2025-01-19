@@ -12,7 +12,7 @@ export default async function handleGuildMemberRemove(member) {
   let createdTimestamp = Math.floor(
     new Date(member.user.createdTimestamp) / 1000,
   );
-  var fields = [
+  let fields = [
     {
       name: "Server",
       value: `${member.guild.name} (${member.guild.id})`,
@@ -29,7 +29,7 @@ export default async function handleGuildMemberRemove(member) {
       inline: true,
     },
   ];
-  var footer;
+  let footer;
   if (kicker) {
     footer = `Nutzer-ID: ${member.id}; Moderator-ID: ${kicker ? kicker.id : "N/A"}`;
     fields.push({
