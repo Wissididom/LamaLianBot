@@ -34,7 +34,7 @@ export default async function handleGuildMemberRemove(member) {
     footer = `Nutzer-ID: ${member.id}; Moderator-ID: ${kicker ? kicker.id : "N/A"}`;
     fields.push({
       name: "Moderator",
-      value: `<@${kicker.id}> (${kicker.displayName})`,
+      value: `<@${kicker.id}> ${kicker.displayName} (${kicker.username} - ${kicker.id})`,
       inline: true,
     });
   } else {
@@ -45,7 +45,7 @@ export default async function handleGuildMemberRemove(member) {
       new EmbedBuilder()
         .setTitle(`Mitglied ${kicker ? "gekickt" : "verlassen"}`)
         .setDescription(
-          `<@${member.id}> ${member.displayName} (${member.user.username})`,
+          `<@${member.id}> ${member.displayName} (${member.user.username} - ${member.user.id})`,
         )
         .setThumbnail(member.displayAvatarURL({ dynamic: true }))
         .setFields(fields)
