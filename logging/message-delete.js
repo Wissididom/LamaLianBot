@@ -46,12 +46,12 @@ export default async function handleMessageDelete(message) {
           },
         )
         .setThumbnail(
-          message.member
+          (message.member
             ? message.member.displayAvatarURL({ dynamic: true })
-            : message.author.displayAvatarURL({ dynamic: true }),
+            : message.author?.displayAvatarURL({ dynamic: true })) ?? undefined,
         )
         .setFooter({
-          text: `Nutzer-ID: ${message.member ? message.member.id : message.author.id}`,
+          text: `Nutzer-ID: ${(message.member ? message.member.id : message.author?.id) ?? "N/A"}`,
         })
         .setTimestamp(),
     ],
