@@ -41,9 +41,7 @@ export default async function handleMessageUpdate(oldMessage, newMessage) {
     embeds: [
       new EmbedBuilder()
         .setTitle("Nachricht bearbeitet")
-        .setDescription(
-          `**alte Nachricht**:\n${oldMessage.content ? oldMessage.content : "N/A"}\n\n**neue Nachricht**:\n${newMessage.content ? newMessage.content : "N/A"}`,
-        )
+        .setDescription(description)
         .setFields(
           {
             name: "Kanal",
