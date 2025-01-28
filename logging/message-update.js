@@ -23,6 +23,20 @@ export default async function handleMessageUpdate(oldMessage, newMessage) {
     // Don't handle event if content is the same
     return;
   }
+  const description;
+  if (oldMessage.content) {
+    if (newMessage.content) {
+      description = `**alte Nachricht**:\n${oldMessage.content}\n\n**neue Nachricht**:\n${newMessage.content}`;
+    } else {
+      description = `**alte Nachricht**:\n${oldMessage.content}`;
+    }
+  } else {
+    if (newMessage.content) {
+      description = `**neue Nachricht**:\n${newMessage.content}`;
+    } else {
+      description = '';
+    }
+  }
   await logChannel.send({
     embeds: [
       new EmbedBuilder()
