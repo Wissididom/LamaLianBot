@@ -14,46 +14,45 @@ export default async function handleMessageDelete(message) {
       ? message.author.displayName
       : "N/A";
   if (message.member || message.author) {
-    author += ` (<@${message.member ? message.member.id : message.author.id}> - ${message.member ? message.member.id : message.author.id})`;
+    author = `<@${message.member ? message.member.id : message.author.id}> (${author} - ${message.member ? message.member.id : message.author.id})`;
+  }
+  let embed = new EmbedBuilder()
+    .setTitle("Nachricht gelöscht")
+    .setFields(
+      {
+        name: "Kanal",
+        value: `<#${message.channel.id}> (${message.channel.name})`,
+        inline: true,
+      },
+      {
+        name: "Nachrichten-ID",
+        value: `[${message.id}](${message.url})`,
+        inline: true,
+      },
+      {
+        name: "Nachrichtenautor",
+        value: author,
+        inline: true,
+      },
+      {
+        name: "Nachricht erstellt",
+        value: `<t:${timestamp}:F> (<t:${timestamp}:R>)`,
+        inline: true,
+      },
+    )
+    .setThumbnail(
+      (message.member
+        ? message.member.displayAvatarURL({ dynamic: true })
+        : message.author?.displayAvatarURL({ dynamic: true })) ?? undefined,
+    )
+    .setFooter({
+      text: `Nutzer-ID: ${(message.member ? message.member.id : message.author?.id) ?? "N/A"}`,
+    })
+    .setTimestamp();
+  if (message.content) {
+    embed.setDescription(`**Nachricht**:\n${message.content}`);
   }
   await logChannel.send({
-    embeds: [
-      new EmbedBuilder()
-        .setTitle("Nachricht gelöscht")
-        .setDescription(
-          `**Nachricht**:\n${message.content ? message.content : "N/A"}`,
-        )
-        .setFields(
-          {
-            name: "Kanal",
-            value: `${message.channel.name} (<#${message.channel.id}>)`,
-            inline: true,
-          },
-          {
-            name: "Nachrichten-ID",
-            value: `[${message.id}](${message.url})`,
-            inline: true,
-          },
-          {
-            name: "Nachrichtenautor",
-            value: author,
-            inline: true,
-          },
-          {
-            name: "Nachricht erstellt",
-            value: `<t:${timestamp}:F> (<t:${timestamp}:R>)`,
-            inline: true,
-          },
-        )
-        .setThumbnail(
-          (message.member
-            ? message.member.displayAvatarURL({ dynamic: true })
-            : message.author?.displayAvatarURL({ dynamic: true })) ?? undefined,
-        )
-        .setFooter({
-          text: `Nutzer-ID: ${(message.member ? message.member.id : message.author?.id) ?? "N/A"}`,
-        })
-        .setTimestamp(),
-    ],
+    embeds: [embed],
   });
 }
