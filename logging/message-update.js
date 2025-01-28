@@ -23,7 +23,7 @@ export default async function handleMessageUpdate(oldMessage, newMessage) {
     // Don't handle event if content is the same
     return;
   }
-  const description;
+  let description;
   if (oldMessage.content) {
     if (newMessage.content) {
       description = `**alte Nachricht**:\n${oldMessage.content}\n\n**neue Nachricht**:\n${newMessage.content}`;
