@@ -1,4 +1,4 @@
-import { EmbedBuilder, Events } from "discord.js";
+import { AuditLogEvent, EmbedBuilder, Events } from "discord.js";
 import { getChannelByEventName } from "../logging.js";
 
 export default async function handleGuildMemberUpdate(oldMember, newMember) {
@@ -43,6 +43,21 @@ export default async function handleGuildMemberUpdate(oldMember, newMember) {
         });
       }
     });
+    const fetchedLogs = await newMember.guild.fetchAuditLogs({
+      limit: 1,
+      type: AuditLogEvent.MemberRoleUpdate,
+    });
+    const firstEntry = fetchedLogs.entries.first();
+    if (firstEntry.executor) {
+      embed.addFields({
+        name: "Moderator",
+        value: `<@${firstEntry.executor.id}> (\`${firstEntry.executor.displayName}\` -> \`${firstEntry.executor.username}\`)`,
+        inline: true,
+      });
+      embed.setFooter({
+        text: `Nutzer-ID: ${newMember.id} - Moderator-ID: ${firstEntry.executor.id}`,
+      });
+    }
     await logChannel.send({
       embeds: [embed],
     });
@@ -64,6 +79,21 @@ export default async function handleGuildMemberUpdate(oldMember, newMember) {
         });
       }
     });
+    const fetchedLogs = await newMember.guild.fetchAuditLogs({
+      limit: 1,
+      type: AuditLogEvent.MemberRoleUpdate,
+    });
+    const firstEntry = fetchedLogs.entries.first();
+    if (firstEntry.executor) {
+      embed.addFields({
+        name: "Moderator",
+        value: `<@${firstEntry.executor.id}> (\`${firstEntry.executor.displayName}\` -> \`${firstEntry.executor.username}\`)`,
+        inline: true,
+      });
+      embed.setFooter({
+        text: `Nutzer-ID: ${newMember.id} - Moderator-ID: ${firstEntry.executor.id}`,
+      });
+    }
     await logChannel.send({
       embeds: [embed],
     });

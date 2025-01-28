@@ -34,7 +34,7 @@ export default async function handleMessageUpdate(oldMessage, newMessage) {
     if (newMessage.content) {
       description = `**neue Nachricht**:\n${newMessage.content}`;
     } else {
-      description = '';
+      description = "";
     }
   }
   await logChannel.send({
