@@ -16,30 +16,30 @@ export default async function handleGuildBanAdd(ban) {
     embeds: [
       new EmbedBuilder()
         .setTitle("Mitglied gebannt")
-        .setDescription(`**<@${ban.user.id}> (${ban.user.displayName})**`)
+        .setDescription(`**<@${ban.user.id}> (${ban.user.displayName} - ${ban.user.username})**`)
         .setThumbnail(ban.user.displayAvatarURL({ dynamic: true }))
         .setFields(
           {
             name: "Server",
             value: `${ban.guild.name} (${ban.guild.id})`,
-            inline: true,
+            inline: false,
           },
           {
             name: "Account erstellt",
             value: `<t:${createdTimestamp}:F> (<t:${createdTimestamp}:R>)`,
-            inline: true,
+            inline: false,
           },
           {
             name: "Moderator",
             value: banner
               ? `<@${banner.id}> (${banner.displayName} - ${banner.username})`
               : "N/A",
-            inline: true,
+            inline: false,
           },
           {
             name: "Begründung",
             value: ban.reason ? ban.reason : "N/A",
-            inline: true,
+            inline: false,
           },
         )
         .setFooter({
