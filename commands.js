@@ -20,6 +20,7 @@ import Birthday from "./commands/birthday.js";
 import NextBirthdays from "./commands/next-birthdays.js";
 import SetUserBirthday from "./commands/set-user-birthday.js";
 import UnsetUserBirthday from "./commands/unset-user-birthday.js";
+import Remind from "./commands/remind.js";
 
 export function getDatabase() {
   return Database;
@@ -73,6 +74,8 @@ function getCommandObject(commandName) {
       return SetUserBirthday;
     case "unset-user-birthday":
       return UnsetUserBirthday;
+    case "remind":
+      return Remind;
     default:
       // TODO
       return null;

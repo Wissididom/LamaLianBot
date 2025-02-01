@@ -45,6 +45,20 @@ export default new (class Database {
             }
           },
         );
+        this.#db.run(
+          "CREATE TABLE IF NOT EXISTS reminder (id INTEGER PRIMARY KEY AUTOINCREMENT, userId TEXT, day INT, month INT, year INT, hour INT, minute INT, second INT, topic TEXT);",
+          (err) => {
+            if (err) {
+              console.log(
+                `Could not make sure the reminder table exists: ${err}`,
+              );
+              reject(err);
+            } else {
+              console.log("Successfully made sure the reminder table exists");
+              resolve();
+            }
+          },
+        );
       });
     }
   }
@@ -128,20 +142,20 @@ export default new (class Database {
         this.#db.all(
           "SELECT * FROM levelling WHERE userId = ?",
           [userId],
-          (err) => {
+          (err, rows) => {
             if (err) {
               reject(err);
             } else {
-              resolve();
+              resolve(rows);
             }
           },
         );
       } else {
-        this.#db.all("SELECT * FROM levelling", [], (err) => {
+        this.#db.all("SELECT * FROM levelling", [], (err, rows) => {
           if (err) {
             reject(err);
           } else {
-            resolve();
+            resolve(rows);
           }
         });
       }
@@ -153,6 +167,66 @@ export default new (class Database {
       this.#db.run(
         "INSERT INTO levelling (userId, lastMessageTimestamp, xp, lvl, nextLvlXp) VALUES (?, ?, ?, ?, ?) ON CONFLICT(userId) DO UPDATE SET lastMessageTimestamp = excluded.lastMessageTimestamp, xp = excluded.xp, lvl = excluded.lvl, nextLvlXp = excluded.nextLvlXp",
         [userId, lastMessageTimestamp, xp, lvl, nextLvlXp],
+        (err) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve();
+          }
+        },
+      );
+    });
+  }
+
+  async getUpcomingReminder() {
+    return await new Promise((resolve, reject) => {
+      this.#db.all(
+        "SELECT * FROM reminder WHERE strftime('%s', printf('%04d-%02d-%02d %02d:%02d:%02d', year, month, day, hour, minute, second), 'localtime') >= strftime('%s', 'now', 'localtime') ORDER BY year, month, day, hour, minute, second;",
+        [],
+        (err, rows) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(rows);
+          }
+        },
+      );
+    });
+  }
+
+  async addReminder(userId, day, month, year, hour, minute, second, topic) {
+    return await new Promise((resolve, reject) => {
+      this.#db.run(
+        "INSERT INTO reminder (userId, day, month, year, hour, minute, second, topic) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        [userId, day, month, year, hour, minute, second, topic],
+        (err) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve();
+          }
+        },
+      );
+    });
+  }
+
+  async deleteReminder(id) {
+    return await new Promise((resolve, reject) => {
+      this.#db.run("DELETE FROM reminder WHERE id = ?", [id], (err) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
+    });
+  }
+
+  async deleteOldReminders() {
+    return await new Promise((resolve, reject) => {
+      this.#db.run(
+        "DELETE FROM reminder WHERE strftime('%s', printf('%04d-%02d-%02d %02d:%02d:%02d', year, month, day, hour, minute, second), 'localtime') < strftime('%s', 'now', 'localtime')",
+        [],
         (err) => {
           if (err) {
             reject(err);

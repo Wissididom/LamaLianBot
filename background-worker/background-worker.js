@@ -1,9 +1,10 @@
 import BirthdayRoleWorker from "./birthday-role-worker.js";
 import BirthdayMessageWorker from "./birthday-message-worker.js";
+import RemindWorker from "./remind-worker.js";
 import { schedule } from "node-cron";
 
 export function scheduleWorkers(client, db) {
-  const workerNames = ["birthday-role", "birthday-message"];
+  const workerNames = ["birthday-role", "birthday-message", "remind"];
   for (const workerName of workerNames) {
     scheduleWorker(workerName, client, db);
   }
@@ -32,6 +33,8 @@ export function getWorker(name) {
       return BirthdayRoleWorker;
     case "birthday-message":
       return BirthdayMessageWorker;
+    case "remind":
+      return RemindWorker;
     default:
       return null;
   }
