@@ -46,7 +46,7 @@ export default new (class Database {
           },
         );
         this.#db.run(
-          "CREATE TABLE IF NOT EXISTS reminder (id INTEGER PRIMARY KEY AUTOINCREMENT, userId TEXT, day INT, month INT, year INT, hour INT, minute INT, second INT);",
+          "CREATE TABLE IF NOT EXISTS reminder (id INTEGER PRIMARY KEY AUTOINCREMENT, userId TEXT, day INT, month INT, year INT, hour INT, minute INT, second INT, topic TEXT);",
           (err) => {
             if (err) {
               console.log(
@@ -142,20 +142,20 @@ export default new (class Database {
         this.#db.all(
           "SELECT * FROM levelling WHERE userId = ?",
           [userId],
-          (err) => {
+          (err, rows) => {
             if (err) {
               reject(err);
             } else {
-              resolve();
+              resolve(rows);
             }
           },
         );
       } else {
-        this.#db.all("SELECT * FROM levelling", [], (err) => {
+        this.#db.all("SELECT * FROM levelling", [], (err, rows) => {
           if (err) {
             reject(err);
           } else {
-            resolve();
+            resolve(rows);
           }
         });
       }
@@ -178,27 +178,27 @@ export default new (class Database {
     });
   }
 
-  async getUpcomingReminder(userId) {
+  async getUpcomingReminder() {
     return await new Promise((resolve, reject) => {
-      this.#db.run(
-        "SELECT * FROM reminder WHERE userId = ? AND strftime('%s', printf('%04d-%02d-%02d %02d:%02d:%02d', year, month, day, hour, minute, second)) >= strftime('%s', 'now') ORDER BY year, month, day, hour, minute, second;",
-        [userId],
-        (err) => {
+      this.#db.all(
+        "SELECT * FROM reminder WHERE strftime('%s', printf('%04d-%02d-%02d %02d:%02d:%02d', year, month, day, hour, minute, second), 'localtime') >= strftime('%s', 'now', 'localtime') ORDER BY year, month, day, hour, minute, second;",
+        [],
+        (err, rows) => {
           if (err) {
             reject(err);
           } else {
-            resolve();
+            resolve(rows);
           }
         },
       );
     });
   }
 
-  async addReminder(userId, day, month, year, hour, minute, second) {
+  async addReminder(userId, day, month, year, hour, minute, second, topic) {
     return await new Promise((resolve, reject) => {
       this.#db.run(
-        "INSERT INTO reminder (userId, day, month, year, hour, minute, second) VALUES (?, ?, ?, ?, ?, ?, ?)",
-        [userId, day, month, year, hour, minute, second],
+        "INSERT INTO reminder (userId, day, month, year, hour, minute, second, topic) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        [userId, day, month, year, hour, minute, second, topic],
         (err) => {
           if (err) {
             reject(err);
@@ -225,7 +225,7 @@ export default new (class Database {
   async deleteOldReminders() {
     return await new Promise((resolve, reject) => {
       this.#db.run(
-        "DELETE FROM reminder WHERE strftime('%s', printf('%04d-%02d-%02d %02d:%02d:%02d', year, month, day, hour, minute, second)) < strftime('%s', 'now')",
+        "DELETE FROM reminder WHERE strftime('%s', printf('%04d-%02d-%02d %02d:%02d:%02d', year, month, day, hour, minute, second), 'localtime') < strftime('%s', 'now', 'localtime')",
         [],
         (err) => {
           if (err) {

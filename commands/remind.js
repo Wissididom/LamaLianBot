@@ -190,6 +190,7 @@ const exportObj = {
               targetTime.getHours(),
               targetTime.getMinutes(),
               targetTime.getSeconds(),
+              topic,
             );
             await interaction.editReply({
               embeds: [
@@ -243,7 +244,6 @@ const exportObj = {
             );
           }
           const weekday = getWeekdayFromIndex(targetTime.getDay());
-          console.log(hours, minutes, seconds, year, month, day);
           try {
             await db.addReminder(
               interaction.user.id,
@@ -253,6 +253,7 @@ const exportObj = {
               hours,
               minutes,
               seconds,
+              topic,
             );
             console.log(
               interaction.user.id,
@@ -262,6 +263,7 @@ const exportObj = {
               hours,
               minutes,
               seconds,
+              topic,
             );
             await interaction.editReply({
               embeds: [
