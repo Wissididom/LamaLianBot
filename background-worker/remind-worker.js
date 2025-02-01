@@ -17,22 +17,25 @@ const exportObj = {
   run: async (client, db) => {
     const upcomingReminder = await db.getUpcomingReminder();
     for (const reminder of upcomingReminder) {
-      console.log(reminder);
-      const now = new Date();
-      if (
-        reminder.day == now.getDate() &&
-        reminder.month == now.getMonth() + 1 &&
-        reminder.year == now.getFullYear() &&
-        reminder.hour == now.getHours() &&
-        reminder.minute == now.getMinutes()
-      ) {
-        await sendMessage(
-          client,
-          reminder.userId,
-          `Reminder: ${reminder.topic}`,
-        );
-        await db.deleteReminder(reminder.id);
-        await db.deleteOldReminders();
+      try {
+        const now = new Date();
+        if (
+          reminder.day == now.getDate() &&
+          reminder.month == now.getMonth() + 1 &&
+          reminder.year == now.getFullYear() &&
+          reminder.hour == now.getHours() &&
+          reminder.minute == now.getMinutes()
+        ) {
+          await sendMessage(
+            client,
+            reminder.userId,
+            `Reminder: ${reminder.topic}`,
+          );
+          await db.deleteReminder(reminder.id);
+          await db.deleteOldReminders();
+        }
+      } catch (err) {
+        console.log(`Error: ${err}`);
       }
     }
   },
