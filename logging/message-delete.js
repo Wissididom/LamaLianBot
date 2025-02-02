@@ -9,13 +9,10 @@ export default async function handleMessageDelete(message) {
   if (!logChannel) return; // Don't handle event, if logChannel is not set
   const timestamp = Math.floor(new Date(message.createdTimestamp) / 1000);
   let author = message.member
-    ? message.member.displayName
+    ? `<@${message.member.id}> (\`${message.member.displayName}\` - \`${message.member.user.username}\` - ${message.member.id})`
     : message.author
-      ? message.author.displayName
+      ? `<@${message.author.id}> (\`${message.author.displayName}\` - \`${message.author.username}\` - ${message.author.id})`
       : "N/A";
-  if (message.member || message.author) {
-    author = `<@${message.member ? message.member.id : message.author.id}> (${author} - ${message.member ? message.member.id : message.author.id})`;
-  }
   let embed = new EmbedBuilder()
     .setTitle("Nachricht gelöscht")
     .setFields(

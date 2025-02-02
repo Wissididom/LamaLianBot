@@ -12,13 +12,10 @@ export default async function handleMessageUpdate(oldMessage, newMessage) {
   if (!logChannel) return; // Don't handle event, if logChannel is not set
   const timestamp = Math.floor(new Date(newMessage.createdTimestamp) / 1000);
   let author = newMessage.member
-    ? newMessage.member.displayName
+    ? `<@${newMessage.member.id}> (\`${newMessage.member.displayName}\` - \`${newMessage.member.user.username}\` - ${newMessage.member.id})`
     : newMessage.author
-      ? newMessage.author.displayName
+      ? `<@${newMessage.author.id}> (\`${newMessage.author.displayName}\` - \`${newMessage.author.username}\` - ${newMessage.author.id})`
       : "N/A";
-  if (newMessage.member || newMessage.author) {
-    author += ` (<@${newMessage.member ? newMessage.member.id : newMessage.author.id}> - ${newMessage.member ? newMessage.member.id : newMessage.author.id})`;
-  }
   if (oldMessage.content == newMessage.content) {
     // Don't handle event if content is the same
     return;
