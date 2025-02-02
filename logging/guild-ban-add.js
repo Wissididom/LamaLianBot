@@ -34,7 +34,7 @@ export default async function handleGuildBanAdd(ban) {
           {
             name: "Moderator",
             value: banner
-              ? `<@${banner.id}> (${banner.displayName} - ${banner.username})`
+              ? `<@${banner.id}> (\`${banner.displayName}\` - \`${banner.username}\` - ${banner.id})`
               : "N/A",
             inline: false,
           },
