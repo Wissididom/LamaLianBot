@@ -1,4 +1,4 @@
-import { EmbedBuilder, Events } from "discord.js";
+import { AuditLogEvent, EmbedBuilder, Events } from "discord.js";
 import { getChannelByEventName } from "../logging.js";
 
 export default async function handleGuildEmojiCreate(emoji) {
@@ -14,59 +14,59 @@ export default async function handleGuildEmojiCreate(emoji) {
       ? emoji.author
       : await emoji.fetchAuthor();
   const emojiUrl = emoji.imageURL();
+  const embed = new EmbedBuilder()
+    .setTitle("Emoji erstellt")
+    .setDescription(
+      `**Emoji <${emoji.animated ? "a:" : ":"}${emoji.name}:${emoji.id}> ([${emoji.name}](${emojiUrl})) erstellt**`,
+    )
+    .setFields(
+      {
+        name: "Animiert",
+        value: emoji.animated ? "Ja" : "Nein",
+        inline: true,
+      },
+      {
+        name: "Autor",
+        value: emoji.managed
+          ? "N/A"
+          : `<@${author.id}> (\`${author.displayName}\` - \`${author.username}\` - ${author.id})`,
+        inline: false,
+      },
+      {
+        name: "Erstellzeit",
+        value: `<t:${createdTimestamp}:F> (<t:${createdTimestamp}:R>)`,
+        inline: true,
+      },
+      {
+        name: "Identifier",
+        value: `\`${emoji.identifier}\``,
+        inline: true,
+      },
+      {
+        name: "Von einer Anwendung verwaltet",
+        value: emoji.managed ? "Ja" : "Nein",
+        inline: true,
+      },
+      {
+        name: "Name",
+        value: emoji.name,
+        inline: true,
+      },
+      {
+        name: "Doppelpunkt erforderlich",
+        value: emoji.requiresColons ? "Ja" : "Nein",
+        inline: true,
+      },
+      {
+        name: "URL",
+        value: emojiUrl,
+        inline: true,
+      },
+    )
+    .setThumbnail(emojiUrl)
+    .setFooter({ text: `Emoji-ID: ${emoji.id}` })
+    .setTimestamp();
   await logChannel.send({
-    embeds: [
-      new EmbedBuilder()
-        .setTitle("Emoji erstellt")
-        .setDescription(
-          `**Emoji <${emoji.animated ? "a:" : ":"}${emoji.name}:${emoji.id}> ([${emoji.name}](${emojiUrl})) erstellt**`,
-        )
-        .setFields(
-          {
-            name: "Animiert",
-            value: emoji.animated ? "Ja" : "Nein",
-            inline: true,
-          },
-          {
-            name: "Autor",
-            value: emoji.managed
-              ? "N/A"
-              : `<@${author.id}> (${author.name} - ${author.id})`,
-            inline: true,
-          },
-          {
-            name: "Erstellzeit",
-            value: `<t:${createdTimestamp}:F> (<t:${createdTimestamp}:R>)`,
-            inline: true,
-          },
-          {
-            name: "Identifier",
-            value: `\`${emoji.identifier}\``,
-            inline: true,
-          },
-          {
-            name: "Von einer Anwendung verwaltet",
-            value: emoji.managed ? "Ja" : "Nein",
-            inline: true,
-          },
-          {
-            name: "Name",
-            value: emoji.name,
-            inline: true,
-          },
-          {
-            name: "Doppelpunkt erforderlich",
-            value: emoji.requiresColons ? "Ja" : "Nein",
-            inline: true,
-          },
-          {
-            name: "URL",
-            value: emojiUrl,
-            inline: true,
-          },
-        )
-        .setFooter({ text: `Emoji-ID: ${emoji.id}` })
-        .setTimestamp(),
-    ],
+    embeds: [embed],
   });
 }

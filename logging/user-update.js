@@ -11,7 +11,7 @@ export default async function handleUserUpdate(oldUser, newUser) {
   const embed = new EmbedBuilder()
     .setTitle("Benutzerprofil aktualisiert")
     .setDescription(
-      `**<@${newUser.id}> (${newUser.displayName} - ${newUser.username}) hat sein/ihr Profil aktualisiert**`,
+      `**<@${newUser.id}> (\`${newUser.displayName}\` - \`${newUser.username}\` - ${newUser.id}) hat sein/ihr Profil aktualisiert**`,
     )
     .setThumbnail(newUser.displayAvatarURL({ dynamic: true }))
     .setFooter({ text: `Nutzer-ID: ${newUser.id}` })

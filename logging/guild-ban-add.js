@@ -17,7 +17,7 @@ export default async function handleGuildBanAdd(ban) {
       new EmbedBuilder()
         .setTitle("Mitglied gebannt")
         .setDescription(
-          `**<@${ban.user.id}> (${ban.user.displayName} - ${ban.user.username})**`,
+          `**<@${ban.user.id}> (\`${ban.user.displayName}\` - \`${ban.user.username}\` - ${ban.user.id})**`,
         )
         .setThumbnail(ban.user.displayAvatarURL({ dynamic: true }))
         .setFields(
