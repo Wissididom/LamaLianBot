@@ -43,19 +43,15 @@ export default async function handleGuildMemberUpdate(oldMember, newMember) {
         });
       }
     });
-    const fetchedLogs = await newMember.guild.fetchAuditLogs({
-      limit: 1,
-      type: AuditLogEvent.MemberRoleUpdate,
-    });
-    const firstEntry = fetchedLogs.entries.first();
-    if (firstEntry.executor) {
+    const roler = await fetchRoler(newMember);
+    if (roler) {
       embed.addFields({
         name: "Moderator",
-        value: `<@${firstEntry.executor.id}> (\`${firstEntry.executor.displayName}\` -> \`${firstEntry.executor.username}\` - ${firstEntry.executor.id})`,
+        value: `<@${roler.id}> (\`${roler.displayName}\` -> \`${roler.username}\` - ${roler.id})`,
         inline: true,
       });
       embed.setFooter({
-        text: `Nutzer-ID: ${newMember.id} - Moderator-ID: ${firstEntry.executor.id}`,
+        text: `Nutzer-ID: ${newMember.id} - Moderator-ID: ${roler.id}`,
       });
     }
     await logChannel.send({
@@ -79,19 +75,15 @@ export default async function handleGuildMemberUpdate(oldMember, newMember) {
         });
       }
     });
-    const fetchedLogs = await newMember.guild.fetchAuditLogs({
-      limit: 1,
-      type: AuditLogEvent.MemberRoleUpdate,
-    });
-    const firstEntry = fetchedLogs.entries.first();
-    if (firstEntry.executor) {
+    const roler = await fetchRoler(newMember);
+    if (roler) {
       embed.addFields({
         name: "Moderator",
-        value: `<@${firstEntry.executor.id}> (\`${firstEntry.executor.displayName}\` -> \`${firstEntry.executor.username}\` - ${firstEntry.executor.id})`,
+        value: `<@${roler.id}> (\`${roler.displayName}\` -> \`${roler.username}\` - ${roler.id})`,
         inline: true,
       });
       embed.setFooter({
-        text: `Nutzer-ID: ${newMember.id} - Moderator-ID: ${firstEntry.executor.id}`,
+        text: `Nutzer-ID: ${newMember.id} - Moderator-ID: ${roler.id}`,
       });
     }
     await logChannel.send({
@@ -209,4 +201,21 @@ async function removeTimeout(logChannel, member) {
   await logChannel.send({
     embeds: [embed],
   });
+}
+
+async function fetchRoler(member) {
+  const fetchedLogs = await member.guild.fetchAuditLogs({
+    limit: 1,
+    type: AuditLogEvent.MemberRoleUpdate,
+  });
+  const memberRoleLog = fetchedLogs.entries.first();
+  if (!memberRoleLog) {
+    return null;
+  }
+  const { executor, target } = memberRoleLog;
+  if (target.id == member.id) {
+    return executor;
+  } else {
+    return null;
+  }
 }
