@@ -34,7 +34,7 @@ export default async function handleGuildMemberRemove(member) {
     footer = `Nutzer-ID: ${member.id}; Moderator-ID: ${kicker ? kicker.id : "N/A"}`;
     fields.push({
       name: "Moderator",
-      value: `<@${kicker.id}> ${kicker.displayName} (${kicker.username} - ${kicker.id})`,
+      value: `<@${kicker.id}> (\`${kicker.displayName}\` - \`${kicker.username}\` - ${kicker.id})`,
       inline: true,
     });
   } else {
