@@ -1,4 +1,4 @@
-import { EmbedBuilder, Events } from "discord.js";
+import { AuditLogEvent, EmbedBuilder, Events } from "discord.js";
 import { getChannelByEventName } from "../logging.js";
 
 export default async function handleGuildEmojiUpdate(oldEmoji, newEmoji) {
@@ -8,16 +8,6 @@ export default async function handleGuildEmojiUpdate(oldEmoji, newEmoji) {
   );
   if (!logChannel) return; // Don't handle event, if logChannel is not set
   const emojiUrl = newEmoji.imageURL();
-  const oldAuthor = oldEmoji.managed
-    ? null
-    : oldEmoji.author
-      ? oldEmoji.author
-      : await oldEmoji.fetchAuthor();
-  const newAuthor = newEmoji.managed
-    ? null
-    : newEmoji.author
-      ? newEmoji.author
-      : await newEmoji.fetchAuthor();
   const embed = new EmbedBuilder()
     .setTitle("Emoji bearbeitet")
     .setDescription(
@@ -32,18 +22,11 @@ export default async function handleGuildEmojiUpdate(oldEmoji, newEmoji) {
       inline: true,
     });
   }
-  if (oldEmoji.author != newEmoji.author) {
-    embed.addFields({
-      name: "Author",
-      value: `<@${oldAuthor?.id ?? "N/A"}> (${oldAuthor?.name ?? "N/A"} - ${oldAuthor?.id ?? "N/A"}) -> <@${newAuthor?.id ?? "N/A"}> (${newAuthor?.name ?? "N/A"} - ${newAuthor?.id ?? "N/A"})`,
-      inline: true,
-    });
-  }
   if (oldEmoji.identifier != newEmoji.identifier) {
     embed.addFields({
       name: "Identifier",
       value: `\`${oldEmoji.identifier}\` -> \`${newEmoji.identifier}\``,
-      inline: true,
+      inline: false,
     });
   }
   if (oldEmoji.managed != newEmoji.managed) {
@@ -56,7 +39,7 @@ export default async function handleGuildEmojiUpdate(oldEmoji, newEmoji) {
   if (oldEmoji.name != newEmoji.name) {
     embed.addFields({
       name: "Name",
-      value: `\`${oldEmoji.name}\` -> \`${newEmoji.name}>\``,
+      value: `\`${oldEmoji.name}\` -> \`${newEmoji.name}\``,
       inline: true,
     });
   }
@@ -67,7 +50,32 @@ export default async function handleGuildEmojiUpdate(oldEmoji, newEmoji) {
       inline: true,
     });
   }
+  const updater = await fetchUpdater(newEmoji);
+  if (updater) {
+    embed.addFields({
+      name: "Moderator",
+      value: `<@${updater.id}> (\`${updater.displayName}\` - \`${updater.username}\` - \`${updater.id}\`)`,
+      inline: false,
+    });
+  }
   await logChannel.send({
     embeds: [embed],
   });
+}
+
+async function fetchUpdater(emoji) {
+  const fetchedLogs = await emoji.guild.fetchAuditLogs({
+    limit: 1,
+    type: AuditLogEvent.EmojiUpdate,
+  });
+  const emojiLog = fetchedLogs.entries.first();
+  if (!emojiLog) {
+    return null;
+  }
+  const { executor, target } = emojiLog;
+  if (target.id == emoji.id) {
+    return executor;
+  } else {
+    return null;
+  }
 }
