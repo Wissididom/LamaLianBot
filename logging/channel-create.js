@@ -1,4 +1,4 @@
-import { EmbedBuilder, Events } from "discord.js";
+import { AuditLogEvent, EmbedBuilder, Events } from "discord.js";
 import { getChannelByEventName, getChannelTypeAsString } from "../logging.js";
 
 export default async function handleChannelCreate(channel) {
@@ -14,35 +14,59 @@ export default async function handleChannelCreate(channel) {
   if (channel.parent) {
     parent = `${channel.parent.name} (${channel.parent.id})`;
   }
+  const embed = new EmbedBuilder()
+    .setTitle("Kanal erstellt")
+    .setDescription(`**Kanal <#${channel.id}> (${channel.name}) erstellt**`)
+    .setFields(
+      {
+        name: "Kategorie",
+        value: parent,
+        inline: false,
+      },
+      {
+        name: "Erstellzeit",
+        value: `<t:${createdTimestamp}:F> (<t:${createdTimestamp}:R>)`,
+        inline: false,
+      },
+      {
+        name: "Position",
+        value: `#${channel.position}`,
+        inline: false,
+      },
+      {
+        name: "Typ",
+        value: `${getChannelTypeAsString(channel.type)}`,
+        inline: false,
+      },
+    )
+    .setFooter({ text: `Kanal-ID: ${channel.id}` })
+    .setTimestamp();
+  const creator = await fetchCreator(channel);
+  if (creator) {
+    embed.addFields({
+      name: "Moderator",
+      value: `<@${creator.id}> (\`${creator.displayName}\` - \`${creator.username}\` - \`${creator.id}\`)`,
+      inline: false,
+    });
+  }
   await logChannel.send({
-    embeds: [
-      new EmbedBuilder()
-        .setTitle("Kanal erstellt")
-        .setDescription(`**Kanal <#${channel.id}> (${channel.name}) erstellt**`)
-        .setFields(
-          {
-            name: "Kategorie",
-            value: parent,
-            inline: true,
-          },
-          {
-            name: "Erstellzeit",
-            value: `<t:${createdTimestamp}:F> (<t:${createdTimestamp}:R>)`,
-            inline: true,
-          },
-          {
-            name: "Position",
-            value: `#${channel.position}`,
-            inline: true,
-          },
-          {
-            name: "Typ",
-            value: `${getChannelTypeAsString(channel.type)}`,
-            inline: true,
-          },
-        )
-        .setFooter({ text: `Kanal-ID: ${channel.id}` })
-        .setTimestamp(),
-    ],
+    embeds: [embed],
   });
+}
+
+async function fetchCreator(channel) {
+  const fetchedLogs = await channel.guild.fetchAuditLogs({
+    limit: 1,
+    type: AuditLogEvent.ChannelCreate,
+  });
+  const channelCreateLog = fetchedLogs.entries.first();
+  if (!channelCreateLog) {
+    return null;
+  }
+  const { executor, target } = channelCreateLog;
+  if (target.id == channel.id) {
+    return executor;
+  } else {
+    return null;
+  }
 }
