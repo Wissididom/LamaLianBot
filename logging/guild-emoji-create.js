@@ -63,6 +63,7 @@ export default async function handleGuildEmojiCreate(emoji) {
         inline: true,
       },
     )
+    .setThumbnail(emojiUrl)
     .setFooter({ text: `Emoji-ID: ${emoji.id}` })
     .setTimestamp();
   await logChannel.send({

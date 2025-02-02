@@ -13,6 +13,7 @@ export default async function handleGuildEmojiUpdate(oldEmoji, newEmoji) {
     .setDescription(
       `**Emoji <${newEmoji.animated ? "a:" : ":"}${newEmoji.name}:${newEmoji.id}> ([${newEmoji.name}](${emojiUrl})) bearbeitet**`,
     )
+    .setThumbnail(emojiUrl)
     .setFooter({ text: `Emoji-ID: ${newEmoji.id}` })
     .setTimestamp();
   if (oldEmoji.animated != newEmoji.animated) {

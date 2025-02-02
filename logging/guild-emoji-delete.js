@@ -51,6 +51,7 @@ export default async function handleGuildEmojiDelete(emoji) {
         inline: true,
       },
     )
+    .setThumbnail(emojiUrl)
     .setFooter({ text: `Emoji-ID: ${emoji.id}` })
     .setTimestamp();
   const deleter = await fetchDeleter(emoji);
