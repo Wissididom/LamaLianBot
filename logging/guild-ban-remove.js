@@ -37,7 +37,7 @@ export default async function handleGuildBanRemove(ban) {
           {
             name: "Moderator",
             value: unbanner
-              ? `<@${unbanner.id}> (${unbanner.displayName})`
+              ? `<@${unbanner.id}> (\`${unbanner.displayName}\` - \`${unbanner.username}\` - ${unbanner.id})`
               : "N/A",
             inline: true,
           },
