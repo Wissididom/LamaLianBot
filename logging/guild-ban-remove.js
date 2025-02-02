@@ -19,7 +19,9 @@ export default async function handleGuildBanRemove(ban) {
     embeds: [
       new EmbedBuilder()
         .setTitle("Mitglied entbannt")
-        .setDescription(`**<@${ban.user.id}> (${ban.user.displayName})**`)
+        .setDescription(
+          `**<@${ban.user.id}> (\`${ban.user.displayName}\` - \`${ban.user.username}\` - ${ban.user.id})**`,
+        )
         .setThumbnail(ban.user.displayAvatarURL({ dynamic: true }))
         .setFields(
           {
