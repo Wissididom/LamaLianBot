@@ -47,7 +47,7 @@ export default async function handleGuildMemberUpdate(oldMember, newMember) {
     if (roler) {
       embed.addFields({
         name: "Moderator",
-        value: `<@${roler.id}> (\`${roler.displayName}\` -> \`${roler.username}\` - ${roler.id})`,
+        value: `<@${roler.id}> (\`${roler.displayName}\` - \`${roler.username}\` - ${roler.id})`,
         inline: true,
       });
       embed.setFooter({
@@ -79,7 +79,7 @@ export default async function handleGuildMemberUpdate(oldMember, newMember) {
     if (roler) {
       embed.addFields({
         name: "Moderator",
-        value: `<@${roler.id}> (\`${roler.displayName}\` -> \`${roler.username}\` - ${roler.id})`,
+        value: `<@${roler.id}> (\`${roler.displayName}\` - \`${roler.username}\` - ${roler.id})`,
         inline: true,
       });
       embed.setFooter({
