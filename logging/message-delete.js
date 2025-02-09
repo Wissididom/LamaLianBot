@@ -1,4 +1,4 @@
-import { EmbedBuilder, Events } from "discord.js";
+import { AttachmentBuilder, EmbedBuilder, Events } from "discord.js";
 import { getChannelByEventName } from "../logging.js";
 
 export default async function handleMessageDelete(message) {
@@ -8,12 +8,18 @@ export default async function handleMessageDelete(message) {
   );
   if (!logChannel) return; // Don't handle event, if logChannel is not set
   const timestamp = Math.floor(new Date(message.createdTimestamp) / 1000);
-  let author = message.member
+  const author = message.member
     ? `<@${message.member.id}> (\`${message.member.displayName}\` - \`${message.member.user.username}\` - ${message.member.id})`
     : message.author
       ? `<@${message.author.id}> (\`${message.author.displayName}\` - \`${message.author.username}\` - ${message.author.id})`
       : "N/A";
-  let embed = new EmbedBuilder()
+  const memberAvatarAttachment = new AttachmentBuilder(
+    message.member
+      ? message.member.displayAvatarURL({ dynamic: true })
+      : message.author?.displayAvatarURL({ dynamic: true }),
+    { name: "avatar.gif" },
+  );
+  const embed = new EmbedBuilder()
     .setTitle("Nachricht gelöscht")
     .setFields(
       {
@@ -37,11 +43,7 @@ export default async function handleMessageDelete(message) {
         inline: true,
       },
     )
-    .setThumbnail(
-      (message.member
-        ? message.member.displayAvatarURL({ dynamic: true })
-        : message.author?.displayAvatarURL({ dynamic: true })) ?? undefined,
-    )
+    .setThumbnail("attachment://avatar.gif")
     .setFooter({
       text: `Nutzer-ID: ${(message.member ? message.member.id : message.author?.id) ?? "N/A"}`,
     })
@@ -49,7 +51,20 @@ export default async function handleMessageDelete(message) {
   if (message.content) {
     embed.setDescription(`**Nachricht**:\n${message.content}`);
   }
-  await logChannel.send({
-    embeds: [embed],
-  });
+  const attachment = message.attachments.first();
+  if (attachment && attachment.contentType.startsWith("image/")) {
+    const imageAttachment = new AttachmentBuilder(attachment.url, {
+      name: attachment.name,
+    });
+    embed.setImage(`attachment://${attachment.name}`);
+    await logChannel.send({
+      embeds: [embed],
+      files: [memberAvatarAttachment, imageAttachment],
+    });
+  } else {
+    await logChannel.send({
+      embeds: [embed],
+      files: [memberAvatarAttachment],
+    });
+  }
 }

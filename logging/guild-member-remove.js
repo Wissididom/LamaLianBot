@@ -1,4 +1,9 @@
-import { AuditLogEvent, EmbedBuilder, Events } from "discord.js";
+import {
+  AttachmentBuilder,
+  AuditLogEvent,
+  EmbedBuilder,
+  Events,
+} from "discord.js";
 import { getChannelByEventName } from "../logging.js";
 
 export default async function handleGuildMemberRemove(member) {
@@ -40,6 +45,10 @@ export default async function handleGuildMemberRemove(member) {
   } else {
     footer = `Nutzer-ID: ${member.id}`;
   }
+  const memberAvatarAttachment = new AttachmentBuilder(
+    member.displayAvatarURL({ dynamic: true }),
+    { name: "avatar.gif" },
+  );
   await logChannel.send({
     embeds: [
       new EmbedBuilder()
@@ -47,13 +56,14 @@ export default async function handleGuildMemberRemove(member) {
         .setDescription(
           `<@${member.id}> ${member.displayName} (${member.user.username} - ${member.user.id})`,
         )
-        .setThumbnail(member.displayAvatarURL({ dynamic: true }))
+        .setThumbnail("attachment://avatar.gif")
         .setFields(fields)
         .setFooter({
           text: footer,
         })
         .setTimestamp(),
     ],
+    files: [memberAvatarAttachment],
   });
 }
 

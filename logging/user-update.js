@@ -1,4 +1,4 @@
-import { EmbedBuilder, Events } from "discord.js";
+import { AttachmentBuilder, EmbedBuilder, Events } from "discord.js";
 import { getChannelByEventName } from "../logging.js";
 
 export default async function handleUserUpdate(oldUser, newUser) {
@@ -8,12 +8,16 @@ export default async function handleUserUpdate(oldUser, newUser) {
   );
   if (!logChannel) return; // Don't handle event, if logChannel is not set
   let fields = 0;
+  const userAvatarAttachment = new AttachmentBuilder(
+    newUser.displayAvatarURL({ dynamic: true }),
+    { name: "avatar.gif" },
+  );
   const embed = new EmbedBuilder()
     .setTitle("Benutzerprofil aktualisiert")
     .setDescription(
       `**<@${newUser.id}> (\`${newUser.displayName}\` - \`${newUser.username}\` - ${newUser.id}) hat sein/ihr Profil aktualisiert**`,
     )
-    .setThumbnail(newUser.displayAvatarURL({ dynamic: true }))
+    .setThumbnail("attachment://avatar.gif")
     .setFooter({ text: `Nutzer-ID: ${newUser.id}` })
     .setTimestamp();
   if (oldUser.bot != newUser.bot) {
@@ -60,6 +64,7 @@ export default async function handleUserUpdate(oldUser, newUser) {
   if (fields > 0) {
     await logChannel.send({
       embeds: [embed],
+      files: [userAvatarAttachment],
     });
   }
 }

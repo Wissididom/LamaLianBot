@@ -1,4 +1,9 @@
-import { AuditLogEvent, EmbedBuilder, Events } from "discord.js";
+import {
+  AttachmentBuilder,
+  AuditLogEvent,
+  EmbedBuilder,
+  Events,
+} from "discord.js";
 import { getChannelByEventName } from "../logging.js";
 
 export default async function handleGuildEmojiDelete(emoji) {
@@ -9,6 +14,9 @@ export default async function handleGuildEmojiDelete(emoji) {
   if (!logChannel) return; // Don't handle event, if logChannel is not set
   const createdTimestamp = Math.floor(new Date(emoji.createdTimestamp) / 1000);
   const emojiUrl = emoji.imageURL();
+  const emojiAttachment = new AttachmentBuilder(emojiUrl, {
+    name: "emoji.gif",
+  });
   const embed = new EmbedBuilder()
     .setTitle("Emoji gelöscht")
     .setDescription(
@@ -51,7 +59,7 @@ export default async function handleGuildEmojiDelete(emoji) {
         inline: true,
       },
     )
-    .setThumbnail(emojiUrl)
+    .setThumbnail("attachment://emoji.gif")
     .setFooter({ text: `Emoji-ID: ${emoji.id}` })
     .setTimestamp();
   const deleter = await fetchDeleter(emoji);
@@ -64,6 +72,7 @@ export default async function handleGuildEmojiDelete(emoji) {
   }
   await logChannel.send({
     embeds: [embed],
+    files: [emojiAttachment],
   });
 }
 

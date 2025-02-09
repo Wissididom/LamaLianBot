@@ -1,4 +1,4 @@
-import { AuditLogEvent, EmbedBuilder, Events } from "discord.js";
+import { AttachmentBuilder, EmbedBuilder, Events } from "discord.js";
 import { getChannelByEventName } from "../logging.js";
 
 export default async function handleGuildEmojiCreate(emoji) {
@@ -14,6 +14,9 @@ export default async function handleGuildEmojiCreate(emoji) {
       ? emoji.author
       : await emoji.fetchAuthor();
   const emojiUrl = emoji.imageURL();
+  const emojiAttachment = new AttachmentBuilder(emojiUrl, {
+    name: "emoji.gif",
+  });
   const embed = new EmbedBuilder()
     .setTitle("Emoji erstellt")
     .setDescription(
@@ -63,10 +66,11 @@ export default async function handleGuildEmojiCreate(emoji) {
         inline: true,
       },
     )
-    .setThumbnail(emojiUrl)
+    .setThumbnail("attachment://emoji.gif")
     .setFooter({ text: `Emoji-ID: ${emoji.id}` })
     .setTimestamp();
   await logChannel.send({
     embeds: [embed],
+    files: [emojiAttachment],
   });
 }

@@ -1,4 +1,4 @@
-import { EmbedBuilder, Events } from "discord.js";
+import { AttachmentBuilder, EmbedBuilder, Events } from "discord.js";
 import { getChannelByEventName } from "../logging.js";
 
 export default async function handleMessageUpdate(oldMessage, newMessage) {
@@ -34,6 +34,12 @@ export default async function handleMessageUpdate(oldMessage, newMessage) {
       description = "";
     }
   }
+  const memberAvatarAttachment = new AttachmentBuilder(
+    newMessage.member
+      ? newMessage.member.displayAvatarURL({ dynamic: true })
+      : newMessage.author?.displayAvatarURL({ dynamic: true }),
+    { name: "avatar.gif" },
+  );
   await logChannel.send({
     embeds: [
       new EmbedBuilder()
@@ -61,15 +67,12 @@ export default async function handleMessageUpdate(oldMessage, newMessage) {
             inline: true,
           },
         )
-        .setThumbnail(
-          newMessage.member
-            ? newMessage.member.displayAvatarURL({ dynamic: true })
-            : newMessage.author.displayAvatarURL({ dynamic: true }),
-        )
+        .setThumbnail("attachment://avatar.gif")
         .setFooter({
           text: `Nutzer-ID: ${newMessage.member ? newMessage.member.id : newMessage.author.id}`,
         })
         .setTimestamp(),
     ],
+    files: [memberAvatarAttachment],
   });
 }

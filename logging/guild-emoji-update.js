@@ -1,4 +1,9 @@
-import { AuditLogEvent, EmbedBuilder, Events } from "discord.js";
+import {
+  AttachmentBuilder,
+  AuditLogEvent,
+  EmbedBuilder,
+  Events,
+} from "discord.js";
 import { getChannelByEventName } from "../logging.js";
 
 export default async function handleGuildEmojiUpdate(oldEmoji, newEmoji) {
@@ -8,12 +13,15 @@ export default async function handleGuildEmojiUpdate(oldEmoji, newEmoji) {
   );
   if (!logChannel) return; // Don't handle event, if logChannel is not set
   const emojiUrl = newEmoji.imageURL();
+  const emojiAttachment = new AttachmentBuilder(emojiUrl, {
+    name: "emoji.gif",
+  });
   const embed = new EmbedBuilder()
     .setTitle("Emoji bearbeitet")
     .setDescription(
       `**Emoji <${newEmoji.animated ? "a:" : ":"}${newEmoji.name}:${newEmoji.id}> ([${newEmoji.name}](${emojiUrl})) bearbeitet**`,
     )
-    .setThumbnail(emojiUrl)
+    .setThumbnail("attachment://emoji.gif")
     .setFooter({ text: `Emoji-ID: ${newEmoji.id}` })
     .setTimestamp();
   if (oldEmoji.animated != newEmoji.animated) {
@@ -61,6 +69,7 @@ export default async function handleGuildEmojiUpdate(oldEmoji, newEmoji) {
   }
   await logChannel.send({
     embeds: [embed],
+    files: [emojiAttachment],
   });
 }
 
