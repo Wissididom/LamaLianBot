@@ -11,6 +11,10 @@ export default async function handleGuildMemberAdd(member) {
   const createdTimestamp = Math.floor(
     new Date(member.user.createdTimestamp) / 1000,
   );
+  const memberAvatarAttachment = new AttachmentBuilder(
+    member.displayAvatarURL({ dynamic: true }),
+    { name: "avatar.gif" },
+  );
   await logChannel.send({
     embeds: [
       new EmbedBuilder()
@@ -18,7 +22,7 @@ export default async function handleGuildMemberAdd(member) {
         .setDescription(
           `<@${member.id}> (\`${member.displayName}\` - \`${member.user.username}\` - ${member.id})`,
         )
-        .setThumbnail(member.displayAvatarURL({ dynamic: true }))
+        .setThumbnail("attachment://avatar.gif")
         .setFields(
           {
             name: "Server",
@@ -39,5 +43,6 @@ export default async function handleGuildMemberAdd(member) {
         .setFooter({ text: `Nutzer-ID: ${member.id}` })
         .setTimestamp(),
     ],
+    files: [memberAvatarAttachment],
   });
 }

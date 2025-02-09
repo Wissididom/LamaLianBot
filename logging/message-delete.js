@@ -8,12 +8,18 @@ export default async function handleMessageDelete(message) {
   );
   if (!logChannel) return; // Don't handle event, if logChannel is not set
   const timestamp = Math.floor(new Date(message.createdTimestamp) / 1000);
-  let author = message.member
+  const author = message.member
     ? `<@${message.member.id}> (\`${message.member.displayName}\` - \`${message.member.user.username}\` - ${message.member.id})`
     : message.author
       ? `<@${message.author.id}> (\`${message.author.displayName}\` - \`${message.author.username}\` - ${message.author.id})`
       : "N/A";
-  let embed = new EmbedBuilder()
+  const memberAvatarAttachment = new AttachmentBuilder(
+    message.member
+      ? message.member.displayAvatarURL({ dynamic: true })
+      : message.author?.displayAvatarURL({ dynamic: true }),
+    { name: "avatar.gif" },
+  );
+  const embed = new EmbedBuilder()
     .setTitle("Nachricht gelöscht")
     .setFields(
       {
@@ -37,11 +43,7 @@ export default async function handleMessageDelete(message) {
         inline: true,
       },
     )
-    .setThumbnail(
-      (message.member
-        ? message.member.displayAvatarURL({ dynamic: true })
-        : message.author?.displayAvatarURL({ dynamic: true })) ?? undefined,
-    )
+    .setThumbnail("attachment://avatar.gif")
     .setFooter({
       text: `Nutzer-ID: ${(message.member ? message.member.id : message.author?.id) ?? "N/A"}`,
     })
@@ -51,5 +53,6 @@ export default async function handleMessageDelete(message) {
   }
   await logChannel.send({
     embeds: [embed],
+    files: [memberAvatarAttachment],
   });
 }

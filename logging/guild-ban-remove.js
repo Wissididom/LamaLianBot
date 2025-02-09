@@ -1,4 +1,9 @@
-import { AuditLogEvent, EmbedBuilder, Events } from "discord.js";
+import {
+  AttachmentBuilder,
+  AuditLogEvent,
+  EmbedBuilder,
+  Events,
+} from "discord.js";
 import { getChannelByEventName } from "../logging.js";
 
 export default async function handleGuildBanRemove(ban) {
@@ -15,6 +20,10 @@ export default async function handleGuildBanRemove(ban) {
   const createdTimestamp = Math.floor(
     new Date(ban.user.createdTimestamp) / 1000,
   );
+  const banUserAvatarAttachment = new AttachmentBuilder(
+    ban.user.displayAvatarURL({ dynamic: true }),
+    { name: "avatar.gif" },
+  );
   await logChannel.send({
     embeds: [
       new EmbedBuilder()
@@ -22,7 +31,7 @@ export default async function handleGuildBanRemove(ban) {
         .setDescription(
           `**<@${ban.user.id}> (\`${ban.user.displayName}\` - \`${ban.user.username}\` - ${ban.user.id})**`,
         )
-        .setThumbnail(ban.user.displayAvatarURL({ dynamic: true }))
+        .setThumbnail("attachment://avatar.gif")
         .setFields(
           {
             name: "Server",
@@ -52,6 +61,7 @@ export default async function handleGuildBanRemove(ban) {
         })
         .setTimestamp(),
     ],
+    files: [banUserAvatarAttachment],
   });
 }
 
