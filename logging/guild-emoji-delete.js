@@ -1,4 +1,9 @@
-import { AuditLogEvent, EmbedBuilder, Events } from "discord.js";
+import {
+  AttachmentBuilder,
+  AuditLogEvent,
+  EmbedBuilder,
+  Events,
+} from "discord.js";
 import { getChannelByEventName } from "../logging.js";
 
 export default async function handleGuildEmojiDelete(emoji) {
