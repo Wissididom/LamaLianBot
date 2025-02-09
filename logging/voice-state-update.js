@@ -47,37 +47,42 @@ export default async function handleVoiceStateUpdate(oldState, newState) {
       )
       .setFooter({ text: `Nutzer-ID: ${newState.member?.id}` });
   } else {
-    embed.setTitle(
-      `Sprachkanaleinstellungen für <@${newState.member?.id}> (\`${newState.member?.displayName}\` - \`${newState.member?.username}\` - ${newState.member?.id}) geändert`,
-    );
-    if (oldState.deaf != newState.deaf) {
-      // I don't care if it is a selfDeaf or a serverDeaf here
-      embed.addFields({
-        name: "Taub",
-        value: `${oldState.deaf ? "Ja" : "Nein"} -> ${newState.deaf ? "Ja" : "Nein"}`,
-        inline: true,
-      });
-    }
-    if (oldState.mute != newState.mute) {
-      embed.addFields({
-        name: "Stumm",
-        value: `${oldState.mute ? "Ja" : "Nein"} -> ${newState.mute ? "Ja" : "Nein"}`,
-        inline: true,
-      });
-    }
-    if (oldState.video != newState.video) {
-      embed.addFields({
-        name: "Video",
-        value: `${oldState.video ? "Ja" : "Nein"} -> ${newState.video ? "Ja" : "Nein"}`,
-        inline: true,
-      });
-    }
-    if (oldState.streaming != newState.streaming) {
-      embed.addFields({
-        name: "Streaming Screen",
-        value: `${oldState.streaming ? "Ja" : "Nein"} -> ${newState.streaming ? "Ja" : "Nein"}`,
-        inline: true,
-      });
+    if (process.env.EXTENDED_VOICE_LOGS == "true") {
+      embed.setTitle(
+        `Sprachkanaleinstellungen für <@${newState.member?.id}> (\`${newState.member?.displayName}\` - \`${newState.member?.username}\` - ${newState.member?.id}) geändert`,
+      );
+      if (oldState.deaf != newState.deaf) {
+        // I don't care if it is a selfDeaf or a serverDeaf here
+        embed.addFields({
+          name: "Taub",
+          value: `${oldState.deaf ? "Ja" : "Nein"} -> ${newState.deaf ? "Ja" : "Nein"}`,
+          inline: true,
+        });
+      }
+      if (oldState.mute != newState.mute) {
+        embed.addFields({
+          name: "Stumm",
+          value: `${oldState.mute ? "Ja" : "Nein"} -> ${newState.mute ? "Ja" : "Nein"}`,
+          inline: true,
+        });
+      }
+      if (oldState.video != newState.video) {
+        embed.addFields({
+          name: "Video",
+          value: `${oldState.video ? "Ja" : "Nein"} -> ${newState.video ? "Ja" : "Nein"}`,
+          inline: true,
+        });
+      }
+      if (oldState.streaming != newState.streaming) {
+        embed.addFields({
+          name: "Streaming Screen",
+          value: `${oldState.streaming ? "Ja" : "Nein"} -> ${newState.streaming ? "Ja" : "Nein"}`,
+          inline: true,
+        });
+      }
+    } else {
+      // No relevant event
+      return;
     }
   }
   if (newState.member) {

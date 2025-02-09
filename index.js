@@ -72,7 +72,7 @@ const client = new Client({
     GatewayIntentBits.AutoModerationExecution,
     GatewayIntentBits.DirectMessageReactions,
     GatewayIntentBits.DirectMessages,
-    GatewayIntentBits.GuildEmojisAndStickers,
+    GatewayIntentBits.GuildExpressions,
     GatewayIntentBits.GuildIntegrations,
     GatewayIntentBits.GuildInvites,
     GatewayIntentBits.GuildMembers,
