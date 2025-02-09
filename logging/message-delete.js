@@ -1,4 +1,4 @@
-import { EmbedBuilder, Events } from "discord.js";
+import { AttachmentBuilder, EmbedBuilder, Events } from "discord.js";
 import { getChannelByEventName } from "../logging.js";
 
 export default async function handleMessageDelete(message) {
@@ -51,8 +51,20 @@ export default async function handleMessageDelete(message) {
   if (message.content) {
     embed.setDescription(`**Nachricht**:\n${message.content}`);
   }
-  await logChannel.send({
-    embeds: [embed],
-    files: [memberAvatarAttachment],
-  });
+  const attachment = message.attachments.first();
+  if (attachment && attachment.contentType.startsWith("image/")) {
+    const imageAttachment = new AttachmentBuilder(attachment.url, {
+      name: attachment.name,
+    });
+    embed.setImage(`attachment://${attachment.name}`);
+    await logChannel.send({
+      embeds: [embed],
+      files: [memberAvatarAttachment, imageAttachment],
+    });
+  } else {
+    await logChannel.send({
+      embeds: [embed],
+      files: [memberAvatarAttachment],
+    });
+  }
 }
