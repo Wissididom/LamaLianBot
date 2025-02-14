@@ -12,7 +12,7 @@ if (!process.env.DISCORD_TOKEN) {
 const rest = new REST().setToken(process.env.DISCORD_TOKEN);
 
 (async () => {
-  const registerArray = await getRegisterArray();
+  const registerArray = getRegisterArray();
   try {
     console.log(
       `Started refreshing ${registerArray.length} application (/) commands.`,
