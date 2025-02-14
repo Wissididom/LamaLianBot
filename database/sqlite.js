@@ -140,7 +140,7 @@ export default new (class Database {
     return await new Promise((resolve, reject) => {
       if (userId) {
         this.#db.all(
-          "SELECT * FROM levelling WHERE userId = ?",
+          "SELECT * FROM levelling WHERE userId = ? ORDER BY xp DESC",
           [userId],
           (err, rows) => {
             if (err) {
@@ -151,13 +151,17 @@ export default new (class Database {
           },
         );
       } else {
-        this.#db.all("SELECT * FROM levelling", [], (err, rows) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(rows);
-          }
-        });
+        this.#db.all(
+          "SELECT * FROM levelling ORDER BY xp DESC",
+          [],
+          (err, rows) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(rows);
+            }
+          },
+        );
       }
     });
   }
