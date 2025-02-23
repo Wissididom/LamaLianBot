@@ -19,6 +19,7 @@ export default async function handleGuildMemberUpdate(oldMember, newMember) {
   const embed = new EmbedBuilder()
     .setThumbnail("attachment://avatar.gif")
     .setTimestamp();
+  var shouldPost = false;
   if (oldMember.avatar != newMember.avatar) {
     embed
       .setTitle("Server-Avatar geändert")
@@ -31,6 +32,7 @@ export default async function handleGuildMemberUpdate(oldMember, newMember) {
       value: `[vorher](<${oldMember.displayAvatarURL({ dynamic: true })}>) -> [nachher](<${newMember.displayAvatarURL({ dynamic: true })}>)`,
       inline: true,
     });
+    shouldPost = true;
   }
   if (oldMember.roles.cache.size > newMember.roles.cache.size) {
     embed
@@ -59,6 +61,7 @@ export default async function handleGuildMemberUpdate(oldMember, newMember) {
         text: `Nutzer-ID: ${newMember.id} - Moderator-ID: ${roler.id}`,
       });
     }
+    shouldPost = true;
   } else if (oldMember.roles.cache.size < newMember.roles.cache.size) {
     embed
       .setTitle("✅ Rollen hinzugefügt")
@@ -86,6 +89,7 @@ export default async function handleGuildMemberUpdate(oldMember, newMember) {
         text: `Nutzer-ID: ${newMember.id} - Moderator-ID: ${roler.id}`,
       });
     }
+    shouldPost = true;
   }
   if (
     oldMember.nickname &&
@@ -103,6 +107,7 @@ export default async function handleGuildMemberUpdate(oldMember, newMember) {
         inline: true,
       })
       .setFooter({ text: `Nutzer-ID: ${newMember.id}` });
+    shouldPost = true;
   } else if (oldMember.nickname && !newMember.nickname) {
     embed
       .setTitle("Nickname entfernt")
@@ -110,6 +115,7 @@ export default async function handleGuildMemberUpdate(oldMember, newMember) {
         `Der Nickname von <@${newMember.id}> (\`${newMember.displayName}\` - \`${newMember.user?.username}\` - ${newMember.id}) wurde entfernt`,
       )
       .setFooter({ text: `Nutzer-ID: ${newMember.id}` });
+    shouldPost = true;
   } else if (!oldMember.nickname && newMember.nickname) {
     embed
       .setTitle("Nickname hinzugefügt")
@@ -122,6 +128,7 @@ export default async function handleGuildMemberUpdate(oldMember, newMember) {
         inline: true,
       })
       .setFooter({ text: `Nutzer-ID: ${newMember.id}` });
+    shouldPost = true;
   }
   if (
     !oldMember.communicationDisabledUntil &&
@@ -132,11 +139,13 @@ export default async function handleGuildMemberUpdate(oldMember, newMember) {
     } else {
       embed = removeTimeout(newMember, embed);
     }
+    shouldPost = true;
   } else if (
     oldMember.communicationDisabledUntil &&
     !newMember.communicationDisabledUntil
   ) {
     embed = removeTimeout(newMember, embed);
+    shouldPost = true;
   } else if (
     oldMember.communicationDisabledUntil &&
     newMember.communicationDisabledUntil
@@ -146,14 +155,14 @@ export default async function handleGuildMemberUpdate(oldMember, newMember) {
     } else {
       embed = removeTimeout(newMember, embed);
     }
-  } else {
-    // apparently nothing (important) changed
-    return;
+    shouldPost = true;
   }
-  await logChannel.send({
-    embeds: [embed],
-    files: [memberAvatarAttachment],
-  });
+  if (shouldPost) {
+    await logChannel.send({
+      embeds: [embed],
+      files: [memberAvatarAttachment],
+    });
+  }
 }
 
 function addTimeout(member, embed) {
