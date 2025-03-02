@@ -110,7 +110,9 @@ client.on(Events.MessageCreate, async (msg) => {
   } else if (msg.author.bot) {
     return; // Ignore bot messages
   } else {
-    await moderate(msg);
+    if (await moderate(msg)) {
+      // Not moderated - Handle levelling and everything else if ever
+    }
   }
 });
 
