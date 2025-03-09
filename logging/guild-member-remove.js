@@ -33,6 +33,14 @@ export default async function handleGuildMemberRemove(member) {
       value: `<t:${createdTimestamp}:F> (<t:${createdTimestamp}:R>)`,
       inline: false,
     },
+    {
+      name: "Rollen",
+      value: member.roles.cache
+        .filter((role) => role.name != "@everyone")
+        .map((role) => `<@&${role.id}>`)
+        .join(", "),
+      inline: false,
+    },
   ];
   let footer;
   if (kicker) {
