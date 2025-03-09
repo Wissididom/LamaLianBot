@@ -62,9 +62,15 @@ export default async function handleMessageDelete(message) {
       files: [memberAvatarAttachment, imageAttachment],
     });
   } else {
-    await logChannel.send({
-      embeds: [embed],
-      files: [memberAvatarAttachment],
-    });
+    if (memberAvatarAttachment.attachment) {
+      await logChannel.send({
+        embeds: [embed],
+        files: [memberAvatarAttachment],
+      });
+    } else {
+      await logChannel.send({
+        embeds: [embed],
+      });
+    }
   }
 }

@@ -34,11 +34,13 @@ export async function moderate(msg) {
     const result = checkLinks(links);
     for (entry of result.data) {
       if (entry.flags.length > 0) {
-        // TODO: Found something, need to handle moderation.
+        // TODO: Found something, need to handle moderation. - Return false
       }
     }
+    return true;
+  } else {
+    return true;
   }
-  return false;
 }
 
 //console.log(await checkLinks(findLinks('discord.gg/test abc https://grabify.com/test abc www.example.com')));
