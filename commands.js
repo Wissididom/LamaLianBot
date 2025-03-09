@@ -23,6 +23,7 @@ import UnsetUserBirthday from "./commands/unset-user-birthday.js";
 import Remind from "./commands/remind.js";
 import Rank from "./commands/rank.js";
 import Levels from "./commands/levels.js";
+import Setup from "./commands/setup.js";
 
 export function getDatabase() {
   return Database;
@@ -82,8 +83,8 @@ function getCommandObject(commandName) {
       return Rank;
     case "levels":
       return Levels;
-    case "import-mee6":
-      return null;
+    case "setup":
+      return Setup;
     default:
       // TODO
       return null;

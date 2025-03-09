@@ -32,7 +32,7 @@ export default new (class Database {
           },
         );
         this.#db.run(
-          "CREATE TABLE IF NOT EXISTS levelling (id INTEGER PRIMARY KEY AUTOINCREMENT, userId TEXT UNIQUE, xp BIGINT, lvl BIGINT, nextLvlXp BIGINT);",
+          "CREATE TABLE IF NOT EXISTS levelling (id INTEGER PRIMARY KEY AUTOINCREMENT, userId TEXT UNIQUE, lastMessageTimestamp BIGINT, xp BIGINT, lvl BIGINT, nextLvlXp BIGINT);",
           (err) => {
             if (err) {
               console.log(
@@ -162,6 +162,32 @@ export default new (class Database {
             }
           },
         );
+      }
+    });
+  }
+
+  async deleteLevelling(userId) {
+    return new Promise((resolve, reject) => {
+      if (userId) {
+        this.#db.all(
+          "DELETE FROM levelling WHERE userId = ?",
+          [userId],
+          (err) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve();
+            }
+          },
+        );
+      } else {
+        this.#db.all("DELETE FROM levelling", [], (err) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve();
+          }
+        });
       }
     });
   }
