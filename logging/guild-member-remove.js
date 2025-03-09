@@ -21,17 +21,25 @@ export default async function handleGuildMemberRemove(member) {
     {
       name: "Server",
       value: `${member.guild.name} (${member.guild.id})`,
-      inline: true,
+      inline: false,
     },
     {
       name: "Server beigetreten",
       value: `<t:${joinedTimestamp}:F> (<t:${joinedTimestamp}:R>)`,
-      inline: true,
+      inline: false,
     },
     {
       name: "Account erstellt",
       value: `<t:${createdTimestamp}:F> (<t:${createdTimestamp}:R>)`,
-      inline: true,
+      inline: false,
+    },
+    {
+      name: "Rollen",
+      value: member.roles.cache
+        .filter((role) => role.name != "@everyone")
+        .map((role) => `<@&${role.id}>`)
+        .join(", "),
+      inline: false,
     },
   ];
   let footer;
@@ -54,7 +62,7 @@ export default async function handleGuildMemberRemove(member) {
       new EmbedBuilder()
         .setTitle(`Mitglied ${kicker ? "gekickt" : "verlassen"}`)
         .setDescription(
-          `<@${member.id}> ${member.displayName} (${member.user.username} - ${member.user.id})`,
+          `<@${member.id}> ${member.displayName} (${member.user.username})`,
         )
         .setThumbnail("attachment://avatar.gif")
         .setFields(fields)
