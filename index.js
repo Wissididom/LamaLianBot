@@ -47,6 +47,7 @@ import {
   handleVoiceStateUpdate,
   handleWebhooksUpdate,
 } from "./logging.js";
+import { handleLevelling } from "./levelling.js";
 
 const exitHandler = async (signal) => {
   console.log(`Received ${signal}`);
@@ -111,7 +112,9 @@ client.on(Events.MessageCreate, async (msg) => {
     return; // Ignore bot messages
   } else {
     if (await moderate(msg)) {
-      // Not moderated - Handle levelling and everything else if ever
+      if (process.env.USE_LEVELLING.toLowerCase() == "true") {
+        await handleLevelling(getDatabase(), msg);
+      }
     }
   }
 });
