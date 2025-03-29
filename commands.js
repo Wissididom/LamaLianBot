@@ -25,8 +25,10 @@ import Rank from "./commands/rank.js";
 import Levels from "./commands/levels.js";
 import Setup from "./commands/setup.js";
 
+const db = new Database();
+
 export function getDatabase() {
-  return Database;
+  return db;
 }
 
 function getAvailableDefaultCommandNames() {
@@ -97,13 +99,13 @@ export async function handleApplicationCommands(interaction) {
       interaction.commandName,
     );
     if (permissions.length < 1) {
-      return await runInteraction(interaction, Database);
+      return await runInteraction(interaction, db);
     }
     for (const permission of permissions) {
       if (
         interaction.channel?.permissionsFor(interaction.member).has(permission)
       ) {
-        return await runInteraction(interaction, Database);
+        return await runInteraction(interaction, db);
       }
     }
     return await interaction.reply({
@@ -112,7 +114,7 @@ export async function handleApplicationCommands(interaction) {
   }
   if (interaction.isAutocomplete()) {
     const { runAutocomplete } = getCommandObject(interaction.commandName);
-    return runAutocomplete(interaction, Database);
+    return runAutocomplete(interaction, db);
   }
 }
 
