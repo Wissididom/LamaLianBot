@@ -25,8 +25,10 @@ import Rank from "./commands/rank.js";
 import Levels from "./commands/levels.js";
 import Setup from "./commands/setup.js";
 
+const db = new Database();
+
 export function getDatabase() {
-  return Database;
+  return db;
 }
 
 function getAvailableDefaultCommandNames() {
