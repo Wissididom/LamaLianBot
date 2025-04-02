@@ -2,7 +2,6 @@ import {
   AuditLogEvent,
   EmbedBuilder,
   Events,
-  PermissionOverwrites,
   PermissionsBitField,
   Role,
 } from "discord.js";
