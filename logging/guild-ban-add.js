@@ -13,7 +13,6 @@ export default async function handleGuildBanAdd(ban) {
   );
   if (!logChannel) return; // Don't handle event, if logChannel is not set
   ban = await ban.fetch();
-  const banner = await fetchBanner(ban);
   const createdTimestamp = Math.floor(
     new Date(ban.user.createdTimestamp) / 1000,
   );
@@ -21,6 +20,7 @@ export default async function handleGuildBanAdd(ban) {
     ban.user.displayAvatarURL({ dynamic: true }),
     { name: "avatar.gif" },
   );
+  const banner = await fetchBanner(ban);
   await logChannel.send({
     embeds: [
       new EmbedBuilder()

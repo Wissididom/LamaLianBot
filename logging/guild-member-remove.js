@@ -12,7 +12,6 @@ export default async function handleGuildMemberRemove(member) {
     Events.GuildMemberRemove,
   );
   if (!logChannel) return; // Don't handle event, if logChannel is not set
-  const kicker = await fetchKicker(member);
   const joinedTimestamp = Math.floor(new Date(member.joinedTimestamp) / 1000);
   const createdTimestamp = Math.floor(
     new Date(member.user.createdTimestamp) / 1000,
@@ -42,6 +41,7 @@ export default async function handleGuildMemberRemove(member) {
       inline: false,
     },
   ];
+  const kicker = await fetchKicker(member);
   let footer;
   if (kicker) {
     footer = `Nutzer-ID: ${member.id}; Moderator-ID: ${kicker ? kicker.id : "N/A"}`;
