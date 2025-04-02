@@ -20,15 +20,15 @@ export default async function handleChannelUpdate(oldChannel, newChannel) {
     .setFooter({ text: `Kanal-ID: ${newChannel.id}` })
     .setTimestamp();
   if (oldChannel.topic != newChannel.topic) {
-    if (oldChannel.topic.trim() == "") {
-      if (newChannel.topic.trim() != "") {
+    if ((oldChannel.topic?.trim() ?? "") == "") {
+      if ((newChannel.topic?.trim() ?? "") != "") {
         embed.setDescription(
           description +
             `\n\nVorher:\nN/A\n\nNachher:\n\`\`\`${newChannel.topic}\`\`\``,
         );
       }
     } else {
-      if (newChannel.topic.trim() == "") {
+      if ((newChannel.topic?.trim() ?? "") == "") {
         embed.setDescription(
           description +
             `\n\nVorher:\n\`\`\`${oldChannel.topic}\`\`\`\nNachher:\nN/A`,
@@ -65,8 +65,10 @@ export default async function handleChannelUpdate(oldChannel, newChannel) {
     });
   }
   if (
-    oldChannel.permissionOverwrites.cache !=
-    newChannel.permissionOverwrites.cache
+    checkIfCacheChanged(
+      oldChannel.permissionOverwrites.cache,
+      newChannel.permissionOverwrites.cache,
+    )
   ) {
     let auditLogEntry;
     let printType;
@@ -321,4 +323,23 @@ function convertBoolToStrEmoji(perm) {
     default:
       return "N/A";
   }
+}
+
+function checkIfCacheChanged(oldCache, newCache) {
+  let permsChanged = false;
+  if (oldCache.size !== newCache.size) {
+    permsChanged = true;
+  } else {
+    oldCache.forEach((oldOverwrite, id) => {
+      const newOverwrite = newCache.get(id);
+      if (
+        !newOverwrite ||
+        oldOverwrite.allow.bitfield !== newOverwrite.allow.bitfield ||
+        oldOverwrite.deny.bitfield !== newOverwrite.deny.bitfield
+      ) {
+        permsChanged = true;
+      }
+    });
+  }
+  return permsChanged;
 }
