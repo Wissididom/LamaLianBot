@@ -45,7 +45,8 @@ export default async function handleChannelCreate(channel) {
   if (creator) {
     embed.addFields({
       name: "Moderator",
-      value: `<@${creator.id}> (\`${creator.displayName}\` - \`${creator.username}\` - \`${creator.id}\`)`,
+      value:
+        `<@${creator.id}> (\`${creator.displayName}\` - \`${creator.username}\` - \`${creator.id}\`)`,
       inline: false,
     });
   }

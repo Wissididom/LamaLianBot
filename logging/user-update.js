@@ -40,7 +40,9 @@ export default async function handleUserUpdate(oldUser, newUser) {
   if (oldUser.system != newUser.system) {
     embed.addFields({
       name: "System",
-      value: `${oldUser.system ? "Ja" : "Nein"} -> ${newUser.system ? "Ja" : "Nein"}`,
+      value: `${oldUser.system ? "Ja" : "Nein"} -> ${
+        newUser.system ? "Ja" : "Nein"
+      }`,
       inline: true,
     });
     fields++;
@@ -56,7 +58,9 @@ export default async function handleUserUpdate(oldUser, newUser) {
   if (oldUser.avatar != newUser.avatar) {
     embed.addFields({
       name: "Avatar",
-      value: `[vorher](<${oldUser.displayAvatarURL({ dynamic: true })}>) -> [nachher](<${newUser.displayAvatarURL({ dynamic: true })}>)`,
+      value: `[vorher](<${
+        oldUser.displayAvatarURL({ dynamic: true })
+      }>) -> [nachher](<${newUser.displayAvatarURL({ dynamic: true })}>)`,
       inline: true,
     });
     fields++;

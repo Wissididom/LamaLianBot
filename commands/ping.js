@@ -14,7 +14,7 @@ const exportObj = {
           .setDescription(
             "Ob die Antwort auf diesen Command für jeden auf dem Server sichtbar sein soll",
           )
-          .setRequired(false),
+          .setRequired(false)
       ),
   runInteraction: async (interaction, _db) => {
     let pub = interaction.options.getBoolean("public") == true;
@@ -48,20 +48,26 @@ const exportObj = {
                   name: "Bot-Owner-Name",
                   value: process.env.BOT_OWNER_USER_ID
                     ? (
-                        await interaction.client.users.fetch(
-                          process.env.BOT_OWNER_USER_ID,
-                        )
-                      )?.username
+                      await interaction.client.users.fetch(
+                        process.env.BOT_OWNER_USER_ID,
+                      )
+                    )?.username
                     : "N/A",
                 },
                 {
                   name: "Latency",
-                  value: `${reply.createdTimestamp - interaction.createdTimestamp}ms`,
+                  value: `${
+                    reply.createdTimestamp - interaction.createdTimestamp
+                  }ms`,
                 },
                 { name: "Powered by", value: `Node.js ${process.version}` },
                 {
                   name: "Uptime",
-                  value: `${interaction.client.uptime / 1000}s - <t:${Math.round((now - interaction.client.uptime) / 1000)}:F> (<t:${Math.round((now - interaction.client.uptime) / 1000)}:R>)`,
+                  value: `${interaction.client.uptime / 1000}s - <t:${
+                    Math.round((now - interaction.client.uptime) / 1000)
+                  }:F> (<t:${
+                    Math.round((now - interaction.client.uptime) / 1000)
+                  }:R>)`,
                 },
               )
               .setThumbnail(interaction.guild.iconURL()),

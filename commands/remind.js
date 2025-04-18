@@ -86,7 +86,7 @@ const exportObj = {
             option
               .setName("topic")
               .setDescription("Der Inhalt an den erinnert werden soll")
-              .setRequired(true),
+              .setRequired(true)
           )
           .addIntegerOption((option) =>
             option
@@ -94,7 +94,7 @@ const exportObj = {
               .setDescription("Die Stunden der Uhrzeit der Erinnerung")
               .setRequired(true)
               .setMinValue(0)
-              .setMaxValue(23),
+              .setMaxValue(23)
           )
           .addIntegerOption((option) =>
             option
@@ -102,7 +102,7 @@ const exportObj = {
               .setDescription("Die Minuten der Uhrzeit der Erinnerung")
               .setRequired(true)
               .setMinValue(0)
-              .setMaxValue(59),
+              .setMaxValue(59)
           )
           .addIntegerOption((option) =>
             option
@@ -110,7 +110,7 @@ const exportObj = {
               .setDescription("Die Sekunden der Uhrzeit der Erinnerung")
               .setRequired(false)
               .setMinValue(0)
-              .setMaxValue(59),
+              .setMaxValue(59)
           )
           .addIntegerOption((option) =>
             option
@@ -118,7 +118,7 @@ const exportObj = {
               .setDescription("Das Jahr des Datums der Erinnerung")
               .setRequired(false)
               .setMinValue(2000)
-              .setMaxValue(3000),
+              .setMaxValue(3000)
           )
           .addIntegerOption((option) =>
             option
@@ -126,7 +126,7 @@ const exportObj = {
               .setDescription("Der Monat des Datums der Erinnerung")
               .setRequired(false)
               .setMinValue(1)
-              .setMaxValue(12),
+              .setMaxValue(12)
           )
           .addIntegerOption((option) =>
             option
@@ -134,8 +134,8 @@ const exportObj = {
               .setDescription("Der Tag des Datums der Erinnerung")
               .setRequired(false)
               .setMinValue(1)
-              .setMaxValue(31),
-          ),
+              .setMaxValue(31)
+          )
       )
       .addSubcommand((subcommand) =>
         subcommand
@@ -145,7 +145,7 @@ const exportObj = {
             option
               .setName("topic")
               .setDescription("Der Inhalt an den erinnert werden soll")
-              .setRequired(true),
+              .setRequired(true)
           )
           .addIntegerOption((option) =>
             option
@@ -153,7 +153,7 @@ const exportObj = {
               .setDescription(
                 "In welcher Menge an Einheiten soll eine Erinnerung gesendet werden",
               )
-              .setRequired(true),
+              .setRequired(true)
           )
           .addStringOption((option) =>
             option
@@ -167,8 +167,8 @@ const exportObj = {
                 { name: "Stunden", value: "hours" },
                 { name: "Minuten", value: "minutes" },
                 { name: "Sekunden", value: "seconds" },
-              ),
-          ),
+              )
+          )
       ),
   runInteraction: async (interaction, db) => {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
@@ -195,7 +195,15 @@ const exportObj = {
             await interaction.editReply({
               embeds: [
                 new EmbedBuilder().setDescription(
-                  `Notiert! Ich werde dich am ${weekday}, den ${targetTime.getDate().toString().padStart(2, "0")}.${(targetTime.getMonth() + 1).toString().padStart(2, "0")}.${targetTime.getFullYear().toString().padStart(4, "0")} um ${targetTime.getHours().toString().padStart(2, "0")}:${targetTime.getMinutes().toString().padStart(2, "0")} Uhr an "${topic}" erinnern (vorrausgesetzt DMs sind offen)`,
+                  `Notiert! Ich werde dich am ${weekday}, den ${
+                    targetTime.getDate().toString().padStart(2, "0")
+                  }.${
+                    (targetTime.getMonth() + 1).toString().padStart(2, "0")
+                  }.${
+                    targetTime.getFullYear().toString().padStart(4, "0")
+                  } um ${targetTime.getHours().toString().padStart(2, "0")}:${
+                    targetTime.getMinutes().toString().padStart(2, "0")
+                  } Uhr an "${topic}" erinnern (vorrausgesetzt DMs sind offen)`,
                 ),
               ],
               allowedMentions: { parse: [] }, // Prevent pings of other people
@@ -268,7 +276,13 @@ const exportObj = {
             await interaction.editReply({
               embeds: [
                 new EmbedBuilder().setDescription(
-                  `Notiert! Ich werde dich am ${weekday}, den ${day.toString().padStart(2, "0")}.${month.toString().padStart(2, "0")}.${year.toString().padStart(4, "0")} um ${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")} Uhr an "${topic}" erinnern (vorrausgesetzt DMs sind offen)`,
+                  `Notiert! Ich werde dich am ${weekday}, den ${
+                    day.toString().padStart(2, "0")
+                  }.${month.toString().padStart(2, "0")}.${
+                    year.toString().padStart(4, "0")
+                  } um ${hours.toString().padStart(2, "0")}:${
+                    minutes.toString().padStart(2, "0")
+                  } Uhr an "${topic}" erinnern (vorrausgesetzt DMs sind offen)`,
                 ),
               ],
               allowedMentions: { parse: [] }, // Prevent pings of other people

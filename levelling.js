@@ -12,14 +12,14 @@ export async function handleLevelling(db, message) {
   if (
     databaseTable &&
     databaseTable.lastMessageTimestamp + 60 * 1000 >= message.createdTimestamp
-  )
+  ) {
     return;
+  }
   let xp = (databaseTable?.xp ?? 0) + gainedXp;
   let currentLvl = databaseTable?.lvl ?? 0;
-  let nextLvlXp =
-    !databaseTable || databaseTable.nextLvlXp == 0
-      ? 5 * 1 ** 2 + 50 * 1 + 100 - xp
-      : databaseTable.nextLvlXp;
+  let nextLvlXp = !databaseTable || databaseTable.nextLvlXp == 0
+    ? 5 * 1 ** 2 + 50 * 1 + 100 - xp
+    : databaseTable.nextLvlXp;
   if (xp >= nextLvlXp) {
     // Level-Up
     currentLvl += 1;
@@ -53,7 +53,7 @@ export async function handleLevelling(db, message) {
   }
   db.updateLevelling(
     message.author.id,
-    message.createdTimestamp /*milliseconds*/,
+    message.createdTimestamp, /*milliseconds*/
     xp,
     currentLvl,
     nextLvlXp,

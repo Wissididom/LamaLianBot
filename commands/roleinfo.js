@@ -44,7 +44,7 @@ const exportObj = {
           .setDescription(
             "Die Rolle, dessen Informationen angezeigt werden soll",
           )
-          .setRequired(true),
+          .setRequired(true)
       ),
   runInteraction: async (interaction, _db) => {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
@@ -63,7 +63,9 @@ const exportObj = {
                 { name: "Name", value: role.name },
                 {
                   name: "Color",
-                  value: `#${role.color.toString(16).toUpperCase().padStart(6, "0")}`,
+                  value: `#${
+                    role.color.toString(16).toUpperCase().padStart(6, "0")
+                  }`,
                 },
                 { name: "Hoisted", value: role.hoist.toString() },
                 {
@@ -75,10 +77,9 @@ const exportObj = {
                 { name: "Managed", value: role.managed.toString() },
                 {
                   name: "Permissions",
-                  value:
-                    permissionsArray.length > 0
-                      ? permissionsArray.join(", ")
-                      : "Keine Berechtigungen",
+                  value: permissionsArray.length > 0
+                    ? permissionsArray.join(", ")
+                    : "Keine Berechtigungen",
                 },
                 { name: "Position", value: `#${role.position}` },
                 {

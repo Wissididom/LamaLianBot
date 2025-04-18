@@ -17,7 +17,7 @@ const exportObj = {
         option
           .setName("user")
           .setDescription("Der User, der gewarnt werden soll")
-          .setRequired(true),
+          .setRequired(true)
       )
       .addStringOption((option) =>
         option
@@ -25,7 +25,7 @@ const exportObj = {
           .setDescription(
             "Die Nachricht, die an den User per DM gesendet werden soll",
           )
-          .setRequired(false),
+          .setRequired(false)
       ),
   runInteraction: async (interaction, _db) => {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
@@ -44,7 +44,8 @@ const exportObj = {
       }
       try {
         await user.send({
-          content: `You were warned on the server **${interaction.guild.name}** for / Du wurdest auf **${interaction.guild.name}** für folgendes gewarnt:\n\`\`\`${reason}\`\`\``,
+          content:
+            `You were warned on the server **${interaction.guild.name}** for / Du wurdest auf **${interaction.guild.name}** für folgendes gewarnt:\n\`\`\`${reason}\`\`\``,
         });
         await interaction.editReply({
           content: `DM an ${user.tag} wurde erfolgreich gesendet`,

@@ -57,7 +57,9 @@ export default async function handleGuildBanRemove(ban) {
           },
         )
         .setFooter({
-          text: `Nutzer-ID: ${ban.user.id}; Moderator-ID: ${unbanner ? unbanner.id : "N/A"}`,
+          text: `Nutzer-ID: ${ban.user.id}; Moderator-ID: ${
+            unbanner ? unbanner.id : "N/A"
+          }`,
         })
         .setTimestamp(),
     ],

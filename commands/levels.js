@@ -11,7 +11,9 @@ async function getLevellingLevelsResponseObject(db, page = 1) {
   const response = [];
   for (let i = 0; i < databaseTable.length; i++) {
     response.push(
-      `Rang ${i + 1}; <@${databaseTable[i].userId}>; Level ${databaseTable[i].lvl} (${databaseTable[i].xp} / ${databaseTable[i].nextLvlXp} XP)`,
+      `Rang ${i + 1}; <@${databaseTable[i].userId}>; Level ${
+        databaseTable[i].lvl
+      } (${databaseTable[i].xp} / ${databaseTable[i].nextLvlXp} XP)`,
     );
   }
   if (response.length > 0) {
@@ -70,13 +72,13 @@ const exportObj = {
         option
           .setName("public")
           .setDescription("Ob die Antwort des Bots öffentlich sein soll")
-          .setRequired(false),
+          .setRequired(false)
       )
       .addIntegerOption((option) =>
         option
           .setName("page")
           .setDescription("Seite die angezeigt werden soll")
-          .setRequired(false),
+          .setRequired(false)
       ),
   runInteraction: async (interaction, db) => {
     if (interaction.options.getBoolean("public") == false) {

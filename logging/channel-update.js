@@ -13,7 +13,8 @@ export default async function handleChannelUpdate(oldChannel, newChannel) {
     Events.ChannelUpdate,
   );
   if (!logChannel) return; // Don't handle event, if logChannel is not set
-  const description = `**Kanal <#${newChannel.id}> (${newChannel.name}) bearbeitet**`;
+  const description =
+    `**Kanal <#${newChannel.id}> (${newChannel.name}) bearbeitet**`;
   const embed = new EmbedBuilder()
     .setTitle("Kanal bearbeitet")
     .setDescription(description)
@@ -46,7 +47,8 @@ export default async function handleChannelUpdate(oldChannel, newChannel) {
   if (oldChannel.parent?.id != newChannel.parent?.id) {
     embed.addFields({
       name: "Name",
-      value: `\`${oldChannel.parent?.name}\` (${oldChannel.parent?.id}) -> \`${oldChannel.parent?.name}\` (${oldChannel.parent?.id})`,
+      value:
+        `\`${oldChannel.parent?.name}\` (${oldChannel.parent?.id}) -> \`${oldChannel.parent?.name}\` (${oldChannel.parent?.id})`,
       inline: false,
     });
   }
@@ -60,7 +62,9 @@ export default async function handleChannelUpdate(oldChannel, newChannel) {
   if (oldChannel.type != newChannel.type) {
     embed.addFields({
       name: "Typ",
-      value: `${getChannelTypeAsString(oldChannel.type)} -> ${getChannelTypeAsString(newChannel.type)}`,
+      value: `${getChannelTypeAsString(oldChannel.type)} -> ${
+        getChannelTypeAsString(newChannel.type)
+      }`,
       inline: false,
     });
   }
@@ -74,14 +78,14 @@ export default async function handleChannelUpdate(oldChannel, newChannel) {
     let printType;
     if (
       oldChannel.permissionOverwrites.cache.size <
-      newChannel.permissionOverwrites.cache.size
+        newChannel.permissionOverwrites.cache.size
     ) {
       // Added channel overwrite
       auditLogEntry = await fetchChannelOverwriteCreate(newChannel);
       printType = "erstellt";
     } else if (
       oldChannel.permissionOverwrites.cache.size >
-      newChannel.permissionOverwrites.cache.size
+        newChannel.permissionOverwrites.cache.size
     ) {
       // Removed channel overwrite
       auditLogEntry = await fetchChannelOverwriteDelete(newChannel);
@@ -92,7 +96,13 @@ export default async function handleChannelUpdate(oldChannel, newChannel) {
       printType = "bearbeitet";
     }
     if (auditLogEntry.user || auditLogEntry.role) {
-      let overwriteList = `<@${auditLogEntry.role ? `&${auditLogEntry.role.id}` : auditLogEntry.user.id}> (${auditLogEntry.role ? auditLogEntry.role.name : auditLogEntry.user.username})\n`;
+      let overwriteList = `<@${
+        auditLogEntry.role ? `&${auditLogEntry.role.id}` : auditLogEntry.user.id
+      }> (${
+        auditLogEntry.role
+          ? auditLogEntry.role.name
+          : auditLogEntry.user.username
+      })\n`;
       if (printType == "bearbeitet") {
         const allPermissions = new Set(Object.keys(PermissionsBitField.Flags));
         const receivedChanges = convertChangesToAssociativeArray(
@@ -122,13 +132,13 @@ export default async function handleChannelUpdate(oldChannel, newChannel) {
               const srcState = permissionFields.oldAllowed.has(perm)
                 ? true
                 : permissionFields.oldDenied.has(perm)
-                  ? false
-                  : null;
+                ? false
+                : null;
               const dstState = permissionFields.newAllowed.has(perm)
                 ? true
                 : permissionFields.newDenied.has(perm)
-                  ? false
-                  : null;
+                ? false
+                : null;
               if (srcState === dstState) continue;
               changes.push({
                 name: perm,
@@ -191,15 +201,16 @@ export default async function handleChannelUpdate(oldChannel, newChannel) {
           }
         }
         for (const change of changes) {
-          overwriteList += `**${change.name}**: \`${convertBoolToStrEmoji(change.src)} -> ${convertBoolToStrEmoji(change.dst)}\`\n`;
+          overwriteList += `**${change.name}**: \`${
+            convertBoolToStrEmoji(change.src)
+          } -> ${convertBoolToStrEmoji(change.dst)}\`\n`;
         }
       }
       embed.addFields({
         name: `Permission overwrites ${printType}`,
-        value:
-          overwriteList.length > 1024
-            ? overwriteList.substring(0, 1024)
-            : overwriteList,
+        value: overwriteList.length > 1024
+          ? overwriteList.substring(0, 1024)
+          : overwriteList,
         inline: false,
       });
     }
@@ -208,7 +219,8 @@ export default async function handleChannelUpdate(oldChannel, newChannel) {
   if (updater) {
     embed.addFields({
       name: "Moderator",
-      value: `<@${updater.id}> (\`${updater.displayName}\` - \`${updater.username}\` - \`${updater.id}\`)`,
+      value:
+        `<@${updater.id}> (\`${updater.displayName}\` - \`${updater.username}\` - \`${updater.id}\`)`,
       inline: false,
     });
   }

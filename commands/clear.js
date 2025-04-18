@@ -18,7 +18,7 @@ const exportObj = {
           .setDescription(
             "Die Anzahl an Nachrichten, die gelöscht werden sollen (max. 14 Tage alt)",
           )
-          .setRequired(true),
+          .setRequired(true)
       ),
   runInteraction: async (interaction, _db) => {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });

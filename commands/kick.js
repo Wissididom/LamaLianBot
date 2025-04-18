@@ -17,13 +17,13 @@ const exportObj = {
         option
           .setName("user")
           .setDescription("Der User, der gekickt werden soll")
-          .setRequired(true),
+          .setRequired(true)
       )
       .addStringOption((option) =>
         option
           .setName("reason")
           .setDescription("Die Begründung für den Kick")
-          .setRequired(false),
+          .setRequired(false)
       ),
   runInteraction: async (interaction, _db) => {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
@@ -57,7 +57,9 @@ const exportObj = {
             : `[Ausgeführt von ${interaction.member.displayName}]`,
         );
         await interaction.editReply({
-          content: `${kickInfo.user?.tag ?? kickInfo.tag ?? kickInfo} erfolgreich gekickt`,
+          content: `${
+            kickInfo.user?.tag ?? kickInfo.tag ?? kickInfo
+          } erfolgreich gekickt`,
         });
       } catch (err) {
         console.error(err);

@@ -45,10 +45,9 @@ export default async function handleGuildRoleCreate(role) {
       },
       {
         name: "Rechte",
-        value:
-          permissionArray && permissionArray.length > 0
-            ? permissionArray.join(", ")
-            : "Keine Rechte",
+        value: permissionArray && permissionArray.length > 0
+          ? permissionArray.join(", ")
+          : "Keine Rechte",
         inline: false,
       },
     )
@@ -58,7 +57,8 @@ export default async function handleGuildRoleCreate(role) {
   if (creator) {
     embed.addFields({
       name: "Moderator",
-      value: `<@${creator.id}> (\`${creator.displayName}\` - \`${creator.username}\` - \`${creator.id}\`)`,
+      value:
+        `<@${creator.id}> (\`${creator.displayName}\` - \`${creator.username}\` - \`${creator.id}\`)`,
       inline: false,
     });
   }

@@ -115,7 +115,8 @@ export async function handleApplicationCommands(interaction) {
       }
     }
     return await interaction.reply({
-      content: `You don't have permission for the command ${name} in this channel or server-wide!`,
+      content:
+        `You don't have permission for the command ${name} in this channel or server-wide!`,
     });
   }
   if (interaction.isAutocomplete()) {

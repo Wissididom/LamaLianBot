@@ -54,7 +54,9 @@ export default async function handleGuildBanAdd(ban) {
           },
         )
         .setFooter({
-          text: `Nutzer-ID: ${ban.user.id}; Moderator-ID: ${banner ? banner.id : "N/A"}`,
+          text: `Nutzer-ID: ${ban.user.id}; Moderator-ID: ${
+            banner ? banner.id : "N/A"
+          }`,
         })
         .setTimestamp(),
     ],

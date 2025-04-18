@@ -26,7 +26,7 @@ const exportObj = {
           .setDescription(
             "Der User, dessen Informationen angezeigt werden sollen",
           )
-          .setRequired(false),
+          .setRequired(false)
       ),
   runInteraction: async (interaction, _db) => {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
@@ -49,12 +49,16 @@ const exportObj = {
                 },
                 {
                   name: "Joined Discord",
-                  value: `<t:${Math.floor(user.createdTimestamp / 1000)}:F> (<t:${Math.floor(user.createdTimestamp / 1000)}:R>)`,
+                  value: `<t:${
+                    Math.floor(user.createdTimestamp / 1000)
+                  }:F> (<t:${Math.floor(user.createdTimestamp / 1000)}:R>)`,
                 },
                 {
                   name: "Joined Server",
                   value: member
-                    ? `<t:${Math.floor(member.joinedTimestamp / 1000)}:F> (<t:${Math.floor(member.joinedTimestamp / 1000)}:R>)`
+                    ? `<t:${Math.floor(member.joinedTimestamp / 1000)}:F> (<t:${
+                      Math.floor(member.joinedTimestamp / 1000)
+                    }:R>)`
                     : `N/A`,
                 },
                 {
@@ -65,9 +69,9 @@ const exportObj = {
                   name: "Is timed out",
                   value: member
                     ? (
-                        !!member.communicationDisabledUntilTimestamp &&
-                        member.communicationDisabledUntilTimestamp >= Date.now()
-                      ).toString()
+                      !!member.communicationDisabledUntilTimestamp &&
+                      member.communicationDisabledUntilTimestamp >= Date.now()
+                    ).toString()
                     : `N/A`,
                 },
               )

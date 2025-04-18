@@ -16,13 +16,13 @@ const exportObj = {
         option
           .setName("user")
           .setDescription("Der User, der entbannt werden soll")
-          .setRequired(true),
+          .setRequired(true)
       )
       .addStringOption((option) =>
         option
           .setName("reason")
           .setDescription("Die Begründung für die Entbannung")
-          .setRequired(false),
+          .setRequired(false)
       ),
   runInteraction: async (interaction, _db) => {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
@@ -48,7 +48,8 @@ const exportObj = {
       } catch (err) {
         if (err.name == "DiscordAPIError[10026]") {
           await interaction.editReply({
-            content: `${user?.tag} scheint nicht gebannt zu sein (entweder wurde bereits entbannt oder der User war nie gebannt)!`,
+            content:
+              `${user?.tag} scheint nicht gebannt zu sein (entweder wurde bereits entbannt oder der User war nie gebannt)!`,
           });
           return;
         }

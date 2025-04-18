@@ -12,7 +12,7 @@ const exportObj = {
         option
           .setName("user")
           .setDescription("Der User dessen Geburtstag du sehen möchtest")
-          .setRequired(false),
+          .setRequired(false)
       ),
   runInteraction: async (interaction, db) => {
     await interaction.deferReply();
@@ -28,7 +28,11 @@ const exportObj = {
         await interaction.editReply({
           embeds: [
             new EmbedBuilder().setDescription(
-              `<@${user}>'s Geburtstag ist am \`${birthday.day.toString().padStart(2, "0")}.${birthday.month.toString().padStart(2, "0")}.${birthday.year ? birthday.year : "????"}\`!`,
+              `<@${user}>'s Geburtstag ist am \`${
+                birthday.day.toString().padStart(2, "0")
+              }.${birthday.month.toString().padStart(2, "0")}.${
+                birthday.year ? birthday.year : "????"
+              }\`!`,
             ),
           ],
           allowedMentions: { parse: [] }, // Prevent pings of other people

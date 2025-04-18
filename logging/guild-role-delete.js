@@ -40,10 +40,9 @@ export default async function handleGuildRoleDelete(role) {
       },
       {
         name: "Rechte",
-        value:
-          permissionArray && permissionArray.length > 0
-            ? permissionArray.join(", ")
-            : "Keine Rechte",
+        value: permissionArray && permissionArray.length > 0
+          ? permissionArray.join(", ")
+          : "Keine Rechte",
         inline: true,
       },
       {
@@ -58,7 +57,8 @@ export default async function handleGuildRoleDelete(role) {
   if (deleter) {
     embed.addFields({
       name: "Moderator",
-      value: `<@${deleter.id}> (\`${deleter.displayName}\` - \`${deleter.username}\` - \`${deleter.id}\`)`,
+      value:
+        `<@${deleter.id}> (\`${deleter.displayName}\` - \`${deleter.username}\` - \`${deleter.id}\`)`,
       inline: false,
     });
   }

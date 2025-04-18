@@ -24,7 +24,9 @@ export default async function handleGuildRoleUpdate(oldRole, newRole) {
   if (oldRole.hoist != newRole.hoist) {
     embed.addFields({
       name: "Separat angezeigt",
-      value: `${oldRole.hoist ? "Ja" : "Nein"} -> ${newRole.hoist ? "Ja" : "Nein"}`,
+      value: `${oldRole.hoist ? "Ja" : "Nein"} -> ${
+        newRole.hoist ? "Ja" : "Nein"
+      }`,
       inline: true,
     });
     fieldsAdded = true;
@@ -32,7 +34,8 @@ export default async function handleGuildRoleUpdate(oldRole, newRole) {
   if (oldRole.icon != newRole.icon) {
     embed.addFields({
       name: "Icon",
-      value: `[altes Icon](${oldRole.iconURL()}) -> [neues Icon](${newRole.iconURL()})`,
+      value:
+        `[altes Icon](${oldRole.iconURL()}) -> [neues Icon](${newRole.iconURL()})`,
       inline: true,
     });
     fieldsAdded = true;
@@ -40,7 +43,9 @@ export default async function handleGuildRoleUpdate(oldRole, newRole) {
   if (oldRole.managed != newRole.managed) {
     embed.addFields({
       name: "Von einer Anwendung verwaltet",
-      value: `${oldRole.managed ? "Ja" : "Nein"} -> ${newRole.managed ? "Ja" : "Nein"}`,
+      value: `${oldRole.managed ? "Ja" : "Nein"} -> ${
+        newRole.managed ? "Ja" : "Nein"
+      }`,
       inline: true,
     });
     fieldsAdded = true;
@@ -48,7 +53,9 @@ export default async function handleGuildRoleUpdate(oldRole, newRole) {
   if (oldRole.mentionable != newRole.mentionable) {
     embed.addFields({
       name: "Von jedem erwähnbar",
-      value: `${oldRole.mentionable ? "Ja" : "Nein"} -> ${newRole.mentionable ? "Ja" : "Nein"}`,
+      value: `${oldRole.mentionable ? "Ja" : "Nein"} -> ${
+        newRole.mentionable ? "Ja" : "Nein"
+      }`,
       inline: true,
     });
     fieldsAdded = true;
@@ -77,7 +84,9 @@ export default async function handleGuildRoleUpdate(oldRole, newRole) {
     if (oldJoined != newJoined) {
       embed.addFields({
         name: "Rechte",
-        value: `${oldArray && oldArray.length > 0 ? oldJoined : "Keine Rechte"} -> ${newArray && newArray.length > 0 ? newJoined : "Keine Rechte"}`,
+        value: `${
+          oldArray && oldArray.length > 0 ? oldJoined : "Keine Rechte"
+        } -> ${newArray && newArray.length > 0 ? newJoined : "Keine Rechte"}`,
         inline: false,
       });
       fieldsAdded = true;
@@ -87,7 +96,8 @@ export default async function handleGuildRoleUpdate(oldRole, newRole) {
   if (updater) {
     embed.addFields({
       name: "Moderator",
-      value: `<@${updater.id}> (\`${updater.displayName}\` - \`${updater.username}\` - \`${updater.id}\`)`,
+      value:
+        `<@${updater.id}> (\`${updater.displayName}\` - \`${updater.username}\` - \`${updater.id}\`)`,
       inline: false,
     });
     fieldsAdded = true;

@@ -17,7 +17,7 @@ const exportObj = {
         option
           .setName("user")
           .setDescription("Der User, der einen Timeout bekommen soll")
-          .setRequired(true),
+          .setRequired(true)
       )
       .addIntegerOption((option) =>
         option
@@ -25,13 +25,13 @@ const exportObj = {
           .setDescription(
             "Die Zeit, die der User in Timeout versetzt werden soll",
           )
-          .setRequired(true),
+          .setRequired(true)
       )
       .addStringOption((option) =>
         option
           .setName("reason")
           .setDescription("Die Begründung für den Timeout")
-          .setRequired(false),
+          .setRequired(false)
       ),
   runInteraction: async (interaction, _db) => {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
@@ -66,7 +66,8 @@ const exportObj = {
             : `[Ausgeführt von ${interaction.member.displayName}]`,
         );
         await interaction.editReply({
-          content: `<@${member.id}> erfolgreich für ${duration} Sekunden in Timeout versetzt`,
+          content:
+            `<@${member.id}> erfolgreich für ${duration} Sekunden in Timeout versetzt`,
         });
       } catch (err) {
         console.error(err);

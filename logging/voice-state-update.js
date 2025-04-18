@@ -36,12 +36,14 @@ export default async function handleVoiceStateUpdate(oldState, newState) {
       .setFields(
         {
           name: "Von",
-          value: `<#${oldState.channel.id}> (\`${oldState.channel.name}\` - ${oldState.channel.id})`,
+          value:
+            `<#${oldState.channel.id}> (\`${oldState.channel.name}\` - ${oldState.channel.id})`,
           inline: true,
         },
         {
           name: "Zu",
-          value: `<#${newState.channel.id}> (\`${newState.channel.name}\` - ${newState.channel.id})**`,
+          value:
+            `<#${newState.channel.id}> (\`${newState.channel.name}\` - ${newState.channel.id})**`,
           inline: true,
         },
       )
@@ -55,28 +57,36 @@ export default async function handleVoiceStateUpdate(oldState, newState) {
         // I don't care if it is a selfDeaf or a serverDeaf here
         embed.addFields({
           name: "Taub",
-          value: `${oldState.deaf ? "Ja" : "Nein"} -> ${newState.deaf ? "Ja" : "Nein"}`,
+          value: `${oldState.deaf ? "Ja" : "Nein"} -> ${
+            newState.deaf ? "Ja" : "Nein"
+          }`,
           inline: true,
         });
       }
       if (oldState.mute != newState.mute) {
         embed.addFields({
           name: "Stumm",
-          value: `${oldState.mute ? "Ja" : "Nein"} -> ${newState.mute ? "Ja" : "Nein"}`,
+          value: `${oldState.mute ? "Ja" : "Nein"} -> ${
+            newState.mute ? "Ja" : "Nein"
+          }`,
           inline: true,
         });
       }
       if (oldState.video != newState.video) {
         embed.addFields({
           name: "Video",
-          value: `${oldState.video ? "Ja" : "Nein"} -> ${newState.video ? "Ja" : "Nein"}`,
+          value: `${oldState.video ? "Ja" : "Nein"} -> ${
+            newState.video ? "Ja" : "Nein"
+          }`,
           inline: true,
         });
       }
       if (oldState.streaming != newState.streaming) {
         embed.addFields({
           name: "Streaming Screen",
-          value: `${oldState.streaming ? "Ja" : "Nein"} -> ${newState.streaming ? "Ja" : "Nein"}`,
+          value: `${oldState.streaming ? "Ja" : "Nein"} -> ${
+            newState.streaming ? "Ja" : "Nein"
+          }`,
           inline: true,
         });
       }

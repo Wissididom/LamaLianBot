@@ -20,7 +20,9 @@ export default async function handleGuildEmojiDelete(emoji) {
   const embed = new EmbedBuilder()
     .setTitle("Emoji gelöscht")
     .setDescription(
-      `**Emoji <${emoji.animated ? "a:" : ":"}${emoji.name}:${emoji.id}> ([${emoji.name}](${emojiUrl})) gelöscht**`,
+      `**Emoji <${
+        emoji.animated ? "a:" : ":"
+      }${emoji.name}:${emoji.id}> ([${emoji.name}](${emojiUrl})) gelöscht**`,
     )
     .setFields(
       {
@@ -66,7 +68,8 @@ export default async function handleGuildEmojiDelete(emoji) {
   if (deleter) {
     embed.addFields({
       name: "Moderator",
-      value: `<@${deleter.id}> (\`${deleter.displayName}\` - \`${deleter.username}\` - \`${deleter.id}\`)`,
+      value:
+        `<@${deleter.id}> (\`${deleter.displayName}\` - \`${deleter.username}\` - \`${deleter.id}\`)`,
       inline: false,
     });
   }

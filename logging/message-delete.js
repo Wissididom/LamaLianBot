@@ -11,8 +11,8 @@ export default async function handleMessageDelete(message) {
   const author = message.member
     ? `<@${message.member.id}> (\`${message.member.displayName}\` - \`${message.member.user.username}\` - ${message.member.id})`
     : message.author
-      ? `<@${message.author.id}> (\`${message.author.displayName}\` - \`${message.author.username}\` - ${message.author.id})`
-      : "N/A";
+    ? `<@${message.author.id}> (\`${message.author.displayName}\` - \`${message.author.username}\` - ${message.author.id})`
+    : "N/A";
   const memberAvatarAttachment = new AttachmentBuilder(
     message.member
       ? message.member.displayAvatarURL({ dynamic: true })
@@ -45,7 +45,9 @@ export default async function handleMessageDelete(message) {
     )
     .setThumbnail("attachment://avatar.gif")
     .setFooter({
-      text: `Nutzer-ID: ${(message.member ? message.member.id : message.author?.id) ?? "N/A"}`,
+      text: `Nutzer-ID: ${
+        (message.member ? message.member.id : message.author?.id) ?? "N/A"
+      }`,
     })
     .setTimestamp();
   if (message.content) {

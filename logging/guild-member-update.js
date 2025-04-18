@@ -29,7 +29,9 @@ export default async function handleGuildMemberUpdate(oldMember, newMember) {
       .setFooter({ text: `Nutzer-ID: ${newMember.id}` });
     embed.addFields({
       name: "Server-Avatar",
-      value: `[vorher](<${oldMember.displayAvatarURL({ dynamic: true })}>) -> [nachher](<${newMember.displayAvatarURL({ dynamic: true })}>)`,
+      value: `[vorher](<${
+        oldMember.displayAvatarURL({ dynamic: true })
+      }>) -> [nachher](<${newMember.displayAvatarURL({ dynamic: true })}>)`,
       inline: true,
     });
     shouldPost = true;
@@ -54,7 +56,8 @@ export default async function handleGuildMemberUpdate(oldMember, newMember) {
     if (roler) {
       embed.addFields({
         name: "Moderator",
-        value: `<@${roler.id}> (\`${roler.displayName}\` - \`${roler.username}\` - ${roler.id})`,
+        value:
+          `<@${roler.id}> (\`${roler.displayName}\` - \`${roler.username}\` - ${roler.id})`,
         inline: true,
       });
       embed.setFooter({
@@ -82,7 +85,8 @@ export default async function handleGuildMemberUpdate(oldMember, newMember) {
     if (roler) {
       embed.addFields({
         name: "Moderator",
-        value: `<@${roler.id}> (\`${roler.displayName}\` - \`${roler.username}\` - ${roler.id})`,
+        value:
+          `<@${roler.id}> (\`${roler.displayName}\` - \`${roler.username}\` - ${roler.id})`,
         inline: true,
       });
       embed.setFooter({

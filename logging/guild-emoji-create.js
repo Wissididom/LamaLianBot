@@ -11,8 +11,8 @@ export default async function handleGuildEmojiCreate(emoji) {
   const author = emoji.managed
     ? null
     : emoji.author
-      ? emoji.author
-      : await emoji.fetchAuthor();
+    ? emoji.author
+    : await emoji.fetchAuthor();
   const emojiUrl = emoji.imageURL();
   const emojiAttachment = new AttachmentBuilder(emojiUrl, {
     name: "emoji.gif",
@@ -20,7 +20,9 @@ export default async function handleGuildEmojiCreate(emoji) {
   const embed = new EmbedBuilder()
     .setTitle("Emoji erstellt")
     .setDescription(
-      `**Emoji <${emoji.animated ? "a:" : ":"}${emoji.name}:${emoji.id}> ([${emoji.name}](${emojiUrl})) erstellt**`,
+      `**Emoji <${
+        emoji.animated ? "a:" : ":"
+      }${emoji.name}:${emoji.id}> ([${emoji.name}](${emojiUrl})) erstellt**`,
     )
     .setFields(
       {

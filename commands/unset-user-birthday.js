@@ -16,7 +16,7 @@ const exportObj = {
         option
           .setName("user")
           .setDescription("Der User, dessen Geburtstag gelöscht werden soll")
-          .setRequired(true),
+          .setRequired(true)
       ),
   runInteraction: async (interaction, db) => {
     await interaction.deferReply();

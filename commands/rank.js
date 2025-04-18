@@ -23,12 +23,15 @@ async function getLevellingRankResponseObject(db, user) {
           new EmbedBuilder().setTitle(`Rang gefunden`).addFields(
             {
               name: "User",
-              value: `<@${user.id}> (\`${user.displayName}\` - \`${user.username}\` - ${user.id})`,
+              value:
+                `<@${user.id}> (\`${user.displayName}\` - \`${user.username}\` - ${user.id})`,
             },
             { name: "Rank", value: `#${i + 1}` },
             {
               name: "Level",
-              value: `${databaseTable[i].lvl} (${databaseTable[i].xp} / ${databaseTable[i].nextLvlXp} XP)`,
+              value: `${databaseTable[i].lvl} (${databaseTable[i].xp} / ${
+                databaseTable[i].nextLvlXp
+              } XP)`,
             },
           ),
         ],
@@ -58,13 +61,13 @@ const exportObj = {
         option
           .setName("user")
           .setDescription("Der User, dessen Rang abgefragt werden soll")
-          .setRequired(false),
+          .setRequired(false)
       )
       .addBooleanOption((option) =>
         option
           .setName("public")
           .setDescription("Ob die Antwort des Bots öffentlich sein soll")
-          .setRequired(false),
+          .setRequired(false)
       ),
   runInteraction: async (interaction, db) => {
     if (interaction.options.getBoolean("public") == false) {

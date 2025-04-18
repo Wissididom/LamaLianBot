@@ -17,13 +17,13 @@ const exportObj = {
         option
           .setName("user")
           .setDescription("Der User, dessen Timeout entfernt werden soll")
-          .setRequired(true),
+          .setRequired(true)
       )
       .addStringOption((option) =>
         option
           .setName("reason")
           .setDescription("Die Begründung für das Aufheben des Timeouts")
-          .setRequired(false),
+          .setRequired(false)
       ),
   runInteraction: async (interaction, _db) => {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
@@ -51,7 +51,8 @@ const exportObj = {
             : `[Ausgeführt von ${interaction.member.displayName}]`,
         );
         await interaction.editReply({
-          content: `Das Timeout von ${member.user?.tag} wurde erfolgreich aufgehoben`,
+          content:
+            `Das Timeout von ${member.user?.tag} wurde erfolgreich aufgehoben`,
         });
       } catch (err) {
         console.error(err);

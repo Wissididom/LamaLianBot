@@ -13,12 +13,13 @@ const exportObj = {
         option
           .setName("avatar")
           .setDescription("Der neue Avatar des Bots")
-          .setRequired(true),
+          .setRequired(true)
       ),
   runInteraction: async (interaction, _db) => {
     if (interaction.user.id != process.env.BOT_OWNER_USER_ID) {
       await interaction.reply({
-        content: `Nur <@${process.env.BOT_OWNER_USER_ID}> (Bot-Owner) kann diesen Befehl nutzen`,
+        content:
+          `Nur <@${process.env.BOT_OWNER_USER_ID}> (Bot-Owner) kann diesen Befehl nutzen`,
         flags: MessageFlags.Ephemeral,
       });
       return;

@@ -45,7 +45,8 @@ export default async function handleChannelDelete(channel) {
   if (deleter) {
     embed.addFields({
       name: "Moderator",
-      value: `<@${deleter.id}> (\`${deleter.displayName}\` - \`${deleter.username}\` - \`${deleter.id}\`)`,
+      value:
+        `<@${deleter.id}> (\`${deleter.displayName}\` - \`${deleter.username}\` - \`${deleter.id}\`)`,
       inline: false,
     });
   }

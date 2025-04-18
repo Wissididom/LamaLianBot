@@ -17,7 +17,7 @@ const exportObj = {
         option
           .setName("user")
           .setDescription("Der User, der gebannt werden soll")
-          .setRequired(true),
+          .setRequired(true)
       )
       .addIntegerOption((option) =>
         option
@@ -25,13 +25,13 @@ const exportObj = {
           .setDescription(
             "Die Zeit in welcher die Nachrichten des Users gelöscht werden sollen",
           )
-          .setRequired(false),
+          .setRequired(false)
       )
       .addStringOption((option) =>
         option
           .setName("reason")
           .setDescription("Die Begründung für den Bann")
-          .setRequired(false),
+          .setRequired(false)
       ),
   runInteraction: async (interaction, _db) => {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
@@ -65,7 +65,9 @@ const exportObj = {
       try {
         const banInfo = await interaction.guild.members.ban(user, banObj);
         await interaction.editReply({
-          content: `${banInfo.user?.tag ?? banInfo.tag ?? banInfo} erfolgreich gebannt`,
+          content: `${
+            banInfo.user?.tag ?? banInfo.tag ?? banInfo
+          } erfolgreich gebannt`,
         });
       } catch (err) {
         console.error(err);

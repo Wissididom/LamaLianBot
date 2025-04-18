@@ -14,7 +14,7 @@ const exportObj = {
           .setDescription(
             "Ob die Antwort auf diesen Command für jeden auf dem Server sichtbar sein soll",
           )
-          .setRequired(false),
+          .setRequired(false)
       ),
   runInteraction: async (interaction, _db) => {
     let pub = interaction.options.getBoolean("public") == true;
@@ -79,7 +79,9 @@ const exportObj = {
                 },
                 {
                   name: "Created",
-                  value: `<t:${Math.round(guild.createdTimestamp / 1000)}:F> (<t:${Math.round(guild.createdTimestamp / 1000)}:R>)`,
+                  value: `<t:${
+                    Math.round(guild.createdTimestamp / 1000)
+                  }:F> (<t:${Math.round(guild.createdTimestamp / 1000)}:R>)`,
                 },
                 {
                   name: "Role List",

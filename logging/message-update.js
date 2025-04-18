@@ -14,8 +14,8 @@ export default async function handleMessageUpdate(oldMessage, newMessage) {
   let author = newMessage.member
     ? `<@${newMessage.member.id}> (\`${newMessage.member.displayName}\` - \`${newMessage.member.user.username}\` - ${newMessage.member.id})`
     : newMessage.author
-      ? `<@${newMessage.author.id}> (\`${newMessage.author.displayName}\` - \`${newMessage.author.username}\` - ${newMessage.author.id})`
-      : "N/A";
+    ? `<@${newMessage.author.id}> (\`${newMessage.author.displayName}\` - \`${newMessage.author.username}\` - ${newMessage.author.id})`
+    : "N/A";
   if (oldMessage.content == newMessage.content) {
     // Don't handle event if content is the same
     return;
@@ -23,7 +23,8 @@ export default async function handleMessageUpdate(oldMessage, newMessage) {
   let description;
   if (oldMessage.content) {
     if (newMessage.content) {
-      description = `**alte Nachricht**:\n${oldMessage.content}\n\n**neue Nachricht**:\n${newMessage.content}`;
+      description =
+        `**alte Nachricht**:\n${oldMessage.content}\n\n**neue Nachricht**:\n${newMessage.content}`;
     } else {
       description = `**alte Nachricht**:\n${oldMessage.content}`;
     }
@@ -69,7 +70,9 @@ export default async function handleMessageUpdate(oldMessage, newMessage) {
         )
         .setThumbnail("attachment://avatar.gif")
         .setFooter({
-          text: `Nutzer-ID: ${newMessage.member ? newMessage.member.id : newMessage.author.id}`,
+          text: `Nutzer-ID: ${
+            newMessage.member ? newMessage.member.id : newMessage.author.id
+          }`,
         })
         .setTimestamp(),
     ],

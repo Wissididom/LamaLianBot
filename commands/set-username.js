@@ -13,12 +13,13 @@ const exportObj = {
         option
           .setName("username")
           .setDescription("Der neue Username des Bots")
-          .setRequired(true),
+          .setRequired(true)
       ),
   runInteraction: async (interaction, _db) => {
     if (interaction.user.id != process.env.BOT_OWNER_USER_ID) {
       await interaction.reply({
-        content: `Nur <@${process.env.BOT_OWNER_USER_ID}> (Bot-Owner) kann diesen Befehl nutzen`,
+        content:
+          `Nur <@${process.env.BOT_OWNER_USER_ID}> (Bot-Owner) kann diesen Befehl nutzen`,
         flags: MessageFlags.Ephemeral,
       });
       return;
@@ -34,7 +35,9 @@ const exportObj = {
       } catch (err) {
         if (err.name == "DiscordAPIError[50035]") {
           await interaction.editReply({
-            content: `Discord hat mit "Invalid Form Body" geantwortet! Code: ${err.rawError.errors.username?._errors[0]?.code}; Message: ${err.rawError.errors.username?._errors[0]?.message}`,
+            content: `Discord hat mit "Invalid Form Body" geantwortet! Code: ${
+              err.rawError.errors.username?._errors[0]?.code
+            }; Message: ${err.rawError.errors.username?._errors[0]?.message}`,
           });
           return;
         }

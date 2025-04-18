@@ -36,7 +36,8 @@ async function getImportMee6ResponseObject(db, serverId, interaction) {
       if (mee6response.status == 404) {
         // Probably "Guild not found"
         return {
-          content: `Importieren des Servers ${serverId} ist fehlgeschlagen, weil das Leaderboard nicht gefunden wurde, wahrscheinlich ist es privat oder nicht-existent!`,
+          content:
+            `Importieren des Servers ${serverId} ist fehlgeschlagen, weil das Leaderboard nicht gefunden wurde, wahrscheinlich ist es privat oder nicht-existent!`,
           allowedMentions: { parse: [] },
         };
       }
@@ -74,7 +75,8 @@ async function getImportMee6ResponseObject(db, serverId, interaction) {
     };
   } else {
     return {
-      content: `Keine level/xp importiert! Wahrscheinlich hat Mee6 keine Level gespeichert oder dies ist ein unbehandelter Use-Case`,
+      content:
+        `Keine level/xp importiert! Wahrscheinlich hat Mee6 keine Level gespeichert oder dies ist ein unbehandelter Use-Case`,
       allowedMentions: { parse: [] },
     };
   }
@@ -98,13 +100,13 @@ const exportObj = {
               .setDescription(
                 "Die Server-ID der zu importierenden Mee6-Installation",
               )
-              .setRequired(false),
-          ),
+              .setRequired(false)
+          )
       )
       .addSubcommand((option) =>
         option
           .setName("export-sql-dump")
-          .setDescription("SQL Dump exportieren (noch nicht implementiert)"),
+          .setDescription("SQL Dump exportieren (noch nicht implementiert)")
       )
       .addSubcommand((option) =>
         option
@@ -114,8 +116,8 @@ const exportObj = {
             option
               .setName("sql-dump")
               .setDescription("Der zu importierende SQL-Dump")
-              .setRequired(true),
-          ),
+              .setRequired(true)
+          )
       ),
   runInteraction: async (interaction, db) => {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
@@ -124,8 +126,7 @@ const exportObj = {
         const subcommand = interaction.options.getSubcommand();
         switch (subcommand) {
           case "import-mee6": {
-            let serverId =
-              interaction.options.getString("server-id") ??
+            let serverId = interaction.options.getString("server-id") ??
               interaction.guild.id;
             await interaction.editReply(
               await getImportMee6ResponseObject(db, serverId, interaction),

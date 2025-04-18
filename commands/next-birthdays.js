@@ -43,15 +43,21 @@ const exportObj = {
           );
           if (
             birthdayDates[
-              `${nextBirthday.getFullYear()}-${birthday.month.toString().padStart(2, "0")}-${birthday.day.toString().padStart(2, "0")}`
+              `${nextBirthday.getFullYear()}-${
+                birthday.month.toString().padStart(2, "0")
+              }-${birthday.day.toString().padStart(2, "0")}`
             ]
           ) {
             birthdayDates[
-              `${nextBirthday.getFullYear()}-${birthday.month.toString().padStart(2, "0")}-${birthday.day.toString().padStart(2, "0")}`
+              `${nextBirthday.getFullYear()}-${
+                birthday.month.toString().padStart(2, "0")
+              }-${birthday.day.toString().padStart(2, "0")}`
             ].push(birthday);
           } else {
             birthdayDates[
-              `${nextBirthday.getFullYear()}-${birthday.month.toString().padStart(2, "0")}-${birthday.day.toString().padStart(2, "0")}`
+              `${nextBirthday.getFullYear()}-${
+                birthday.month.toString().padStart(2, "0")
+              }-${birthday.day.toString().padStart(2, "0")}`
             ] = [birthday];
           }
         }
@@ -101,7 +107,9 @@ const exportObj = {
                   overallBirthday = birthday;
                 }
                 return {
-                  name: `${String(overallBirthday.day).padStart(2, "0")}.${String(overallBirthday.month).padStart(2, "0")}.${overallBirthday.year}`,
+                  name: `${String(overallBirthday.day).padStart(2, "0")}.${
+                    String(overallBirthday.month).padStart(2, "0")
+                  }.${overallBirthday.year}`,
                   value,
                   inline: false,
                 };

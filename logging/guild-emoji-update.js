@@ -19,7 +19,9 @@ export default async function handleGuildEmojiUpdate(oldEmoji, newEmoji) {
   const embed = new EmbedBuilder()
     .setTitle("Emoji bearbeitet")
     .setDescription(
-      `**Emoji <${newEmoji.animated ? "a:" : ":"}${newEmoji.name}:${newEmoji.id}> ([${newEmoji.name}](${emojiUrl})) bearbeitet**`,
+      `**Emoji <${
+        newEmoji.animated ? "a:" : ":"
+      }${newEmoji.name}:${newEmoji.id}> ([${newEmoji.name}](${emojiUrl})) bearbeitet**`,
     )
     .setThumbnail("attachment://emoji.gif")
     .setFooter({ text: `Emoji-ID: ${newEmoji.id}` })
@@ -27,7 +29,9 @@ export default async function handleGuildEmojiUpdate(oldEmoji, newEmoji) {
   if (oldEmoji.animated != newEmoji.animated) {
     embed.addFields({
       name: "Animiert",
-      value: `${oldEmoji.animated ? "Ja" : "Nein"} -> ${newEmoji.animated ? "Ja" : "Nein"}`,
+      value: `${oldEmoji.animated ? "Ja" : "Nein"} -> ${
+        newEmoji.animated ? "Ja" : "Nein"
+      }`,
       inline: true,
     });
   }
@@ -41,7 +45,9 @@ export default async function handleGuildEmojiUpdate(oldEmoji, newEmoji) {
   if (oldEmoji.managed != newEmoji.managed) {
     embed.addFields({
       name: "Von einer Anwendung verwaltet",
-      value: `${oldEmoji.managed ? "Ja" : "Nein"} -> ${newEmoji.managed ? "Ja" : "Nein"}`,
+      value: `${oldEmoji.managed ? "Ja" : "Nein"} -> ${
+        newEmoji.managed ? "Ja" : "Nein"
+      }`,
       inline: true,
     });
   }
@@ -55,7 +61,9 @@ export default async function handleGuildEmojiUpdate(oldEmoji, newEmoji) {
   if (oldEmoji.requiresColon != newEmoji.requiresColon) {
     embed.addFields({
       name: "Doppelpunkt erforderlich",
-      value: `${oldEmoji.requiresColon ? "Ja" : "Nein"} -> ${newEmoji.requiresColon ? "Ja" : "Nein"}`,
+      value: `${oldEmoji.requiresColon ? "Ja" : "Nein"} -> ${
+        newEmoji.requiresColon ? "Ja" : "Nein"
+      }`,
       inline: true,
     });
   }
@@ -63,7 +71,8 @@ export default async function handleGuildEmojiUpdate(oldEmoji, newEmoji) {
   if (updater) {
     embed.addFields({
       name: "Moderator",
-      value: `<@${updater.id}> (\`${updater.displayName}\` - \`${updater.username}\` - \`${updater.id}\`)`,
+      value:
+        `<@${updater.id}> (\`${updater.displayName}\` - \`${updater.username}\` - \`${updater.id}\`)`,
       inline: false,
     });
   }
