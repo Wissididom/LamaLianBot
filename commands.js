@@ -11,6 +11,7 @@ import Unmute from "./commands/unmute.js";
 import Warn from "./commands/warn.js";
 import UserInfo from "./commands/userinfo.js";
 import RoleInfo from "./commands/roleinfo.js";
+import ServerInfo from "./commands/serverinfo.js";
 import SetAvatar from "./commands/set-avatar.js";
 import SetBanner from "./commands/set-banner.js";
 import SetUsername from "./commands/set-username.js";
@@ -24,6 +25,7 @@ import Remind from "./commands/remind.js";
 import Rank from "./commands/rank.js";
 import Levels from "./commands/levels.js";
 import Setup from "./commands/setup.js";
+import Ping from "./commands/ping.js";
 
 const db = new Database();
 
@@ -61,6 +63,8 @@ function getCommandObject(commandName) {
       return UserInfo;
     case "roleinfo":
       return RoleInfo;
+    case "serverinfo":
+      return ServerInfo;
     case "set-avatar":
       return SetAvatar;
     case "set-banner":
@@ -87,6 +91,8 @@ function getCommandObject(commandName) {
       return Levels;
     case "setup":
       return Setup;
+    case "ping":
+      return Ping;
     default:
       // TODO
       return null;
