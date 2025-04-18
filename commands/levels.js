@@ -17,9 +17,9 @@ async function getLevellingLevelsResponseObject(db, page = 1) {
     );
   }
   if (response.length > 0) {
-    let responseEmbeds = [];
+    const responseEmbeds = [];
     let currentPart = "";
-    for (let line of response) {
+    for (const line of response) {
       if (currentPart.length + line.length + 1 > 4096) {
         responseEmbeds.push(new EmbedBuilder().setDescription(currentPart));
         currentPart = line;
@@ -87,7 +87,7 @@ const exportObj = {
       await interaction.deferReply();
     }
     if (interaction.guild?.available && interaction.isChatInputCommand()) {
-      let page = interaction.options.getInteger("page") ?? 1;
+      const page = interaction.options.getInteger("page") ?? 1;
       try {
         await interaction.editReply(
           await getLevellingLevelsResponseObject(db, page),

@@ -2,6 +2,7 @@ import "dotenv/config";
 
 import { REST, Routes } from "discord.js";
 import { getRegisterArray } from "./commands.js";
+import process from "node:process";
 
 if (!process.env.DISCORD_TOKEN) {
   throw new Error(

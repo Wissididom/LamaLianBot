@@ -24,7 +24,7 @@ function getWeekdayFromIndex(weekdayIndex) {
 function dateAdd(date, amount, unit) {
   if (!(date instanceof Date)) return undefined;
   let ret = new Date(date); // Don't modify original date
-  var checkRollover = () => {
+  const checkRollover = () => {
     if (ret.getDate() != date.getDate()) ret.setDate(0);
   };
   switch (unit.toString().toLowerCase()) {
@@ -221,9 +221,9 @@ const exportObj = {
           break;
         }
         case "at": {
-          let hours = interaction.options.getInteger("hours");
-          let minutes = interaction.options.getInteger("minutes");
-          let seconds = interaction.options.getInteger("seconds") ?? 0;
+          const hours = interaction.options.getInteger("hours");
+          const minutes = interaction.options.getInteger("minutes");
+          const seconds = interaction.options.getInteger("seconds") ?? 0;
           let year = interaction.options.getInteger("year");
           let month = interaction.options.getInteger("month");
           let day = interaction.options.getInteger("day");

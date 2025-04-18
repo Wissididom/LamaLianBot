@@ -1,5 +1,6 @@
 import { AttachmentBuilder, EmbedBuilder, Events } from "discord.js";
 import { getChannelByEventName } from "../logging.js";
+import process from "node:process";
 
 export default async function handleVoiceStateUpdate(oldState, newState) {
   const logChannel = await getChannelByEventName(

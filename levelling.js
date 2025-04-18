@@ -1,3 +1,4 @@
+import process from "node:process";
 function randomIntFromInterval(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
@@ -15,7 +16,7 @@ export async function handleLevelling(db, message) {
   ) {
     return;
   }
-  let xp = (databaseTable?.xp ?? 0) + gainedXp;
+  const xp = (databaseTable?.xp ?? 0) + gainedXp;
   let currentLvl = databaseTable?.lvl ?? 0;
   let nextLvlXp = !databaseTable || databaseTable.nextLvlXp == 0
     ? 5 * 1 ** 2 + 50 * 1 + 100 - xp
@@ -24,31 +25,34 @@ export async function handleLevelling(db, message) {
     // Level-Up
     currentLvl += 1;
     nextLvlXp = 5 * currentLvl ** 2 + 50 * currentLvl + 100 - xp;
-    let levelupMessage = process.env.LEVELUP_MESSAGE.replace(
+    const levelupMessage = process.env.LEVELUP_MESSAGE.replace(
       "{player}",
       `<@${message.author.id}>`,
     )
       .replace("{level}", currentLvl)
       .replace("{xp}", xp);
-    let levelupChannel = process.env.LEVELUP_CHANNEL.trim().toUpperCase();
+    const levelupChannel = process.env.LEVELUP_CHANNEL.trim().toUpperCase();
     switch (levelupChannel) {
-      case "DM":
+      case "DM": {
         await message.author.send({
           content: levelupMessage,
         });
         break;
-      case "":
+      }
+      case "": {
         await message.channel.send({
           content: levelupMessage,
         });
         break;
-      default:
-        let channel = await message.guild.channels.fetch(levelupChannel);
+      }
+      default: {
+        const channel = await message.guild.channels.fetch(levelupChannel);
         if (!channel) break;
         await channel.send({
           content: levelupMessage,
         });
         break;
+      }
     }
   }
   db.updateLevelling(

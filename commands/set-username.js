@@ -1,4 +1,5 @@
 import { MessageFlags, SlashCommandBuilder } from "discord.js";
+import process from "node:process";
 
 const exportObj = {
   name: "set-username",

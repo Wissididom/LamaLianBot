@@ -1,5 +1,6 @@
 import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
 import { DateTime, Interval } from "luxon";
+import process from "node:process";
 
 const exportObj = {
   name: "next-birthdays",

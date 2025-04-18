@@ -1,5 +1,4 @@
 import {
-  EmbedBuilder,
   MessageFlags,
   PermissionsBitField,
   SlashCommandBuilder,
@@ -9,21 +8,21 @@ function getXpFromLvl0To(level) {
   if (level <= 0) {
     return 100.0;
   }
-  let xpPrevious = getXpFromLvl0To(level - 1);
-  let xpOnlyNextLvl = 5 * level ** 2 + 50 * level + 100;
+  const xpPrevious = getXpFromLvl0To(level - 1);
+  const xpOnlyNextLvl = 5 * level ** 2 + 50 * level + 100;
   return xpOnlyNextLvl + xpPrevious;
 }
 
 async function getImportMee6ResponseObject(db, serverId, interaction) {
-  let resultArray = [];
+  const resultArray = [];
   for (let i = 0; true; i++) {
-    let mee6response = await fetch(
+    const mee6response = await fetch(
       `https://mee6.xyz/api/plugins/levels/leaderboard/${serverId}?page=${i}`,
     );
     if (mee6response.ok) {
-      let mee6json = await mee6response.json();
+      const mee6json = await mee6response.json();
       if (mee6json.players.length < 1) break; // End of list
-      for (let player of mee6json.players) {
+      for (const player of mee6json.players) {
         resultArray.push(player);
       }
       if (interaction) {
@@ -43,9 +42,9 @@ async function getImportMee6ResponseObject(db, serverId, interaction) {
       }
       if (mee6response.status == 429) {
         // Cloudflare Too Many Requests
-        let retryAfter = mee6response.headers.get("retry-after");
+        const retryAfter = mee6response.headers.get("retry-after");
         console.log(`429 (${retryAfter} Sekunden) bekommen!`);
-        await new Promise((resolve, reject) => {
+        await new Promise((resolve) => {
           setTimeout(() => resolve(), 1000 * retryAfter);
         });
         i--;
@@ -58,7 +57,7 @@ async function getImportMee6ResponseObject(db, serverId, interaction) {
   if (resultArray.length > 0) {
     await db.deleteLevelling();
   }
-  for (let player of resultArray) {
+  for (const player of resultArray) {
     await db.updateLevelling(
       player.id,
       0,
@@ -126,7 +125,7 @@ const exportObj = {
         const subcommand = interaction.options.getSubcommand();
         switch (subcommand) {
           case "import-mee6": {
-            let serverId = interaction.options.getString("server-id") ??
+            const serverId = interaction.options.getString("server-id") ??
               interaction.guild.id;
             await interaction.editReply(
               await getImportMee6ResponseObject(db, serverId, interaction),

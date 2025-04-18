@@ -48,6 +48,7 @@ import {
   handleWebhooksUpdate,
 } from "./logging.js";
 import { handleLevelling } from "./levelling.js";
+import process from "node:process";
 
 const exitHandler = async (signal) => {
   console.log(`Received ${signal}`);

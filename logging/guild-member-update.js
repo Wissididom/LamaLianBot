@@ -19,7 +19,7 @@ export default async function handleGuildMemberUpdate(oldMember, newMember) {
   const embed = new EmbedBuilder()
     .setThumbnail("attachment://avatar.gif")
     .setTimestamp();
-  var shouldPost = false;
+  let shouldPost = false;
   if (oldMember.avatar != newMember.avatar) {
     embed
       .setTitle("Server-Avatar geändert")

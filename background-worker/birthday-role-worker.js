@@ -1,5 +1,6 @@
 import { DateTime } from "luxon";
 import { fetchMember } from "../utils.js";
+import process from "node:process";
 
 async function giveRole(member, role) {
   if (member && role) {

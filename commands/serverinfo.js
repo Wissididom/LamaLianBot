@@ -17,7 +17,7 @@ const exportObj = {
           .setRequired(false)
       ),
   runInteraction: async (interaction, _db) => {
-    let pub = interaction.options.getBoolean("public") == true;
+    const pub = interaction.options.getBoolean("public") == true;
     if (pub) {
       await interaction.deferReply();
     } else {

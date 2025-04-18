@@ -156,7 +156,7 @@ export default class Database {
   }
 
   async deleteLevelling(userId) {
-    return new Promise((resolve, reject) => {
+    return await new Promise((resolve, reject) => {
       if (userId) {
         try {
           const stmt = this.#db.prepare(

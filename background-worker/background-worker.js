@@ -2,6 +2,7 @@ import BirthdayRoleWorker from "./birthday-role-worker.js";
 import BirthdayMessageWorker from "./birthday-message-worker.js";
 import RemindWorker from "./remind-worker.js";
 import { schedule } from "node-cron";
+import process from "node:process";
 
 export function scheduleWorkers(client, db) {
   const workerNames = ["birthday-role", "birthday-message", "remind"];

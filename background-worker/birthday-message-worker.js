@@ -1,5 +1,6 @@
 import { DateTime, Interval } from "luxon";
 import { fetchMember } from "../utils.js";
+import process from "node:process";
 
 async function sendMessage(client, channelId, userId, message) {
   if (channelId) {
