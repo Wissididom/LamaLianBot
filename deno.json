@@ -4,7 +4,7 @@
   },
   "imports": {
     "better-sqlite3": "npm:better-sqlite3@^11.9.1",
-    "discord.js": "npm:discord.js@^14.18.0",
+    "discord.js": "npm:discord.js@^14.19.2",
     "luxon": "npm:luxon@^3.6.1",
     "node-cron": "npm:node-cron@^3.0.3"
   },
