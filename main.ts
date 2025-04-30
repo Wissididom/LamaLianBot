@@ -3,6 +3,7 @@ import {
   Client,
   Events,
   GatewayIntentBits,
+  GuildMember,
   Interaction,
   Message,
   Partials,
@@ -10,7 +11,7 @@ import {
 
 import { getDatabase, handleApplicationCommands } from "./commands.ts";
 import { moderate } from "./moderation.ts";
-import { scheduleWorkers } from "./background-worker/background-worker.js";
+import { scheduleWorkers } from "./background-worker/background-worker.ts";
 import {
   handleApplicationCommandPermissionsUpdate,
   handleAutoModerationActionExecution,
@@ -159,7 +160,7 @@ client.on(Events.GuildBanAdd, handleGuildBanAdd);
 
 client.on(Events.GuildBanRemove, handleGuildBanRemove);
 
-client.on(Events.GuildMemberAdd, async (member) => {
+client.on(Events.GuildMemberAdd, async (member: GuildMember) => {
   // TODO: Maybe Welcome messages
   return await handleGuildMemberAdd(member);
 });
