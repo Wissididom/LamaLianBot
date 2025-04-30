@@ -50,24 +50,19 @@ import {
   handleWebhooksUpdate,
 } from "./logging.ts";
 import { handleLevelling } from "./levelling.ts";
-import process from "node:process";
 
 const exitHandler = async (signal: string) => {
   console.log(`Received ${signal}`);
   await getDatabase().close();
-  process.exit(0);
+  Deno.exit(0);
 };
 
-process.on("SIGINT", exitHandler);
-process.on("SIGTERM", exitHandler);
-process.on("uncaughtException", async (err: Error) => {
-  console.error("Uncaught Exception:", err);
+Deno.addSignalListener("SIGINT", () => exitHandler("SIGINT"));
+Deno.addSignalListener("SIGTERM", () => exitHandler("SIGTERM"));
+addEventListener("error", async (event) => {
+  console.error("Uncaught Exception:", event.error);
   await getDatabase().close();
-  process.exit(1);
-});
-process.on("exit", async (code: number) => {
-  console.log(`Process exited with code: ${code}`);
-  await getDatabase().close();
+  Deno.exit(1);
 });
 
 const client = new Client({
@@ -115,7 +110,7 @@ client.on(Events.MessageCreate, async (msg: Message) => {
     return; // Ignore bot messages
   } else {
     if (await moderate(msg)) {
-      if (process.env.USE_LEVELLING?.toLowerCase() == "true") {
+      if (Deno.env.get("USE_LEVELLING")?.toLowerCase() == "true") {
         await handleLevelling(getDatabase(), msg);
       }
     }
@@ -205,10 +200,10 @@ client.on(Events.VoiceStateUpdate, handleVoiceStateUpdate);
 
 client.on(Events.WebhooksUpdate, handleWebhooksUpdate);
 
-if (!process.env.DISCORD_TOKEN) {
+if (!Deno.env.has("DISCORD_TOKEN")) {
   console.log(
     "DISCORD_TOKEN not found! You must specify your Discord bot token as DISCORD_TOKEN environment variable or put it in a `.env` file.",
   );
 } else {
-  client.login(process.env.DISCORD_TOKEN);
+  client.login(Deno.env.get("DISCORD_TOKEN"));
 }

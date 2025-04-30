@@ -1,5 +1,3 @@
-import { readdirSync } from "fs";
-import { parse as parsePath } from "path";
 import Database from "./database/sqlite.ts";
 
 import Ban from "./commands/ban.ts";
@@ -34,12 +32,18 @@ export function getDatabase() {
   return db;
 }
 
+function getFilenameWithoutExtension(filename: string) {
+  const baseName = filename.replace(/\\/g, "/").split("/").pop() ?? "";
+  return baseName.replace(/\.[^/.]+$/, "");
+}
+
 function getAvailableDefaultCommandNames() {
-  const commands = [];
-  const commandFiles = readdirSync("./commands/");
-  for (const commandFile of commandFiles) {
-    const name = parsePath(commandFile).name;
-    commands.push(name);
+  const commands: string[] = [];
+  for (const entry of Deno.readDirSync("./commands")) {
+    if (entry.isFile) {
+      const name = getFilenameWithoutExtension(entry.name);
+      commands.push(name);
+    }
   }
   return commands;
 }

@@ -1,6 +1,5 @@
 import { EmbedBuilder, Interaction, SlashCommandBuilder } from "discord.js";
 import { DateTime, Interval } from "luxon";
-import process from "node:process";
 import Database from "../database/sqlite.ts";
 
 const exportObj = {
@@ -81,7 +80,7 @@ const exportObj = {
             new EmbedBuilder().setTitle("Bevorstehende Geburtstage").addFields(
               birthdayKeys.slice(0, 10).map((birthdayKey) => {
                 const currentDate = DateTime.now().setZone(
-                  process.env.BIRTHDAY_TIMEZONE,
+                  Deno.env.get("BIRTHDAY_TIMEZONE"),
                 );
                 let value = "";
                 let overallBirthday = null;
@@ -97,7 +96,7 @@ const exportObj = {
                       second: 0,
                     },
                     {
-                      zone: process.env.BIRTHDAY_TIMEZONE,
+                      zone: Deno.env.get("BIRTHDAY_TIMEZONE"),
                     },
                   );
                   let birthdayThisYear = birthDateTime.set({

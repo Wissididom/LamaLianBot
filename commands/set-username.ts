@@ -4,7 +4,6 @@ import {
   MessageFlags,
   SlashCommandBuilder,
 } from "discord.js";
-import process from "node:process";
 import Database from "../database/sqlite.ts";
 
 const exportObj = {
@@ -24,10 +23,11 @@ const exportObj = {
       ),
   runInteraction: async (interaction: Interaction, _db: Database) => {
     if (interaction.guild?.available && interaction.isChatInputCommand()) {
-      if (interaction.user.id != process.env.BOT_OWNER_USER_ID) {
+      if (interaction.user.id != Deno.env.get("BOT_OWNER_USER_ID")) {
         await interaction.reply({
-          content:
-            `Nur <@${process.env.BOT_OWNER_USER_ID}> (Bot-Owner) kann diesen Befehl nutzen`,
+          content: `Nur <@${
+            Deno.env.get("BOT_OWNER_USER_ID")
+          }> (Bot-Owner) kann diesen Befehl nutzen`,
           flags: MessageFlags.Ephemeral,
         });
         return;

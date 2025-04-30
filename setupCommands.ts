@@ -1,15 +1,14 @@
 // deno-lint-ignore-file no-explicit-any
 import { REST, Routes } from "discord.js";
 import { getRegisterArray } from "./commands.ts";
-import process from "node:process";
 
-if (!process.env.DISCORD_TOKEN) {
+if (!Deno.env.has("DISCORD_TOKEN")) {
   throw new Error(
     "DISCORD_TOKEN not found! You must setup the DISCORD_TOKEN before running this bot.",
   );
 }
 
-const rest = new REST().setToken(process.env.DISCORD_TOKEN);
+const rest = new REST().setToken(Deno.env.get("DISCORD_TOKEN")!); // When .has return true, .get has to return a non-nullable value
 
 (async () => {
   const registerArray = getRegisterArray();

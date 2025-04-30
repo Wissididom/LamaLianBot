@@ -5,7 +5,6 @@ import {
   VoiceState,
 } from "discord.js";
 import { getChannelByEventName } from "../logging.ts";
-import process from "node:process";
 
 export default async function handleVoiceStateUpdate(
   oldState: VoiceState,
@@ -58,7 +57,7 @@ export default async function handleVoiceStateUpdate(
       )
       .setFooter({ text: `Nutzer-ID: ${newState.member?.id}` });
   } else {
-    if (process.env.EXTENDED_VOICE_LOGS == "true") {
+    if (Deno.env.get("EXTENDED_VOICE_LOGS") == "true") {
       embed.setTitle(
         `Sprachkanaleinstellungen für <@${newState.member?.id}> (\`${newState.member?.displayName}\` - \`${newState.member?.user.username}\` - ${newState.member?.id}) geändert`,
       );

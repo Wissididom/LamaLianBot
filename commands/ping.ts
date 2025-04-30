@@ -4,7 +4,6 @@ import {
   MessageFlags,
   SlashCommandBuilder,
 } from "discord.js";
-import process from "node:process";
 import Database from "../database/sqlite.ts";
 
 const exportObj = {
@@ -49,14 +48,14 @@ const exportObj = {
                 { name: "Bot-Name", value: interaction.client.user.username },
                 {
                   name: "Bot-Owner-ID",
-                  value: process.env.BOT_OWNER_USER_ID ?? "N/A",
+                  value: Deno.env.get("BOT_OWNER_USER_ID") ?? "N/A",
                 },
                 {
                   name: "Bot-Owner-Name",
-                  value: process.env.BOT_OWNER_USER_ID
+                  value: Deno.env.has("BOT_OWNER_USER_ID")
                     ? (
                       await interaction.client.users.fetch(
-                        process.env.BOT_OWNER_USER_ID,
+                        Deno.env.get("BOT_OWNER_USER_ID")!, // When .has returns true, .get has to return a non-nullable value
                       )
                     )?.username
                     : "N/A",
@@ -67,7 +66,11 @@ const exportObj = {
                     reply.createdTimestamp - interaction.createdTimestamp
                   }ms`,
                 },
-                { name: "Powered by", value: `Node.js ${process.version}` },
+                {
+                  name: "Powered by",
+                  value:
+                    `Deno ${Deno.version.deno} (TypeScript ${Deno.version.typescript}; V8: ${Deno.version.v8})`,
+                },
                 {
                   name: "Uptime",
                   value: `${interaction.client.uptime / 1000}s - <t:${

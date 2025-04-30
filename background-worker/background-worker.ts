@@ -2,7 +2,6 @@ import BirthdayRoleWorker from "./birthday-role-worker.ts";
 import BirthdayMessageWorker from "./birthday-message-worker.ts";
 import RemindWorker from "./remind-worker.ts";
 import { schedule } from "node-cron";
-import process from "node:process";
 import { Client } from "discord.js";
 import Database from "../database/sqlite.ts";
 
@@ -24,7 +23,7 @@ export function scheduleWorker(name: string, client: Client, db: Database) {
       },
       {
         scheduled: true,
-        timezone: process.env.BIRTHDAY_TIMEZONE,
+        timezone: Deno.env.get("BIRTHDAY_TIMEZONE"),
       },
     );
   }

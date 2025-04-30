@@ -1,6 +1,5 @@
 import { Message } from "discord.js";
 import Database from "./database/sqlite.ts";
-import process from "node:process";
 
 function randomIntFromInterval(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1) + min);
@@ -28,13 +27,14 @@ export async function handleLevelling(db: Database, message: Message) {
     // Level-Up
     currentLvl += 1n;
     nextLvlXp = 5n * currentLvl ** 2n + 50n * currentLvl + 100n - xp;
-    const levelupMessage = process.env.LEVELUP_MESSAGE?.replace(
+    const levelupMessage = Deno.env.get("LEVELUP_MESSAGE")?.replace(
       "{player}",
       `<@${message.author.id}>`,
     )
       .replace("{level}", `${currentLvl}`)
       .replace("{xp}", `${xp}`);
-    const levelupChannel = process.env.LEVELUP_CHANNEL?.trim().toUpperCase();
+    const levelupChannel = Deno.env.get("LEVELUP_CHANNEL")?.trim()
+      .toUpperCase();
     switch (levelupChannel) {
       case "DM": {
         await message.author.send({

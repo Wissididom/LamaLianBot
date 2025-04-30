@@ -1,7 +1,7 @@
-import { default as DatabaseImpl } from "better-sqlite3";
+import { DatabaseSync as DatabaseImpl } from "node:sqlite";
 
 export default class Database {
-  private db: DatabaseImpl = null;
+  private db: DatabaseImpl | null = null;
 
   constructor() {
     this.connect("./database/sqlite.db")
@@ -15,8 +15,8 @@ export default class Database {
   }
 
   async initDb(): Promise<void> {
-    if (this.db) {
-      return await new Promise<void>((resolve, reject) => {
+    return await new Promise<void>((resolve, reject) => {
+      if (this.db) {
         try {
           // birthdays
           const stmt = this.db.prepare(
@@ -59,41 +59,50 @@ export default class Database {
           );
           reject(err);
         }
-      });
-    }
+      }
+    });
   }
 
   async connect(host: string): Promise<void> {
-    await this.close();
-    return await new Promise<void>((resolve, reject) => {
-      try {
-        this.db = new DatabaseImpl(host);
-        resolve();
-      } catch (err) {
-        reject(err);
-      }
-    });
+    try {
+      await this.close();
+      this.db = new DatabaseImpl(host);
+    } catch (err) {
+      throw err;
+    }
   }
 
   async getBirthday(
     userId: string,
   ): Promise<
-    { id: number; userId: string; year: number; month: number; day: number }
+    {
+      id: number;
+      userId: string;
+      year: number | null;
+      month: number;
+      day: number;
+    } | null
   > {
     return await new Promise<
-      { id: number; userId: string; year: number; month: number; day: number }
+      {
+        id: number;
+        userId: string;
+        year: number | null;
+        month: number;
+        day: number;
+      } | null
     >((resolve, reject) => {
       try {
-        const stmt = this.db.prepare(
+        const stmt = this.db?.prepare(
           "SELECT * FROM birthdays WHERE userId = ?;",
         );
-        const row: {
+        const row = (stmt?.get(userId) ?? null) as {
           id: number;
           userId: string;
-          year: number;
+          year: number | null;
           month: number;
           day: number;
-        } = stmt.get(userId);
+        } | null;
         resolve(row);
       } catch (err) {
         reject(err);
@@ -102,20 +111,32 @@ export default class Database {
   }
 
   async getBirthdays(): Promise<
-    { id: number; userId: string; year: number; month: number; day: number }[]
+    {
+      id: number;
+      userId: string;
+      year: number | null;
+      month: number;
+      day: number;
+    }[] | null
   > {
     return await new Promise<
-      { id: number; userId: string; year: number; month: number; day: number }[]
+      {
+        id: number;
+        userId: string;
+        year: number | null;
+        month: number;
+        day: number;
+      }[] | null
     >((resolve, reject) => {
       try {
-        const stmt = this.db.prepare("SELECT * FROM birthdays;");
-        const rows: {
+        const stmt = this.db?.prepare("SELECT * FROM birthdays;");
+        const rows = (stmt?.all() ?? null) as {
           id: number;
           userId: string;
-          year: number;
+          year: number | null;
           month: number;
           day: number;
-        }[] = stmt.all();
+        }[] | null;
         resolve(rows);
       } catch (err) {
         reject(err);
@@ -131,10 +152,10 @@ export default class Database {
   ): Promise<void> {
     return await new Promise<void>((resolve, reject) => {
       try {
-        const stmt = this.db.prepare(
+        const stmt = this.db?.prepare(
           "INSERT INTO birthdays (userId, year, month, day) VALUES (?, ?, ?, ?) ON CONFLICT (userId) DO UPDATE SET year = ?, month = ?, day = ? WHERE userId = ?;",
         );
-        stmt.run(userId, year, month, day, year, month, day, userId); // Do not care about the changes made as long as it is successful
+        stmt?.run(userId, year, month, day, year, month, day, userId); // Do not care about the changes made as long as it is successful
         resolve();
       } catch (err) {
         reject(err);
@@ -145,10 +166,10 @@ export default class Database {
   async deleteBirthday(userId: string): Promise<void> {
     return await new Promise<void>((resolve, reject) => {
       try {
-        const stmt = this.db.prepare(
+        const stmt = this.db?.prepare(
           "DELETE FROM birthdays WHERE userId = ?;",
         );
-        stmt.run(userId); // Do not care about the changes made as long as it is successful
+        stmt?.run(userId); // Do not care about the changes made as long as it is successful
         resolve();
       } catch (err) {
         reject(err);
@@ -166,7 +187,7 @@ export default class Database {
       xp: bigint;
       lvl: bigint;
       nextLvlXp: bigint;
-    }[]
+    }[] | null
   > {
     return await new Promise<
       {
@@ -176,31 +197,38 @@ export default class Database {
         xp: bigint;
         lvl: bigint;
         nextLvlXp: bigint;
-      }[]
+      }[] | null
     >((resolve, reject) => {
       if (userId) {
         try {
-          const stmt = this.db.prepare(
+          const stmt = this.db?.prepare(
             "SELECT * FROM levelling WHERE userId = ? ORDER BY xp DESC;",
           );
-          const rows: {
+          const rows = (stmt?.all(userId) ?? null) as {
             id: number;
             userId: string;
             lastMessageTimestamp: bigint;
             xp: bigint;
             lvl: bigint;
             nextLvlXp: bigint;
-          }[] = stmt.all(userId);
+          }[] | null;
           resolve(rows);
         } catch (err) {
           reject(err);
         }
       } else {
         try {
-          const stmt = this.db.prepare(
+          const stmt = this.db?.prepare(
             "SELECT * FROM levelling ORDER BY xp DESC;",
           );
-          const rows = stmt.all();
+          const rows = (stmt?.all() ?? null) as {
+            id: number;
+            userId: string;
+            lastMessageTimestamp: bigint;
+            xp: bigint;
+            lvl: bigint;
+            nextLvlXp: bigint;
+          }[] | null;
           resolve(rows);
         } catch (err) {
           reject(err);
@@ -213,18 +241,18 @@ export default class Database {
     return await new Promise<void>((resolve, reject) => {
       if (userId) {
         try {
-          const stmt = this.db.prepare(
+          const stmt = this.db?.prepare(
             "DELETE FROM levelling WHERE userId = ?;",
           );
-          stmt.run(userId); // Do not care about the changes made as long as it is successful
+          stmt?.run(userId); // Do not care about the changes made as long as it is successful
           resolve();
         } catch (err) {
           reject(err);
         }
       } else {
         try {
-          const stmt = this.db.prepare("DELETE FROM levelling;");
-          stmt.run(); // Do not care about the changes made as long as it is successful
+          const stmt = this.db?.prepare("DELETE FROM levelling;");
+          stmt?.run(); // Do not care about the changes made as long as it is successful
           resolve();
         } catch (err) {
           reject(err);
@@ -242,10 +270,10 @@ export default class Database {
   ): Promise<void> {
     return await new Promise<void>((resolve, reject) => {
       try {
-        const stmt = this.db.prepare(
+        const stmt = this.db?.prepare(
           "INSERT INTO levelling (userId, lastMessageTimestamp, xp, lvl, nextLvlXp) VALUES (?, ?, ?, ?, ?) ON CONFLICT(userId) DO UPDATE SET lastMessageTimestamp = excluded.lastMessageTimestamp, xp = excluded.xp, lvl = excluded.lvl, nextLvlXp = excluded.nextLvlXp;",
         );
-        stmt.run(userId, lastMessageTimestamp, xp, lvl, nextLvlXp); // Do not care about the changes made as long as it is successful
+        stmt?.run(userId, lastMessageTimestamp, xp, lvl, nextLvlXp); // Do not care about the changes made as long as it is successful
         resolve();
       } catch (err) {
         reject(err);
@@ -264,7 +292,7 @@ export default class Database {
       minute: number;
       second: number;
       topic: string;
-    }[]
+    }[] | null
   > {
     return await new Promise<
       {
@@ -277,13 +305,13 @@ export default class Database {
         minute: number;
         second: number;
         topic: string;
-      }[]
+      }[] | null
     >((resolve, reject) => {
       try {
-        const stmt = this.db.prepare(
+        const stmt = this.db?.prepare(
           "SELECT * FROM reminder WHERE strftime('%s', printf('%04d-%02d-%02d %02d:%02d:%02d', year, month, day, hour, minute, second), 'localtime') >= strftime('%s', 'now', 'localtime') ORDER BY year, month, day, hour, minute, second;",
         );
-        const rows: {
+        const rows = (stmt?.all() ?? null) as {
           id: number;
           userId: string;
           day: number;
@@ -293,7 +321,7 @@ export default class Database {
           minute: number;
           second: number;
           topic: string;
-        }[] = stmt.all();
+        }[] | null;
         resolve(rows);
       } catch (err) {
         reject(err);
@@ -313,10 +341,10 @@ export default class Database {
   ): Promise<void> {
     return await new Promise<void>((resolve, reject) => {
       try {
-        const stmt = this.db.prepare(
+        const stmt = this.db?.prepare(
           "INSERT INTO reminder (userId, day, month, year, hour, minute, second, topic) VALUES (?, ?, ?, ?, ?, ?, ?, ?);",
         );
-        stmt.run(userId, day, month, year, hour, minute, second, topic); // Do not care about the changes made as long as it is successful
+        stmt?.run(userId, day, month, year, hour, minute, second, topic); // Do not care about the changes made as long as it is successful
         resolve();
       } catch (err) {
         reject(err);
@@ -327,8 +355,8 @@ export default class Database {
   async deleteReminder(id: number): Promise<void> {
     return await new Promise<void>((resolve, reject) => {
       try {
-        const stmt = this.db.prepare("DELETE FROM reminder WHERE id = ?;");
-        stmt.run(id); // Do not care about the changes made as long as it is successful
+        const stmt = this.db?.prepare("DELETE FROM reminder WHERE id = ?;");
+        stmt?.run(id); // Do not care about the changes made as long as it is successful
         resolve();
       } catch (err) {
         reject(err);
@@ -339,10 +367,10 @@ export default class Database {
   async deleteOldReminders(): Promise<void> {
     return await new Promise<void>((resolve, reject) => {
       try {
-        const stmt = this.db.prepare(
+        const stmt = this.db?.prepare(
           "DELETE FROM reminder WHERE strftime('%s', printf('%04d-%02d-%02d %02d:%02d:%02d', year, month, day, hour, minute, second), 'localtime') < strftime('%s', 'now', 'localtime');",
         );
-        stmt.run(); // Do not care about the changes made as long as it is successful
+        stmt?.run(); // Do not care about the changes made as long as it is successful
         resolve();
       } catch (err) {
         reject(err);
@@ -354,7 +382,7 @@ export default class Database {
     if (this.db) {
       return await new Promise<void>((resolve, reject) => {
         try {
-          this.db.close();
+          this.db?.close();
           this.db = null;
           resolve();
         } catch (err) {

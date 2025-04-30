@@ -1,6 +1,5 @@
 import { DateTime, Interval } from "luxon";
 import { fetchMember } from "../utils.ts";
-import process from "node:process";
 import { Client } from "discord.js";
 import Database from "../database/sqlite.ts";
 
@@ -28,12 +27,14 @@ async function sendMessage(
 const exportObj = {
   name: "birthday-message",
   description: "background worker that sends birthday wishing messages",
-  cron: `0 0 ${process.env.BIRTHDAY_WISHING_HOUR} * * *`,
+  cron: `0 0 ${Deno.env.get("BIRTHDAY_WISHING_HOUR")} * * *`,
   run: async (client: Client, db: Database) => {
-    if (!process.env.GUILD) return;
-    const currentDate = DateTime.now().setZone(process.env.BIRTHDAY_TIMEZONE);
+    if (!Deno.env.has("GUILD")) return;
+    const currentDate = DateTime.now().setZone(
+      Deno.env.get("BIRTHDAY_TIMEZONE"),
+    );
     const birthdays = await db.getBirthdays();
-    const guild = await client.guilds.fetch(process.env.GUILD);
+    const guild = await client.guilds.fetch(Deno.env.get("GUILD")!);
     for (const birthday of birthdays) {
       const member = await fetchMember(
         guild.members,
@@ -53,7 +54,7 @@ const exportObj = {
           second: 0,
         },
         {
-          zone: process.env.BIRTHDAY_TIMEZONE,
+          zone: Deno.env.get("BIRTHDAY_TIMEZONE"),
         },
       );
       let setAge = false;
@@ -71,10 +72,8 @@ const exportObj = {
           if (currentDate.month == 3 && currentDate.day == 1) {
             // Post on March 1st if it is a leap year
             if (setAge) {
-              const birthdayWishingChannel =
-                process.env.BIRTHDAY_WISHING_CHANNEL;
-              const birthdayWishingMessage =
-                process.env.BIRTHDAY_WISHING_MESSAGE_WITH_AGE;
+              const birthdayWishingChannel = Deno.env.get("");
+              const birthdayWishingMessage = Deno.env.get("");
               if (!birthdayWishingChannel || !birthdayWishingMessage) {
                 console.log(
                   "Either birthdayWishingChannel or birthdayWishingMessage missing!",
@@ -93,10 +92,12 @@ const exportObj = {
                   .replace("\\n", "\n"),
               );
             } else {
-              const birthdayWishingChannel =
-                process.env.BIRTHDAY_WISHING_CHANNEL;
-              const birthdayWishingMessage =
-                process.env.BIRTHDAY_WISHING_MESSAGE;
+              const birthdayWishingChannel = Deno.env.get(
+                "BIRTHDAY_WISHING_CHANNEL",
+              );
+              const birthdayWishingMessage = Deno.env.get(
+                "BIRTHDAY_WISHING_MESSAGE",
+              );
               if (!birthdayWishingChannel || !birthdayWishingMessage) {
                 console.log(
                   "Either birthdayWishingChannel or birthdayWishingMessage missing!",
@@ -123,9 +124,12 @@ const exportObj = {
       ) {
         // it's their birthday...
         if (setAge) {
-          const birthdayWishingChannel = process.env.BIRTHDAY_WISHING_CHANNEL;
-          const birthdayWishingMessage =
-            process.env.BIRTHDAY_WISHING_MESSAGE_With_AGE;
+          const birthdayWishingChannel = Deno.env.get(
+            "BIRTHDAY_WISHING_CHANNEL",
+          );
+          const birthdayWishingMessage = Deno.env.get(
+            "BIRTHDAY_WISHING_MESSAGE_With_AGE",
+          );
           if (!birthdayWishingChannel || !birthdayWishingMessage) {
             console.log(
               "Either birthdayWishingChannel or birthdayWishingMessage missing!",
@@ -144,8 +148,12 @@ const exportObj = {
               .replace("\\n", "\n"),
           );
         } else {
-          const birthdayWishingChannel = process.env.BIRTHDAY_WISHING_CHANNEL;
-          const birthdayWishingMessage = process.env.BIRTHDAY_WISHING_MESSAGE;
+          const birthdayWishingChannel = Deno.env.get(
+            "BIRTHDAY_WISHING_CHANNEL",
+          );
+          const birthdayWishingMessage = Deno.env.get(
+            "BIRTHDAY_WISHING_MESSAGE",
+          );
           if (!birthdayWishingChannel || !birthdayWishingMessage) {
             console.log(
               "Either birthdayWishingChannel or birthdayWishingMessage missing!",
