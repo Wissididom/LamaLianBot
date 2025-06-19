@@ -13,7 +13,7 @@ async function sendMessage(client: Client, userId: string, message: string) {
 const exportObj = {
   name: "remind",
   description: "background worker that sends reminder messages",
-  cron: `0 * * * * *`,
+  cron: `* * * * * *`,
   run: async (client: Client, db: Database) => {
     const upcomingReminder = await db.getUpcomingReminder();
     for (const reminder of upcomingReminder) {
@@ -24,7 +24,8 @@ const exportObj = {
           reminder.month == now.getMonth() + 1 &&
           reminder.year == now.getFullYear() &&
           reminder.hour == now.getHours() &&
-          reminder.minute == now.getMinutes()
+          reminder.minute == now.getMinutes() &&
+          reminder.second == now.getSeconds()
         ) {
           await sendMessage(
             client,
