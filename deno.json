@@ -3,9 +3,9 @@
     "dev": "deno run --watch main.ts"
   },
   "imports": {
-    "discord.js": "npm:discord.js@^14.19.3",
+    "discord.js": "npm:discord.js@^14.20.0",
     "luxon": "npm:luxon@^3.6.1",
-    "node-cron": "npm:node-cron@^4.0.7"
+    "node-cron": "npm:node-cron@^4.1.0"
   },
   "nodeModulesDir": "auto"
 }
