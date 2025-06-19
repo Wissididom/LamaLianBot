@@ -1,5 +1,5 @@
 import { ChannelType, Client, TextChannel } from "discord.js";
-import logConfig from "./log-config.ts";
+import { fileExists } from "./utils.ts";
 
 export { default as handleApplicationCommandPermissionsUpdate } from "./logging/application-command-permissions-update.ts";
 export { default as handleAutoModerationActionExecution } from "./logging/auto-moderation-action-execution.ts";
@@ -40,6 +40,15 @@ export { default as handleWebhooksUpdate } from "./logging/webhooks-update.ts";
 const logChannels: { [key: string]: TextChannel } = {};
 
 export async function getChannelByEventName(client: Client, eventName: string) {
+  if (!(await fileExists("./log-config.ts"))) {
+    console.error(
+      "log-config.ts doesn't exist! Please copy log-config.example.ts to log-config.ts and adjust it's values!",
+    );
+    Deno.exit(1);
+    return;
+  }
+  const logConfig = (await import("./log-config.ts")).default;
+  console.log(logConfig);
   for (const event of logConfig.events) {
     if (event.name == eventName) {
       if (event.channel) {

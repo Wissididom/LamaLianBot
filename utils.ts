@@ -1,5 +1,17 @@
 import { GuildMemberManager, UserResolvable } from "discord.js";
 
+export async function fileExists(path: string): Promise<boolean> {
+  try {
+    await Deno.lstat(path);
+    return true;
+  } catch (err) {
+    if (!(err instanceof Deno.errors.NotFound)) {
+      throw err;
+    }
+    return false;
+  }
+}
+
 export async function fetchMember(
   memberManager: GuildMemberManager,
   user: UserResolvable,
