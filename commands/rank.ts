@@ -14,7 +14,7 @@ async function getLevellingRankResponseObject(db: Database, user: User) {
     if (databaseTable[i].userId == user.id) {
       return {
         embeds: [
-          new EmbedBuilder().setTitle(`Rang gefunden`).addFields(
+          new EmbedBuilder().setTitle(`Dein Rang`).addFields(
             {
               name: "User",
               value:
