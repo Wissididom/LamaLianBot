@@ -42,14 +42,14 @@ const exportObj = {
   runInteraction: async (interaction: Interaction, db: Database) => {
     if (interaction.guild?.available && interaction.isChatInputCommand()) {
       await interaction.deferReply();
-      const date = new Date();
       const user = interaction.options.getUser("user");
-      const day = interaction.options.getInteger("day") ?? date.getDate();
-      const month = interaction.options.getInteger("month") ?? date.getMonth();
-      const year = interaction.options.getInteger("year") ?? date.getFullYear();
+      const day = interaction.options.getInteger("day");
+      const month = interaction.options.getInteger("month");
+      const year = interaction.options.getInteger("year");
+      const now = new Date();
       try {
         if (user) {
-          await db.setBirthday(user.id, year, month, day);
+          await db.setBirthday(user.id, year, month ?? now.getMonth(), day ?? now.getDate());
           await interaction.editReply({
             embeds: [
               new EmbedBuilder().setDescription(
