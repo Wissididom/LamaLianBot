@@ -27,7 +27,7 @@ const exportObj = {
         await interaction.editReply({
           embeds: [
             new EmbedBuilder().setDescription(
-              `<@${user}>'s Geburtstag ist am \`${
+              `<@${user.id}>'s Geburtstag ist am \`${
                 birthday.day.toString().padStart(2, "0")
               }.${birthday.month.toString().padStart(2, "0")}.${
                 birthday.year ? birthday.year : "????"
@@ -40,7 +40,7 @@ const exportObj = {
         await interaction.editReply({
           embeds: [
             new EmbedBuilder().setDescription(
-              `Ich kenne <@${user}>'s Geburtstag **noch** nicht!`,
+              `Ich kenne <@${user.id}>'s Geburtstag **noch** nicht!`,
             ),
           ],
           allowedMentions: { parse: [] }, // Prevent pings of other people
