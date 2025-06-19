@@ -30,7 +30,7 @@ const exportObj = {
           [key: string]: {
             id: number;
             userId: string;
-            year: number;
+            year: number | null;
             month: number;
             day: number;
           }[];

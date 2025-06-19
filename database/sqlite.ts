@@ -34,7 +34,7 @@ export default class Database {
         try {
           // levelling
           const stmt = this.db.prepare(
-            "CREATE TABLE IF NOT EXISTS levelling (id INTEGER PRIMARY KEY AUTOINCREMENT, userId TEXT UNIQUE, lastMessageTimestamp BIGINT, xp BIGINT, lvl BIGINT, nextLvlXp BIGINT);",
+            "CREATE TABLE IF NOT EXISTS levelling (id INTEGER PRIMARY KEY AUTOINCREMENT, userId TEXT UNIQUE, lastMessageTimestamp INT, xp INT, lvl INT, nextLvlXp INT);",
           );
           stmt.run(); // Do not care about the changes made as long as it is successful
           console.log("Successfully made sure the levelling table exists");
@@ -81,7 +81,7 @@ export default class Database {
       year: number | null;
       month: number;
       day: number;
-    } | null
+    }
   > {
     return await new Promise<
       {
@@ -90,20 +90,24 @@ export default class Database {
         year: number | null;
         month: number;
         day: number;
-      } | null
+      }
     >((resolve, reject) => {
       try {
-        const stmt = this.db?.prepare(
-          "SELECT * FROM birthdays WHERE userId = ?;",
-        );
-        const row = (stmt?.get(userId) ?? null) as {
-          id: number;
-          userId: string;
-          year: number | null;
-          month: number;
-          day: number;
-        } | null;
-        resolve(row);
+        if (this.db) {
+          const stmt = this.db.prepare(
+            "SELECT * FROM birthdays WHERE userId = ?;",
+          );
+          const row = stmt.get(userId) as {
+            id: number;
+            userId: string;
+            year: number | null;
+            month: number;
+            day: number;
+          };
+          resolve(row);
+        } else {
+          reject("No db set!");
+        }
       } catch (err) {
         reject(err);
       }
@@ -117,7 +121,7 @@ export default class Database {
       year: number | null;
       month: number;
       day: number;
-    }[] | null
+    }[]
   > {
     return await new Promise<
       {
@@ -126,18 +130,22 @@ export default class Database {
         year: number | null;
         month: number;
         day: number;
-      }[] | null
+      }[]
     >((resolve, reject) => {
       try {
-        const stmt = this.db?.prepare("SELECT * FROM birthdays;");
-        const rows = (stmt?.all() ?? null) as {
-          id: number;
-          userId: string;
-          year: number | null;
-          month: number;
-          day: number;
-        }[] | null;
-        resolve(rows);
+        if (this.db) {
+          const stmt = this.db.prepare("SELECT * FROM birthdays;");
+          const rows = stmt.all() as {
+            id: number;
+            userId: string;
+            year: number | null;
+            month: number;
+            day: number;
+          }[];
+          resolve(rows);
+        } else {
+          reject("No db set!");
+        }
       } catch (err) {
         reject(err);
       }
@@ -152,11 +160,15 @@ export default class Database {
   ): Promise<void> {
     return await new Promise<void>((resolve, reject) => {
       try {
-        const stmt = this.db?.prepare(
-          "INSERT INTO birthdays (userId, year, month, day) VALUES (?, ?, ?, ?) ON CONFLICT (userId) DO UPDATE SET year = ?, month = ?, day = ? WHERE userId = ?;",
-        );
-        stmt?.run(userId, year, month, day, year, month, day, userId); // Do not care about the changes made as long as it is successful
-        resolve();
+        if (this.db) {
+          const stmt = this.db.prepare(
+            "INSERT INTO birthdays (userId, year, month, day) VALUES (?, ?, ?, ?) ON CONFLICT (userId) DO UPDATE SET year = ?, month = ?, day = ? WHERE userId = ?;",
+          );
+          stmt.run(userId, year, month, day, year, month, day, userId); // Do not care about the changes made as long as it is successful
+          resolve();
+        } else {
+          reject("No db set!");
+        }
       } catch (err) {
         reject(err);
       }
@@ -166,11 +178,15 @@ export default class Database {
   async deleteBirthday(userId: string): Promise<void> {
     return await new Promise<void>((resolve, reject) => {
       try {
-        const stmt = this.db?.prepare(
-          "DELETE FROM birthdays WHERE userId = ?;",
-        );
-        stmt?.run(userId); // Do not care about the changes made as long as it is successful
-        resolve();
+        if (this.db) {
+          const stmt = this.db.prepare(
+            "DELETE FROM birthdays WHERE userId = ?;",
+          );
+          stmt.run(userId); // Do not care about the changes made as long as it is successful
+          resolve();
+        } else {
+          reject("No db set!");
+        }
       } catch (err) {
         reject(err);
       }
@@ -183,98 +199,101 @@ export default class Database {
     {
       id: number;
       userId: string;
-      lastMessageTimestamp: bigint;
-      xp: bigint;
-      lvl: bigint;
-      nextLvlXp: bigint;
-    }[] | null
+      lastMessageTimestamp: number;
+      xp: number;
+      lvl: number;
+      nextLvlXp: number;
+    }[]
   > {
     return await new Promise<
       {
         id: number;
         userId: string;
-        lastMessageTimestamp: bigint;
-        xp: bigint;
-        lvl: bigint;
-        nextLvlXp: bigint;
-      }[] | null
+        lastMessageTimestamp: number;
+        xp: number;
+        lvl: number;
+        nextLvlXp: number;
+      }[]
     >((resolve, reject) => {
-      if (userId) {
-        try {
-          const stmt = this.db?.prepare(
-            "SELECT * FROM levelling WHERE userId = ? ORDER BY xp DESC;",
-          );
-          const rows = (stmt?.all(userId) ?? null) as {
-            id: number;
-            userId: string;
-            lastMessageTimestamp: bigint;
-            xp: bigint;
-            lvl: bigint;
-            nextLvlXp: bigint;
-          }[] | null;
-          resolve(rows);
-        } catch (err) {
-          reject(err);
+      try {
+        if (this.db) {
+          if (userId) {
+            const stmt = this.db.prepare(
+              "SELECT * FROM levelling WHERE userId = ? ORDER BY xp DESC;",
+            );
+            const rows = stmt.all(userId) as {
+              id: number;
+              userId: string;
+              lastMessageTimestamp: number;
+              xp: number;
+              lvl: number;
+              nextLvlXp: number;
+            }[];
+            resolve(rows);
+          } else {
+            const stmt = this.db.prepare(
+              "SELECT * FROM levelling ORDER BY xp DESC;",
+            );
+            const rows = stmt.all() as {
+              id: number;
+              userId: string;
+              lastMessageTimestamp: number;
+              xp: number;
+              lvl: number;
+              nextLvlXp: number;
+            }[];
+            resolve(rows);
+          }
+        } else {
+          reject("No db set!");
         }
-      } else {
-        try {
-          const stmt = this.db?.prepare(
-            "SELECT * FROM levelling ORDER BY xp DESC;",
-          );
-          const rows = (stmt?.all() ?? null) as {
-            id: number;
-            userId: string;
-            lastMessageTimestamp: bigint;
-            xp: bigint;
-            lvl: bigint;
-            nextLvlXp: bigint;
-          }[] | null;
-          resolve(rows);
-        } catch (err) {
-          reject(err);
-        }
+      } catch (err) {
+        reject(err);
       }
     });
   }
 
   async deleteLevelling(userId: string | null = null): Promise<void> {
     return await new Promise<void>((resolve, reject) => {
-      if (userId) {
-        try {
-          const stmt = this.db?.prepare(
-            "DELETE FROM levelling WHERE userId = ?;",
-          );
-          stmt?.run(userId); // Do not care about the changes made as long as it is successful
+      try {
+        if (this.db) {
+          if (userId) {
+            const stmt = this.db.prepare(
+              "DELETE FROM levelling WHERE userId = ?;",
+            );
+            stmt.run(userId); // Do not care about the changes made as long as it is successful
+          } else {
+            const stmt = this.db.prepare("DELETE FROM levelling;");
+            stmt.run(); // Do not care about the changes made as long as it is successful
+          }
           resolve();
-        } catch (err) {
-          reject(err);
+        } else {
+          reject("No db set!");
         }
-      } else {
-        try {
-          const stmt = this.db?.prepare("DELETE FROM levelling;");
-          stmt?.run(); // Do not care about the changes made as long as it is successful
-          resolve();
-        } catch (err) {
-          reject(err);
-        }
+      } catch (err) {
+        reject(err);
       }
     });
   }
 
   async updateLevelling(
     userId: string,
-    lastMessageTimestamp: bigint,
-    xp: bigint,
-    lvl: bigint,
-    nextLvlXp: bigint,
+    lastMessageTimestamp: number,
+    xp: number,
+    lvl: number,
+    nextLvlXp: number,
   ): Promise<void> {
     return await new Promise<void>((resolve, reject) => {
       try {
-        const stmt = this.db?.prepare(
-          "INSERT INTO levelling (userId, lastMessageTimestamp, xp, lvl, nextLvlXp) VALUES (?, ?, ?, ?, ?) ON CONFLICT(userId) DO UPDATE SET lastMessageTimestamp = excluded.lastMessageTimestamp, xp = excluded.xp, lvl = excluded.lvl, nextLvlXp = excluded.nextLvlXp;",
-        );
-        stmt?.run(userId, lastMessageTimestamp, xp, lvl, nextLvlXp); // Do not care about the changes made as long as it is successful
-        resolve();
+        if (this.db) {
+          const stmt = this.db.prepare(
+            "INSERT INTO levelling (userId, lastMessageTimestamp, xp, lvl, nextLvlXp) VALUES (?, ?, ?, ?, ?) ON CONFLICT(userId) DO UPDATE SET lastMessageTimestamp = excluded.lastMessageTimestamp, xp = excluded.xp, lvl = excluded.lvl, nextLvlXp = excluded.nextLvlXp;",
+          );
+          stmt.run(userId, lastMessageTimestamp, xp, lvl, nextLvlXp); // Do not care about the changes made as long as it is successful
+          resolve();
+        } else {
+          reject("No db set!");
+        }
       } catch (err) {
         reject(err);
       }
@@ -292,7 +311,7 @@ export default class Database {
       minute: number;
       second: number;
       topic: string;
-    }[] | null
+    }[]
   > {
     return await new Promise<
       {
@@ -305,24 +324,28 @@ export default class Database {
         minute: number;
         second: number;
         topic: string;
-      }[] | null
+      }[]
     >((resolve, reject) => {
       try {
-        const stmt = this.db?.prepare(
-          "SELECT * FROM reminder WHERE strftime('%s', printf('%04d-%02d-%02d %02d:%02d:%02d', year, month, day, hour, minute, second), 'localtime') >= strftime('%s', 'now', 'localtime') ORDER BY year, month, day, hour, minute, second;",
-        );
-        const rows = (stmt?.all() ?? null) as {
-          id: number;
-          userId: string;
-          day: number;
-          month: number;
-          year: number;
-          hour: number;
-          minute: number;
-          second: number;
-          topic: string;
-        }[] | null;
-        resolve(rows);
+        if (this.db) {
+          const stmt = this.db.prepare(
+            "SELECT * FROM reminder WHERE strftime('%s', printf('%04d-%02d-%02d %02d:%02d:%02d', year, month, day, hour, minute, second), 'localtime') >= strftime('%s', 'now', 'localtime') ORDER BY year, month, day, hour, minute, second;",
+          );
+          const rows = stmt.all() as {
+            id: number;
+            userId: string;
+            day: number;
+            month: number;
+            year: number;
+            hour: number;
+            minute: number;
+            second: number;
+            topic: string;
+          }[];
+          resolve(rows);
+        } else {
+          reject("No db set!");
+        }
       } catch (err) {
         reject(err);
       }
@@ -341,11 +364,15 @@ export default class Database {
   ): Promise<void> {
     return await new Promise<void>((resolve, reject) => {
       try {
-        const stmt = this.db?.prepare(
-          "INSERT INTO reminder (userId, day, month, year, hour, minute, second, topic) VALUES (?, ?, ?, ?, ?, ?, ?, ?);",
-        );
-        stmt?.run(userId, day, month, year, hour, minute, second, topic); // Do not care about the changes made as long as it is successful
-        resolve();
+        if (this.db) {
+          const stmt = this.db.prepare(
+            "INSERT INTO reminder (userId, day, month, year, hour, minute, second, topic) VALUES (?, ?, ?, ?, ?, ?, ?, ?);",
+          );
+          stmt?.run(userId, day, month, year, hour, minute, second, topic); // Do not care about the changes made as long as it is successful
+          resolve();
+        } else {
+          reject("No db set!");
+        }
       } catch (err) {
         reject(err);
       }
@@ -355,9 +382,13 @@ export default class Database {
   async deleteReminder(id: number): Promise<void> {
     return await new Promise<void>((resolve, reject) => {
       try {
-        const stmt = this.db?.prepare("DELETE FROM reminder WHERE id = ?;");
-        stmt?.run(id); // Do not care about the changes made as long as it is successful
-        resolve();
+        if (this.db) {
+          const stmt = this.db.prepare("DELETE FROM reminder WHERE id = ?;");
+          stmt.run(id); // Do not care about the changes made as long as it is successful
+          resolve();
+        } else {
+          reject("No db set!");
+        }
       } catch (err) {
         reject(err);
       }
@@ -367,11 +398,15 @@ export default class Database {
   async deleteOldReminders(): Promise<void> {
     return await new Promise<void>((resolve, reject) => {
       try {
-        const stmt = this.db?.prepare(
-          "DELETE FROM reminder WHERE strftime('%s', printf('%04d-%02d-%02d %02d:%02d:%02d', year, month, day, hour, minute, second), 'localtime') < strftime('%s', 'now', 'localtime');",
-        );
-        stmt?.run(); // Do not care about the changes made as long as it is successful
-        resolve();
+        if (this.db) {
+          const stmt = this.db.prepare(
+            "DELETE FROM reminder WHERE strftime('%s', printf('%04d-%02d-%02d %02d:%02d:%02d', year, month, day, hour, minute, second), 'localtime') < strftime('%s', 'now', 'localtime');",
+          );
+          stmt?.run(); // Do not care about the changes made as long as it is successful
+          resolve();
+        } else {
+          reject("No db set!");
+        }
       } catch (err) {
         reject(err);
       }

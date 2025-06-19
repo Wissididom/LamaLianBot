@@ -1,6 +1,7 @@
 {
   "version": "5",
   "specifiers": {
+    "npm:@types/node@*": "22.15.15",
     "npm:discord.js@^14.19.3": "14.19.3",
     "npm:luxon@^3.6.1": "3.6.1",
     "npm:node-cron@^4.0.7": "4.0.7"

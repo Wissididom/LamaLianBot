@@ -22,7 +22,6 @@ export function scheduleWorker(name: string, client: Client, db: Database) {
         await worker.run(client, db);
       },
       {
-        scheduled: true,
         timezone: Deno.env.get("BIRTHDAY_TIMEZONE"),
       },
     );

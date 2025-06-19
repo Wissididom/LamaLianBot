@@ -7,12 +7,12 @@ import {
 } from "discord.js";
 import Database from "../database/sqlite.ts";
 
-function getXpFromLvl0To(level: number): bigint {
+function getXpFromLvl0To(level: number): number {
   if (level <= 0) {
-    return 100n;
+    return 100;
   }
   const xpPrevious = getXpFromLvl0To(level - 1);
-  const xpOnlyNextLvl = 5n * BigInt(level) ** 2n + 50n * BigInt(level) + 100n;
+  const xpOnlyNextLvl = 5 * level ** 2 + 50 * level + 100;
   return xpOnlyNextLvl + xpPrevious;
 }
 
@@ -70,7 +70,7 @@ async function getImportMee6ResponseObject(
   for (const player of resultArray) {
     await db.updateLevelling(
       player.id,
-      0n,
+      0,
       player.xp,
       player.level,
       getXpFromLvl0To(player.level),
