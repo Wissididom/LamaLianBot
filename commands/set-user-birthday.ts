@@ -49,7 +49,12 @@ const exportObj = {
       const now = new Date();
       try {
         if (user) {
-          await db.setBirthday(user.id, year, month ?? now.getMonth(), day ?? now.getDate());
+          await db.setBirthday(
+            user.id,
+            year,
+            month ?? now.getMonth(),
+            day ?? now.getDate(),
+          );
           await interaction.editReply({
             embeds: [
               new EmbedBuilder().setDescription(
