@@ -52,7 +52,7 @@ const exportObj = {
               .addFields(
                 {
                   name: "User Info",
-                  value: `ID: ${user.id}\nName: ${user.tag}`,
+                  value: `ID: ${user.id}\nName: ${user.tag}\nBot: ${user.bot}`,
                 },
                 {
                   name: "Joined Discord",
