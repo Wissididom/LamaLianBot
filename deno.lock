@@ -1,7 +1,7 @@
 {
   "version": "5",
   "specifiers": {
-    "npm:discord.js@^14.20.0": "14.20.0",
+    "npm:discord.js@^14.21.0": "14.21.0",
     "npm:luxon@^3.6.1": "3.6.1",
     "npm:node-cron@^4.1.1": "4.1.1"
   },
@@ -89,11 +89,11 @@
     "@vladfrangu/async_event_emitter@2.4.6": {
       "integrity": "sha512-RaI5qZo6D2CVS6sTHFKg1v5Ohq/+Bo2LZ5gzUEwZ/WkHhwtGTCB/sVLw8ijOkAUxasZ+WshN/Rzj4ywsABJ5ZA=="
     },
-    "discord-api-types@0.38.12": {
-      "integrity": "sha512-vqkRM50N5Zc6OVckAqtSslbUEoXmpN4bd9xq2jkoK9fgO3KNRIOyMMQ7ipqjwjKuAgzWvU6G8bRIcYWaUe1sCA=="
+    "discord-api-types@0.38.13": {
+      "integrity": "sha512-FELWJRgLVQuR7Az8RhdEZE0k6QNjSW9PCUcU1iyP2Gke8HrJmnMceSS9pD93UM64s3tvZzJPajpPLjWZJylf4g=="
     },
-    "discord.js@14.20.0": {
-      "integrity": "sha512-5fRTptK2vpuz+bTuAEUQLSo/3AgCSLHl6Mm9+/ofb+8cbbnjWllhtaqRBq7XcpzlBnfNEugKv8HvCwcOtIHpCg==",
+    "discord.js@14.21.0": {
+      "integrity": "sha512-U5w41cEmcnSfwKYlLv5RJjB8Joa+QJyRwIJz5i/eg+v2Qvv6EYpCRhN9I2Rlf0900LuqSDg8edakUATrDZQncQ==",
       "dependencies": [
         "@discordjs/builders",
         "@discordjs/collection@1.5.3",
@@ -146,7 +146,7 @@
   },
   "workspace": {
     "dependencies": [
-      "npm:discord.js@^14.20.0",
+      "npm:discord.js@^14.21.0",
       "npm:luxon@^3.6.1",
       "npm:node-cron@^4.1.1"
     ]
