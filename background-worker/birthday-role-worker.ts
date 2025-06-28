@@ -40,7 +40,7 @@ const exportObj = {
             : currentDate.year % 4 === 0
         ) {
           if (currentDate.month == 3 && currentDate.day == 1) {
-            // Post on March 1st if it is a leap year
+            // Give on March 1st if it is a leap year
             const member = await fetchMember(
               guild.members,
               birthday.userId,
@@ -79,7 +79,6 @@ const exportObj = {
       }
     }
     for (const member of membersWithRolesToRemove) {
-      console.log(`Remove role from ${member.id} (${member.user?.username})`);
       await member.roles.remove(Deno.env.get("BIRTHDAY_ROLE_ID")!);
     }
   },
