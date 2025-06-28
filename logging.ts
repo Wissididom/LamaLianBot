@@ -48,7 +48,7 @@ export async function getChannelByEventName(client: Client, eventName: string) {
     return;
   }
   const logConfig = (await import("./log-config.ts")).default;
-  console.log(logConfig);
+  //console.log(logConfig);
   for (const event of logConfig.events) {
     if (event.name == eventName) {
       if (event.channel) {
