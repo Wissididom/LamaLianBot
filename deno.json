@@ -5,8 +5,8 @@
   },
   "imports": {
     "discord.js": "npm:discord.js@^14.21.0",
-    "luxon": "npm:luxon@^3.6.1",
-    "node-cron": "npm:node-cron@^4.1.1"
+    "luxon": "npm:luxon@^3.7.1",
+    "node-cron": "npm:node-cron@^4.2.1"
   },
   "nodeModulesDir": "auto"
 }
