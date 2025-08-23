@@ -4,7 +4,7 @@
     "dev": "dotenvx run -- deno run -ERWN --watch main.ts"
   },
   "imports": {
-    "discord.js": "npm:discord.js@^14.21.0",
+    "discord.js": "npm:discord.js@^14.22.1",
     "luxon": "npm:luxon@^3.7.1",
     "node-cron": "npm:node-cron@^4.2.1"
   },
