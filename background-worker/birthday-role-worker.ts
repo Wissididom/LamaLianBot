@@ -1,4 +1,5 @@
 import { DateTime } from "luxon";
+import { fetchMember } from "../utils.ts";
 import { Client, Collection, GuildMember, RoleResolvable } from "discord.js";
 import Database from "../database/sqlite.ts";
 
@@ -12,8 +13,8 @@ function isLeapBirthdayFallback(currentDate: DateTime): boolean {
 }
 
 function getMembersArray(
-  map: Collection<string, GuildMembers>,
-): GuildMembers[] {
+  map: Collection<string, GuildMember>,
+): GuildMember[] {
   return Array.from(map.values());
 }
 
@@ -58,6 +59,14 @@ const exportObj = {
       const shouldAssign = isBirthdayToday ||
         (isLeapDay && isLeapBirthdayFallback(currentDate));
       if (!shouldAssign) continue;
+      const member: GuildMember | null = await fetchMember(
+        guild.members,
+        birthday.userId,
+      );
+      if (!member) {
+        console.warn("birthday member couldn't be fetched or doesn't exist");
+        continue;
+      }
       await giveRole(member, roleId);
       const index = membersWithRole.findIndex((m) => m.id === member.id);
       if (index >= 0) membersWithRole.splice(index, 1);

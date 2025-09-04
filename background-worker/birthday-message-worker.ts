@@ -1,6 +1,6 @@
 import { DateTime, Interval } from "luxon";
 import { fetchMember } from "../utils.ts";
-import { Client } from "discord.js";
+import { Client, GuildMember } from "discord.js";
 import Database from "../database/sqlite.ts";
 
 function isLeapYearFallbackToday(currentDate: DateTime): boolean {
@@ -60,7 +60,7 @@ async function sendMessage(
     }
     if (userId) {
       const user = await client.users.fetch(userId);
-      if (user && send in user) {
+      if (user && "send" in user) {
         await user.send({
           content: message,
           allowedMentions: { parse: [] },
@@ -88,7 +88,7 @@ const exportObj = {
     const guild = await client.guilds.fetch(guildId);
     const birthdays = await db.getBirthdays();
     for (const birthday of birthdays) {
-      const member: GuildMember | undefined = await fetchMember(
+      const member: GuildMember | null = await fetchMember(
         guild.members,
         birthday.userId,
       );
