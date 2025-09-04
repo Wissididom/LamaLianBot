@@ -1,13 +1,7 @@
 import { DateTime, Interval } from "luxon";
-import { fetchMember } from "../utils.ts";
+import { fetchMember, isLeapYearFallbackToday } from "../utils.ts";
 import { Client, GuildMember } from "discord.js";
 import Database from "../database/sqlite.ts";
-
-function isLeapYearFallbackToday(currentDate: DateTime): boolean {
-  const year = currentDate.year;
-  const isLeapYear = year % 100 === 0 ? year % 400 === 0 : year % 4 === 0;
-  return isLeapYear && currentDate.month === 3 && currentDate.day === 1;
-}
 
 function getBirthdayMessage(userId: string, age?: number): string | null {
   const hasAge = typeof age === "number";

@@ -1,4 +1,5 @@
 import { GuildMemberManager, UserResolvable } from "discord.js";
+import { DateTime } from "luxon";
 
 export async function fileExists(path: string): Promise<boolean> {
   try {
@@ -24,4 +25,15 @@ export async function fetchMember(
     }
     throw err;
   }
+}
+
+export function isLeapYear(year: number): boolean {
+  return year % 100 === 0 ? year % 400 === 0 : year % 4 === 0;
+}
+
+export function isLeapYearFallbackToday(
+  currentDate: DateTime,
+): boolean {
+  return isLeapYear(currentDate.year) && currentDate.month === 3 &&
+    currentDate.day === 1;
 }

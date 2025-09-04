@@ -1,16 +1,7 @@
 import { DateTime } from "luxon";
-import { fetchMember } from "../utils.ts";
+import { fetchMember, isLeapYearFallbackToday } from "../utils.ts";
 import { Client, Collection, GuildMember, RoleResolvable } from "discord.js";
 import Database from "../database/sqlite.ts";
-
-function isLeapYear(year: number): boolean {
-  return year % 100 === 0 ? year % 400 === 0 : year % 4 === 0;
-}
-
-function isLeapBirthdayFallback(currentDate: DateTime): boolean {
-  return isLeapYear(currentDate.year) && currentDate.month === 3 &&
-    currentDate.daay === 1;
-}
 
 function getMembersArray(
   map: Collection<string, GuildMember>,
@@ -57,7 +48,7 @@ const exportObj = {
       const isBirthdayToday = birthday.day === currentDate.day &&
         birthday.month === currentDate.month;
       const shouldAssign = isBirthdayToday ||
-        (isLeapDay && isLeapBirthdayFallback(currentDate));
+        (isLeapDay && isLeapYearFallbackToday(currentDate));
       if (!shouldAssign) continue;
       const member: GuildMember | null = await fetchMember(
         guild.members,
