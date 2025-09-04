@@ -76,11 +76,11 @@ const exportObj = {
                 "BIRTHDAY_WISHING_CHANNEL",
               );
               const birthdayWishingMessage = Deno.env.get(
-                "BIRTHDAY_WISHING_MESSAGE",
+                "BIRTHDAY_WISHING_MESSAGE_WITH_AGE",
               );
               if (!birthdayWishingChannel || !birthdayWishingMessage) {
                 console.log(
-                  "Either birthdayWishingChannel or birthdayWishingMessage missing!",
+                  "Either birthdayWishingChannel or birthdayWishingMessage missing! (leap year with age)",
                 );
                 return;
               }
@@ -104,7 +104,7 @@ const exportObj = {
               );
               if (!birthdayWishingChannel || !birthdayWishingMessage) {
                 console.log(
-                  "Either birthdayWishingChannel or birthdayWishingMessage missing!",
+                  "Either birthdayWishingChannel or birthdayWishingMessage missing! (leap year without age)",
                 );
                 return;
               }
@@ -132,11 +132,11 @@ const exportObj = {
             "BIRTHDAY_WISHING_CHANNEL",
           );
           const birthdayWishingMessage = Deno.env.get(
-            "BIRTHDAY_WISHING_MESSAGE_With_AGE",
+            "BIRTHDAY_WISHING_MESSAGE_WITH_AGE",
           );
           if (!birthdayWishingChannel || !birthdayWishingMessage) {
             console.log(
-              "Either birthdayWishingChannel or birthdayWishingMessage missing!",
+              "Either birthdayWishingChannel or birthdayWishingMessage missing! (normal year with age)",
             );
             return;
           }
@@ -160,7 +160,7 @@ const exportObj = {
           );
           if (!birthdayWishingChannel || !birthdayWishingMessage) {
             console.log(
-              "Either birthdayWishingChannel or birthdayWishingMessage missing!",
+              "Either birthdayWishingChannel or birthdayWishingMessage missing! (normal year without age)",
             );
             return;
           }
