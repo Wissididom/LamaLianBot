@@ -12,9 +12,7 @@ function isLeapYearFallbackToday(currentDate: DateTime): boolean {
 function getBirthdayMessage(userId: string, age?: number): string | null {
   const hasAge = typeof age === "number";
   const template = Deno.env.get(
-    hasAge
-      ? "BIRTHDAY_WISHING_MESSAGE_WITH_AGE"
-      : "BIRTHDAY_WISHING_MESSAGE",
+    hasAge ? "BIRTHDAY_WISHING_MESSAGE_WITH_AGE" : "BIRTHDAY_WISHING_MESSAGE",
   );
   if (!template) return null;
   let msg = template.replace("<mention>", `<@${userId}>`);
@@ -22,7 +20,11 @@ function getBirthdayMessage(userId: string, age?: number): string | null {
   return msg.replace("\\n", "\n");
 }
 
-async function trySendBirthdayMessage(client: Client, userId: string, age?: number) {
+async function trySendBirthdayMessage(
+  client: Client,
+  userId: string,
+  age?: number,
+) {
   const channelId = Deno.env.get("BIRTHDAY_WISHING_CHANNEL");
   if (!channelId) {
     console.warn("Missing BIRTHDAY_WISHING_CHANNEL");
@@ -103,10 +105,16 @@ const exportObj = {
         { zone: timezone },
       );
       const isLeapDay = birthday.day === 29 && birthday.month === 2;
-      const isBirthdayToday = birthday.day === currentDate.day && birthday.month === currentDate.month;
-      const shouldWish = isBirthdayToday || (isLeapDay && isLeapYearFallbackToday(currentDate));
+      const isBirthdayToday = birthday.day === currentDate.day &&
+        birthday.month === currentDate.month;
+      const shouldWish = isBirthdayToday ||
+        (isLeapDay && isLeapYearFallbackToday(currentDate));
       if (!shouldWish) continue;
-      const age = birthday.year != null ? Math.floor(Interval.fromDateTimes(birthDate, currentDate).length("years") : undefined;
+      const age = birthday.year != null
+        ? Math.floor(
+          Interval.fromDateTimes(birthDate, currentDate).length("years"),
+        )
+        : undefined;
       await trySendBirthdayMessage(client, birthday.userId, age);
     }
   },
