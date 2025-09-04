@@ -1,4 +1,5 @@
 import { Client } from "discord.js";
+import { DateTime } from "luxon";
 import Database from "../database/sqlite.ts";
 
 async function sendMessage(client: Client, userId: string, message: string) {
@@ -6,7 +7,7 @@ async function sendMessage(client: Client, userId: string, message: string) {
     const user = await client.users.fetch(userId);
     await user.send({ content: message, allowedMentions: { parse: [] } });
   } else {
-    console.log("Error: User is null or undefined!");
+    console.log(`Failed to send message to user ${userId}!`);
   }
 }
 
@@ -15,29 +16,34 @@ const exportObj = {
   description: "background worker that sends reminder messages",
   cron: `* * * * * *`,
   run: async (client: Client, db: Database) => {
-    const upcomingReminder = await db.getUpcomingReminder();
-    for (const reminder of upcomingReminder) {
+    const reminders = await db.getUpcomingReminder();
+    const now = DateTime.now().startOf("second");
+    let foundReminder = false;
+    for (const reminder of reminders) {
       try {
-        const now = new Date();
-        if (
-          reminder.day == now.getDate() &&
-          reminder.month == now.getMonth() + 1 &&
-          reminder.year == now.getFullYear() &&
-          reminder.hour == now.getHours() &&
-          reminder.minute == now.getMinutes() &&
-          reminder.second == now.getSeconds()
-        ) {
+        const reminderTime = DateTime.fromObject({
+          year: reminder.year,
+          month: reminder.month,
+          day: reminder.day,
+          hour: reminder.hour,
+          minute: reminder.minute,
+          second: reminder.second,
+        });
+        if (reminderTime.equals(now)) {
           await sendMessage(
             client,
             reminder.userId,
             `Reminder: ${reminder.topic}`,
           );
           await db.deleteReminder(reminder.id);
-          await db.deleteOldReminders();
+          foundReminder = true;
         }
       } catch (err) {
-        console.log(`Error: ${err}`);
+        console.error(`Error processing reminder ${reminder.id}:`, err);
       }
+    }
+    if (foundReminder) {
+      await db.deleteOldReminders();
     }
   },
 };

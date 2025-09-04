@@ -279,16 +279,6 @@ const exportObj = {
               seconds,
               topic,
             );
-            console.log(
-              interaction.user.id,
-              day,
-              month,
-              year,
-              targetTime.getHours(),
-              targetTime.getMinutes(),
-              seconds,
-              topic,
-            );
             await interaction.editReply({
               embeds: [
                 new EmbedBuilder().setDescription(
