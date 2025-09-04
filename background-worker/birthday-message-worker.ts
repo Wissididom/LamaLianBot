@@ -72,8 +72,12 @@ const exportObj = {
           if (currentDate.month == 3 && currentDate.day == 1) {
             // Post on March 1st if it is a leap year
             if (setAge) {
-              const birthdayWishingChannel = Deno.env.get("");
-              const birthdayWishingMessage = Deno.env.get("");
+              const birthdayWishingChannel = Deno.env.get(
+                "BIRTHDAY_WISHING_CHANNEL",
+              );
+              const birthdayWishingMessage = Deno.env.get(
+                "BIRTHDAY_WISHING_MESSAGE",
+              );
               if (!birthdayWishingChannel || !birthdayWishingMessage) {
                 console.log(
                   "Either birthdayWishingChannel or birthdayWishingMessage missing!",
