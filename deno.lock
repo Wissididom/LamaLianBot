@@ -3,7 +3,7 @@
   "specifiers": {
     "npm:@types/node@*": "24.2.0",
     "npm:discord.js@^14.22.1": "14.22.1",
-    "npm:luxon@^3.7.1": "3.7.1",
+    "npm:luxon@^3.7.2": "3.7.2",
     "npm:node-cron@^4.2.1": "4.2.1"
   },
   "npm": {
@@ -120,8 +120,8 @@
     "lodash@4.17.21": {
       "integrity": "sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg=="
     },
-    "luxon@3.7.1": {
-      "integrity": "sha512-RkRWjA926cTvz5rAb1BqyWkKbbjzCGchDUIKMCUvNi17j6f6j8uHGDV82Aqcqtzd+icoYpELmG3ksgGiFNNcNg=="
+    "luxon@3.7.2": {
+      "integrity": "sha512-vtEhXh/gNjI9Yg1u4jX/0YVPMvxzHuGgCm6tC5kZyb08yjGWGnqAjGJvcXbqQR2P3MyMEFnRbpcdFS6PBcLqew=="
     },
     "magic-bytes.js@1.12.1": {
       "integrity": "sha512-ThQLOhN86ZkJ7qemtVRGYM+gRgR8GEXNli9H/PMvpnZsE44Xfh3wx9kGJaldg314v85m+bFW6WBMaVHJc/c3zA=="
@@ -148,7 +148,7 @@
   "workspace": {
     "dependencies": [
       "npm:discord.js@^14.22.1",
-      "npm:luxon@^3.7.1",
+      "npm:luxon@^3.7.2",
       "npm:node-cron@^4.2.1"
     ]
   }

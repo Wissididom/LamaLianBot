@@ -5,7 +5,7 @@
   },
   "imports": {
     "discord.js": "npm:discord.js@^14.22.1",
-    "luxon": "npm:luxon@^3.7.1",
+    "luxon": "npm:luxon@^3.7.2",
     "node-cron": "npm:node-cron@^4.2.1"
   },
   "nodeModulesDir": "auto"
