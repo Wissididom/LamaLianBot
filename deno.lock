@@ -4,7 +4,7 @@
     "npm:@types/node@*": "24.2.0",
     "npm:discord.js@^14.26.4": "14.26.4",
     "npm:luxon@^3.7.2": "3.7.2",
-    "npm:node-cron@^4.4.1": "4.4.1"
+    "npm:node-cron@^4.5.0": "4.5.0"
   },
   "npm": {
     "@discordjs/builders@1.14.1": {
@@ -132,8 +132,8 @@
     "magic-bytes.js@1.13.0": {
       "integrity": "sha512-afO2mnxW7GDTXMm5/AoN1WuOcdoKhtgXjIvHmobqTD1grNplhGdv3PFOyjCVmrnOZBIT/gD/koDKpYG+0mvHcg=="
     },
-    "node-cron@4.4.1": {
-      "integrity": "sha512-1e4Gku1qeKx1ywNnMoA0o5hiZ8iA4klH84TIszTHZAME68xVIjLkiBo5KrtowbcOJn8MQqJG/yWHjC/dFdMWyQ=="
+    "node-cron@4.5.0": {
+      "integrity": "sha512-4Trh+kjvbXokyJkwQumvD5YAgeJfgHLR/sKyu71uSmxfCR5QMO1hldpvmFZOICN5pLgNY+J5Y8+ar3XKo5/4tQ=="
     },
     "ts-mixer@6.0.4": {
       "integrity": "sha512-ufKpbmrugz5Aou4wcr5Wc1UUFWOLhq+Fm6qa6P0w0K5Qw2yhaUoiWszhCVuNQyNwrlGiscHOmqYoAox1PtvgjA=="
@@ -155,7 +155,7 @@
     "dependencies": [
       "npm:discord.js@^14.26.4",
       "npm:luxon@^3.7.2",
-      "npm:node-cron@^4.4.1"
+      "npm:node-cron@^4.5.0"
     ]
   }
 }
