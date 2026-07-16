@@ -2,7 +2,7 @@
   "version": "5",
   "specifiers": {
     "npm:@types/node@*": "24.2.0",
-    "npm:discord.js@^14.26.5": "14.26.5",
+    "npm:discord.js@^14.27.0": "14.27.0",
     "npm:luxon@^3.7.2": "3.7.2",
     "npm:node-cron@^4.6.0": "4.6.0"
   },
@@ -31,13 +31,13 @@
         "discord-api-types"
       ]
     },
-    "@discordjs/rest@2.6.1": {
-      "integrity": "sha512-wwQdgjeaoYFiaG+atbqx6aJDpqW7JHAo0HrQkBTbYzM3/PJ3GweQIpgElNcGZ26DCUOXMyawYd0YF7vtr+fZXg==",
+    "@discordjs/rest@2.6.2": {
+      "integrity": "sha512-c5HI3hJuRWWrnpyCZAUYfIUTAEv9weX4tE2UfDqtM3ztizdKE9RFEf3G5IWhPyO+kPldUDpGv02XJAQzdUTC9Q==",
       "dependencies": [
         "@discordjs/collection@2.1.1",
         "@discordjs/util",
         "@sapphire/async-queue",
-        "@sapphire/snowflake@3.5.5",
+        "@sapphire/snowflake",
         "@vladfrangu/async_event_emitter",
         "discord-api-types",
         "magic-bytes.js",
@@ -75,9 +75,6 @@
         "lodash"
       ]
     },
-    "@sapphire/snowflake@3.5.3": {
-      "integrity": "sha512-jjmJywLAFoWeBi1W7994zZyiNWPIiqRRNAmSERxyg93xRGzNYvGjlZ0gR6x0F4gPRi2+0O6S71kOZYyr3cxaIQ=="
-    },
     "@sapphire/snowflake@3.5.5": {
       "integrity": "sha512-xzvBr1Q1c4lCe7i6sRnrofxeO1QTP/LKQ6A6qy0iB4x5yfiSfARMEQEghojzTNALDTcv8En04qYNIco9/K9eZQ=="
     },
@@ -96,11 +93,11 @@
     "@vladfrangu/async_event_emitter@2.4.7": {
       "integrity": "sha512-Xfe6rpCTxSxfbswi/W/Pz7zp1WWSNn4A0eW4mLkQUewCrXXtMj31lCg+iQyTkh/CkusZSq9eDflu7tjEDXUY6g=="
     },
-    "discord-api-types@0.38.49": {
-      "integrity": "sha512-XnqcWmnFZFAE8ZM8SHAw9DIV8D3Or00rMQ8iQLotrEA2PmXhl+ykaf6L6q4l474hrSUH1JaYcv+iOMRWp2p6Tg=="
+    "discord-api-types@0.38.50": {
+      "integrity": "sha512-J2n/bpIETX3DQ6AJ7/0xbsTLmYiJQtO/LKcXKC1YDbB56OUwtDbdXOFE8Q4g8jVGHBR2VAy1+D4ngaIgkMNV9w=="
     },
-    "discord.js@14.26.5": {
-      "integrity": "sha512-SGYgjiAs0o8ZzMC97XmFXKONyairJ9YzVda+LvoSKs9YYh2gPtQhY+liaV6H/w72jxYbu9ggiSqAXoF3FLOH4A==",
+    "discord.js@14.27.0": {
+      "integrity": "sha512-qHbFlFG2N7y3LjPySYsL6A1+BnX6bkTVgo842EX0CqVPk/KTMwZkojPHEXKsQUpWZNyz5BISNHK1cPpQw0+m4A==",
       "dependencies": [
         "@discordjs/builders",
         "@discordjs/collection@1.5.3",
@@ -108,7 +105,7 @@
         "@discordjs/rest",
         "@discordjs/util",
         "@discordjs/ws",
-        "@sapphire/snowflake@3.5.3",
+        "@sapphire/snowflake",
         "discord-api-types",
         "fast-deep-equal",
         "lodash.snakecase",
@@ -144,16 +141,16 @@
     "undici-types@7.10.0": {
       "integrity": "sha512-t5Fy/nfn+14LuOc2KNYg75vZqClpAiqscVvMygNnlsHBFpSXdJaYtXMcdNLpl/Qvc3P2cB3s6lOV51nqsFq4ag=="
     },
-    "undici@6.24.1": {
-      "integrity": "sha512-sC+b0tB1whOCzbtlx20fx3WgCXwkW627p4EA9uM+/tNNPkSS+eSEld6pAs9nDv7WbY1UUljBMYPtu9BCOrCWKA=="
+    "undici@6.27.0": {
+      "integrity": "sha512-YmfV3YnEDzXRC5lZ2jWtWWHKGUm1zIt8AhesR1tens+HTNv+YZlN/dp6G727LOvMJ8xjP9Be7Y2Sdr96LDm+pg=="
     },
-    "ws@8.21.0": {
-      "integrity": "sha512-Vsp28b7DRcimFQvrqu2Wek3z1iYxDCWqHYB8Qsnk/S4RfaCQzPGPyBNuVjJV3cd6UiKtUtp6sNM77gWvzcCH+g=="
+    "ws@8.21.1": {
+      "integrity": "sha512-+0NTnW77fFN/DjQi6k/Sq/Yvk4Sgajw7urW8V+asjXnRgDs9gyGkdb7EzgfhA4goXsRIZKE28fzIXBHEzhuiWw=="
     }
   },
   "workspace": {
     "dependencies": [
-      "npm:discord.js@^14.26.5",
+      "npm:discord.js@^14.27.0",
       "npm:luxon@^3.7.2",
       "npm:node-cron@^4.6.0"
     ]
