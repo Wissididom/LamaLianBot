@@ -44,7 +44,7 @@ export default async function handleMessageUpdate(
     if (newMessage.content) {
       description = `**neue Nachricht**:\n${newMessage.content}`;
     } else {
-      description = "";
+      description = "**Beide Nachrichteninhalte sind leer**";
     }
   }
   const memberAvatarAttachment = new AttachmentBuilder(

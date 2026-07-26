@@ -10,7 +10,6 @@ import {
 } from "discord.js";
 
 import { getDatabase, handleApplicationCommands } from "./commands.ts";
-import { moderate } from "./moderation.ts";
 import { scheduleWorkers } from "./background-worker/background-worker.ts";
 import {
   handleApplicationCommandPermissionsUpdate,
@@ -50,6 +49,7 @@ import {
   handleWebhooksUpdate,
 } from "./logging.ts";
 import { handleLevelling } from "./levelling.ts";
+import { handleHoneypot } from "./honeypot.ts";
 
 const exitHandler = async (signal: string) => {
   console.log(`Received ${signal}`);
@@ -109,10 +109,14 @@ client.on(Events.MessageCreate, async (msg: Message) => {
   } else if (msg.author.bot) {
     return; // Ignore bot messages
   } else {
-    if (await moderate(msg)) {
-      if (Deno.env.get("USE_LEVELLING")?.toLowerCase() == "true") {
-        await handleLevelling(getDatabase(), msg);
-      }
+    if (Deno.env.has("HONEYPOT_CHANNEL")) {
+      await handleHoneypot(
+        msg,
+        Deno.env.get("HONEYPOT_CHANNEL")!,
+      );
+    }
+    if (Deno.env.get("USE_LEVELLING")?.toLowerCase() == "true") {
+      await handleLevelling(getDatabase(), msg);
     }
   }
 });
