@@ -51,7 +51,7 @@ export default async function handleVoiceStateUpdate(
         {
           name: "Zu",
           value:
-            `<#${newState.channel.id}> (\`${newState.channel.name}\` - ${newState.channel.id})**`,
+            `<#${newState.channel.id}> (\`${newState.channel.name}\` - ${newState.channel.id})`,
           inline: true,
         },
       )
