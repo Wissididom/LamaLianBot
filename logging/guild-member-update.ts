@@ -154,16 +154,6 @@ export default async function handleGuildMemberUpdate(
   ) {
     embed = removeTimeout(newMember, embed);
     shouldPost = true;
-  } else if (
-    oldMember.communicationDisabledUntil &&
-    newMember.communicationDisabledUntil
-  ) {
-    if (newMember.communicationDisabledUntil > new Date()) {
-      embed = addTimeout(newMember, embed);
-    } else {
-      embed = removeTimeout(newMember, embed);
-    }
-    shouldPost = true;
   }
   if (shouldPost) {
     await logChannel.send({
