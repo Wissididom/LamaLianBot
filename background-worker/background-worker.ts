@@ -7,7 +7,12 @@ import { Client } from "discord.js";
 import Database from "../database/sqlite.ts";
 
 export function scheduleWorkers(client: Client, db: Database) {
-  const workerNames = ["birthday-role", "birthday-message", "bonbon-reminder", "remind"];
+  const workerNames = [
+    "birthday-role",
+    "birthday-message",
+    "bonbon-reminder",
+    "remind",
+  ];
   for (const workerName of workerNames) {
     scheduleWorker(workerName, client, db);
   }
