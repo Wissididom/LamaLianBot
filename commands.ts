@@ -2,6 +2,7 @@ import Database from "./database/sqlite.ts";
 
 import Ban from "./commands/ban.ts";
 import Birthday from "./commands/birthday.ts";
+import BonbonReminderAuth from "./commands/bonbon-reminder-auth.ts";
 import Clear from "./commands/clear.ts";
 import ForgetBirthday from "./commands/forget-birthday.ts";
 import Kick from "./commands/kick.ts";
@@ -98,6 +99,8 @@ function getCommandObject(commandName: string) {
       return Setup;
     case "ping":
       return Ping;
+    case "bonbon-reminder-auth":
+      return BonbonReminderAuth;
     default:
       throw "Invalid command!";
   }

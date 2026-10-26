@@ -1,12 +1,13 @@
 import BirthdayRoleWorker from "./birthday-role-worker.ts";
 import BirthdayMessageWorker from "./birthday-message-worker.ts";
+import BonbonReminderWorker from "./bonbon-reminder.ts";
 import RemindWorker from "./remind-worker.ts";
 import { schedule } from "node-cron";
 import { Client } from "discord.js";
 import Database from "../database/sqlite.ts";
 
 export function scheduleWorkers(client: Client, db: Database) {
-  const workerNames = ["birthday-role", "birthday-message", "remind"];
+  const workerNames = ["birthday-role", "birthday-message", "bonbon-reminder", "remind"];
   for (const workerName of workerNames) {
     scheduleWorker(workerName, client, db);
   }
@@ -19,7 +20,11 @@ export function scheduleWorker(name: string, client: Client, db: Database) {
     schedule(
       worker.cron,
       async () => {
-        await worker.run(client, db);
+        try {
+          await worker.run(client, db);
+        } catch (err) {
+          console.error(`Error running ${name} worker: ${err}`);
+        }
       },
       {
         timezone: Deno.env.get("BIRTHDAY_TIMEZONE"),
@@ -34,6 +39,8 @@ export function getWorker(name: string) {
       return BirthdayRoleWorker;
     case "birthday-message":
       return BirthdayMessageWorker;
+    case "bonbon-reminder":
+      return BonbonReminderWorker;
     case "remind":
       return RemindWorker;
     default:
