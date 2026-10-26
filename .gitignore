@@ -3,4 +3,3 @@ database/sqlite.db
 .env
 log-config.ts
 bonbon-reminder.json
-
